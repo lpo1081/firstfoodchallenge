@@ -11,6 +11,9 @@
 """
 import json
 import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # 저장소 루트에서 kfood_scout 를 찾도록
 
 import pandas as pd
 
