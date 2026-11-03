@@ -16,7 +16,8 @@ countries:
   PHL:
     name: 필리핀
     tariff_mfn: 0.15        # 확인: HS 1905.31 MFN 15% (treayo.com/en/compare/190531)
-    tariff_korea: null      # 규칙: 한-아세안·RCEP·한-필리핀 FTA(2024-12-31 발효) 품목 세율 확인 못함 → 5%
+    tariff_korea: 0.0       # 확인: 한-아세안 FTA 필리핀 양허표, 1905.31·1905.32 일반품목(NT) 2010년부터 0%
+                            #   (asean.org/wp-content/uploads/2021/09/AKFTA-Philippines-HS-2007.pdf)
     kcci_route: 1684        # 동남아 항로
     extra_language: false   # 영어 라벨 가능
     registration_per_sku: 0.01   # 추정: FDA 제품등록(CPR) 대행 포함 품목당 약 100만원 (FDA 처리 20영업일)
@@ -28,7 +29,7 @@ countries:
   MYS:
     name: 말레이시아
     tariff_mfn: 0.06        # 확인: HS 1905.31 MFN 6% (treayo)
-    tariff_korea: null      # 규칙 → 5%
+    tariff_korea: 0.0       # 확인: 한-아세안 FTA(AKFTA)·RCEP 0% (treayo.com/en/hs/malaysia/19053120, 원산지증명 필요)
     kcci_route: 1684
     extra_language: true    # 확인: 말레이어 표시 의무 (Food Regulations 1985)
     registration_per_sku: 0.0    # 사전 제품등록 없음(표시 기준 준수만)
