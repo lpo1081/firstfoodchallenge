@@ -1,0 +1,62 @@
+[
+ {
+  "iso3": "PHL",
+  "name": "Philippines",
+  "import_market_2024_eok": 8557,
+  "import_market_growth_pct": 11.2,
+  "korea_exports_2024_eok": 266,
+  "korea_share_pct": 3.1,
+  "korea_share_change_5y_pp": 0.4,
+  "korea_increase_eok": [
+   100,
+   129
+  ],
+  "lotte_opportunity_eok": [
+   29,
+   38
+  ],
+  "value_of_1pp_share_eok": 118,
+  "entry_mode": "수출형",
+  "entry_reason": "1인당 과자 수입 5.3달러로 이미 수입 과자를 사 먹는 시장"
+ },
+ {
+  "iso3": "MYS",
+  "name": "Malaysia",
+  "import_market_2024_eok": 6985,
+  "import_market_growth_pct": 9.6,
+  "korea_exports_2024_eok": 146,
+  "korea_share_pct": 2.1,
+  "korea_share_change_5y_pp": -0.7,
+  "korea_increase_eok": [
+   7,
+   47
+  ],
+  "lotte_opportunity_eok": [
+   2,
+   13
+  ],
+  "value_of_1pp_share_eok": 92,
+  "entry_mode": "수출형",
+  "entry_reason": "1인당 과자 수입 14.0달러로 이미 수입 과자를 사 먹는 시장"
+ },
+ {
+  "iso3": "SGP",
+  "name": "Singapore",
+  "import_market_2024_eok": 10012,
+  "import_market_growth_pct": 4.2,
+  "korea_exports_2024_eok": 132,
+  "korea_share_pct": 1.3,
+  "korea_share_change_5y_pp": 0.4,
+  "korea_increase_eok": [
+   17,
+   44
+  ],
+  "lotte_opportunity_eok": [
+   5,
+   13
+  ],
+  "value_of_1pp_share_eok": 113,
+  "entry_mode": "수출형",
+  "entry_reason": "1인당 과자 수입 118.5달러로 이미 수입 과자를 사 먹는 시장"
+ }
+]
