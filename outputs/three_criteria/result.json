@@ -1695,14 +1695,14 @@
   "Malaysia",
   "Singapore",
   "Netherlands",
-  "Mongolia",
   "Indonesia",
   "United Kingdom",
   "Thailand",
   "United Arab Emirates",
-  "Uzbekistan"
+  "Ireland",
+  "Germany"
  ],
- "third_over_fourth_pct": 76.5,
+ "third_over_fourth_pct": 78.0,
  "B": 200,
  "board": [
   {
@@ -1715,11 +1715,7 @@
     "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -1736,16 +1732,11 @@
    "groups_pct_in_pool": {
     "성장성": 96,
     "트렌드": 94,
-    "수출입": 100,
-    "전체": 100
+    "수출입": 100
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": 1.01,
    "top3_prob": 100.0,
    "reasons": [
@@ -1762,18 +1753,13 @@
    "groups_pct_in_pool": {
     "성장성": 80,
     "트렌드": 96,
-    "수출입": 88,
-    "전체": 92
+    "수출입": 88
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 2.73,
-   "top3_prob": 83.0,
+   "unknown": [],
+   "boot_mean_rank": 2.63,
+   "top3_prob": 90.5,
    "reasons": [
     "한국 음식 검색 관심도(상위 2%)",
     "인구 대비 방한 관광객(상위 15%)",
@@ -1786,20 +1772,15 @@
    "overall_rank": 6.7,
    "kor_exports_2024_usd": 9409678,
    "groups_pct_in_pool": {
-    "성장성": 66,
+    "성장성": 65,
     "트렌드": 98,
-    "수출입": 96,
-    "전체": 94
+    "수출입": 96
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 3.45,
-   "top3_prob": 55.5,
+   "unknown": [],
+   "boot_mean_rank": 3.06,
+   "top3_prob": 70.5,
    "reasons": [
     "인구 대비 방한 관광객(상위 1%)",
     "한국 음식 검색 관심도(상위 1%)",
@@ -1816,11 +1797,7 @@
     "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -1840,11 +1817,7 @@
     "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -1863,11 +1836,7 @@
     "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -1882,20 +1851,17 @@
    "overall_rank": 9.7,
    "kor_exports_2024_usd": 7779034,
    "groups_pct_in_pool": {
-    "성장성": 34,
+    "성장성": 33,
     "트렌드": 100,
-    "수출입": 98,
-    "전체": 98
+    "수출입": 98
    },
-   "status": [],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "status": [
+    "기준 바닥(하위 1/3): 성장성"
    ],
-   "boot_mean_rank": 4.84,
-   "top3_prob": 31.0,
+   "warn": [],
+   "unknown": [],
+   "boot_mean_rank": null,
+   "top3_prob": null,
    "reasons": [
     "인구 대비 방한 관광객(상위 5%)",
     "K-pop 검색 관심도(상위 6%)",
@@ -1912,11 +1878,7 @@
     "롯데 기진출국"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -1935,11 +1897,7 @@
     "롯데 기진출국"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -1956,18 +1914,13 @@
    "groups_pct_in_pool": {
     "성장성": 90,
     "트렌드": 82,
-    "수출입": 90,
-    "전체": 96
+    "수출입": 90
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 4.81,
-   "top3_prob": 14.5,
+   "unknown": [],
+   "boot_mean_rank": 4.21,
+   "top3_prob": 19.0,
    "reasons": [
     "과자 수입시장 규모(상위 7%)",
     "1인당 과자 수입액(상위 2%)",
@@ -1981,19 +1934,14 @@
    "kor_exports_2024_usd": 5751982,
    "groups_pct_in_pool": {
     "성장성": 94,
-    "트렌드": 74,
-    "수출입": 94,
-    "전체": 88
+    "트렌드": 73,
+    "수출입": 94
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 6.28,
-   "top3_prob": 8.0,
+   "unknown": [],
+   "boot_mean_rank": 5.49,
+   "top3_prob": 11.5,
    "reasons": [
     "한국 음식 검색 관심도(상위 5%)",
     "K-pop 검색 관심도(상위 3%)",
@@ -2008,18 +1956,13 @@
    "groups_pct_in_pool": {
     "성장성": 76,
     "트렌드": 78,
-    "수출입": 84,
-    "전체": 90
+    "수출입": 84
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 6.45,
-   "top3_prob": 8.0,
+   "unknown": [],
+   "boot_mean_rank": 5.69,
+   "top3_prob": 8.5,
    "reasons": [
     "과자 수입시장 규모(상위 2%)",
     "한국 음식 검색 관심도(상위 29%)",
@@ -2032,19 +1975,14 @@
    "overall_rank": 14.3,
    "kor_exports_2024_usd": 7866366,
    "groups_pct_in_pool": {
-    "성장성": 74,
+    "성장성": 73,
     "트렌드": 86,
-    "수출입": 92,
-    "전체": 86
+    "수출입": 92
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 7.75,
+   "unknown": [],
+   "boot_mean_rank": 6.89,
    "top3_prob": 0.0,
    "reasons": [
     "인구 대비 방한 관광객(상위 20%)",
@@ -2059,19 +1997,14 @@
    "kor_exports_2024_usd": 190810,
    "groups_pct_in_pool": {
     "성장성": 100,
-    "트렌드": 36,
-    "수출입": 14,
-    "전체": 60
+    "트렌드": 35,
+    "수출입": 14
    },
    "status": [
     "기준 바닥(하위 1/3): 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2088,18 +2021,15 @@
    "groups_pct_in_pool": {
     "성장성": 78,
     "트렌드": 84,
-    "수출입": 34,
-    "전체": 70
+    "수출입": 33
    },
-   "status": [],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "status": [
+    "기준 바닥(하위 1/3): 수출입"
    ],
-   "boot_mean_rank": 11.4,
-   "top3_prob": 0.0,
+   "warn": [],
+   "unknown": [],
+   "boot_mean_rank": null,
+   "top3_prob": null,
    "reasons": [
     "1인당 실질 가계소비 성장률(상위 2%)",
     "1인당 소득(PPP) 5년 성장률(상위 8%)",
@@ -2113,18 +2043,13 @@
    "kor_exports_2024_usd": 286784,
    "groups_pct_in_pool": {
     "성장성": 84,
-    "트렌드": 54,
-    "수출입": 40,
-    "전체": 72
+    "트렌드": 53,
+    "수출입": 39
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 11.5,
+   "unknown": [],
+   "boot_mean_rank": 9.96,
    "top3_prob": 0.0,
    "reasons": [
     "과자 수입시장 규모(상위 28%)",
@@ -2139,19 +2064,17 @@
    "kor_exports_2024_usd": 115310,
    "groups_pct_in_pool": {
     "성장성": 98,
-    "트렌드": 52,
-    "수출입": 6,
-    "전체": 62
+    "트렌드": 51,
+    "수출입": 6
    },
    "status": [
     "기준 바닥(하위 1/3): 수출입"
    ],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "warn": [
+    "정치 불안(PV.EST -1.19)",
+    "법치·부패 리스크(CC.EST -1.16)"
    ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2166,19 +2089,14 @@
    "overall_rank": 19.7,
    "kor_exports_2024_usd": 4473431,
    "groups_pct_in_pool": {
-    "성장성": 72,
-    "트렌드": 70,
-    "수출입": 82,
-    "전체": 82
+    "성장성": 71,
+    "트렌드": 69,
+    "수출입": 82
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 9.41,
+   "unknown": [],
+   "boot_mean_rank": 8.24,
    "top3_prob": 0.0,
    "reasons": [
     "과자 수입시장 규모(상위 25%)",
@@ -2193,18 +2111,13 @@
    "kor_exports_2024_usd": 1485609,
    "groups_pct_in_pool": {
     "성장성": 92,
-    "트렌드": 46,
-    "수출입": 60,
-    "전체": 78
+    "트렌드": 45,
+    "수출입": 59
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 12.61,
+   "unknown": [],
+   "boot_mean_rank": 11.09,
    "top3_prob": 0.0,
    "reasons": [
     "과자 수입시장 규모(상위 5%)",
@@ -2219,18 +2132,13 @@
    "kor_exports_2024_usd": 4869978,
    "groups_pct_in_pool": {
     "성장성": 82,
-    "트렌드": 38,
-    "수출입": 80,
-    "전체": 84
+    "트렌드": 37,
+    "수출입": 80
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 11.75,
+   "unknown": [],
+   "boot_mean_rank": 10.38,
    "top3_prob": 0.0,
    "reasons": [
     "과자 수입시장 규모(상위 3%)",
@@ -2244,19 +2152,14 @@
    "overall_rank": 22.0,
    "kor_exports_2024_usd": 3684774,
    "groups_pct_in_pool": {
-    "성장성": 40,
+    "성장성": 39,
     "트렌드": 88,
-    "수출입": 62,
-    "전체": 66
+    "수출입": 61
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 12.26,
+   "unknown": [],
+   "boot_mean_rank": 10.56,
    "top3_prob": 0.0,
    "reasons": [
     "인구 대비 방한 관광객(상위 12%)",
@@ -2270,20 +2173,18 @@
    "overall_rank": 22.3,
    "kor_exports_2024_usd": 1118228,
    "groups_pct_in_pool": {
-    "성장성": 28,
+    "성장성": 29,
     "트렌드": 92,
-    "수출입": 72,
-    "전체": 76
+    "수출입": 71
    },
    "status": [
     "기준 바닥(하위 1/3): 성장성"
    ],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "warn": [
+    "법치·부패 리스크(RL.EST -1.06)",
+    "법치·부패 리스크(CC.EST -1.16)"
    ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2298,19 +2199,14 @@
    "overall_rank": 24.0,
    "kor_exports_2024_usd": 750462,
    "groups_pct_in_pool": {
-    "성장성": 60,
+    "성장성": 59,
     "트렌드": 76,
-    "수출입": 56,
-    "전체": 74
+    "수출입": 55
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 14.37,
+   "unknown": [],
+   "boot_mean_rank": 12.55,
    "top3_prob": 0.0,
    "reasons": [
     "과자 수입시장 규모(상위 23%)",
@@ -2328,11 +2224,7 @@
     "롯데 기진출국"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2351,12 +2243,10 @@
     "롯데 기진출국",
     "사전 필터: 포괄적 국제 제재"
    ],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "warn": [
+    "법치·부패 리스크(RL.EST -1.12)"
    ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2373,18 +2263,13 @@
    "groups_pct_in_pool": {
     "성장성": 22,
     "트렌드": 90,
-    "수출입": 86,
-    "전체": 68
+    "수출입": 86
    },
    "status": [
     "기준 바닥(하위 1/3): 성장성"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2403,11 +2288,7 @@
     "롯데 기진출국"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2422,19 +2303,17 @@
    "overall_rank": 28.7,
    "kor_exports_2024_usd": 465476,
    "groups_pct_in_pool": {
-    "성장성": 70,
-    "트렌드": 40,
-    "수출입": 68,
-    "전체": 64
+    "성장성": 69,
+    "트렌드": 39,
+    "수출입": 67
    },
    "status": [],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "warn": [
+    "법치·부패 리스크(RL.EST -1.04)",
+    "법치·부패 리스크(CC.EST -1.07)"
    ],
-   "boot_mean_rank": 16.38,
+   "unknown": [],
+   "boot_mean_rank": 14.26,
    "top3_prob": 0.0,
    "reasons": [
     "1인당 소득(PPP) 5년 성장률(상위 24%)",
@@ -2448,20 +2327,17 @@
    "overall_rank": 29.7,
    "kor_exports_2024_usd": 2456930,
    "groups_pct_in_pool": {
-    "성장성": 64,
-    "트렌드": 28,
-    "수출입": 78,
-    "전체": 80
+    "성장성": 63,
+    "트렌드": 27,
+    "수출입": 78
    },
    "status": [
     "기준 바닥(하위 1/3): 트렌드"
    ],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "warn": [
+    "법치·부패 리스크(RL.EST -1.08)"
    ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2480,11 +2356,7 @@
     "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2499,20 +2371,15 @@
    "overall_rank": 32.3,
    "kor_exports_2024_usd": 291311,
    "groups_pct_in_pool": {
-    "성장성": 48,
-    "트렌드": 56,
-    "수출입": 30,
-    "전체": 56
+    "성장성": 47,
+    "트렌드": 55,
+    "수출입": 29
    },
    "status": [
     "기준 바닥(하위 1/3): 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2527,20 +2394,15 @@
    "overall_rank": 32.3,
    "kor_exports_2024_usd": 163633,
    "groups_pct_in_pool": {
-    "성장성": 46,
-    "트렌드": 72,
-    "수출입": 8,
-    "전체": 42
+    "성장성": 45,
+    "트렌드": 71,
+    "수출입": 8
    },
    "status": [
     "기준 바닥(하위 1/3): 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2555,20 +2417,15 @@
    "overall_rank": 33.7,
    "kor_exports_2024_usd": 166081,
    "groups_pct_in_pool": {
-    "성장성": 52,
-    "트렌드": 58,
-    "수출입": 10,
-    "전체": 40
+    "성장성": 51,
+    "트렌드": 57,
+    "수출입": 10
    },
    "status": [
     "기준 바닥(하위 1/3): 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2583,19 +2440,14 @@
    "overall_rank": 34.0,
    "kor_exports_2024_usd": 407685,
    "groups_pct_in_pool": {
-    "성장성": 42,
-    "트렌드": 62,
-    "수출입": 66,
-    "전체": 54
+    "성장성": 41,
+    "트렌드": 61,
+    "수출입": 65
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 16.59,
+   "unknown": [],
+   "boot_mean_rank": 14.58,
    "top3_prob": 0.0,
    "reasons": [
     "한국 음식 검색 관심도(상위 8%)",
@@ -2611,18 +2463,13 @@
    "groups_pct_in_pool": {
     "성장성": 86,
     "트렌드": 16,
-    "수출입": 64,
-    "전체": 52
+    "수출입": 63
    },
    "status": [
     "기준 바닥(하위 1/3): 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2637,19 +2484,14 @@
    "overall_rank": 36.0,
    "kor_exports_2024_usd": 815345,
    "groups_pct_in_pool": {
-    "성장성": 56,
-    "트렌드": 42,
-    "수출입": 52,
-    "전체": 50
+    "성장성": 55,
+    "트렌드": 41,
+    "수출입": 51
    },
    "status": [],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
-   "boot_mean_rank": 17.41,
+   "unknown": [],
+   "boot_mean_rank": 15.38,
    "top3_prob": 0.0,
    "reasons": [
     "K-pop 검색 관심도(상위 22%)",
@@ -2663,20 +2505,15 @@
    "overall_rank": 38.3,
    "kor_exports_2024_usd": 673786,
    "groups_pct_in_pool": {
-    "성장성": 44,
-    "트렌드": 32,
-    "수출입": 54,
-    "전체": 58
+    "성장성": 43,
+    "트렌드": 31,
+    "수출입": 53
    },
    "status": [
     "기준 바닥(하위 1/3): 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2693,18 +2530,13 @@
    "groups_pct_in_pool": {
     "성장성": 88,
     "트렌드": 8,
-    "수출입": 50,
-    "전체": 48
+    "수출입": 49
    },
    "status": [
     "기준 바닥(하위 1/3): 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2719,20 +2551,15 @@
    "overall_rank": 39.0,
    "kor_exports_2024_usd": 103092,
    "groups_pct_in_pool": {
-    "성장성": 36,
+    "성장성": 35,
     "트렌드": 80,
-    "수출입": 4,
-    "전체": 26
+    "수출입": 4
    },
    "status": [
-    "기준 바닥(하위 1/3): 수출입, 전체"
+    "기준 바닥(하위 1/3): 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2747,20 +2574,15 @@
    "overall_rank": 40.3,
    "kor_exports_2024_usd": 206840,
    "groups_pct_in_pool": {
-    "성장성": 50,
-    "트렌드": 48,
-    "수출입": 16,
-    "전체": 22
+    "성장성": 49,
+    "트렌드": 47,
+    "수출입": 16
    },
    "status": [
-    "기준 바닥(하위 1/3): 수출입, 전체"
+    "기준 바닥(하위 1/3): 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2775,20 +2597,15 @@
    "overall_rank": 41.3,
    "kor_exports_2024_usd": 448402,
    "groups_pct_in_pool": {
-    "성장성": 32,
-    "트렌드": 44,
-    "수출입": 48,
-    "전체": 44
+    "성장성": 31,
+    "트렌드": 43,
+    "수출입": 47
    },
    "status": [
     "기준 바닥(하위 1/3): 성장성"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2803,20 +2620,15 @@
    "overall_rank": 43.7,
    "kor_exports_2024_usd": 143999,
    "groups_pct_in_pool": {
-    "성장성": 58,
+    "성장성": 57,
     "트렌드": 24,
-    "수출입": 18,
-    "전체": 24
+    "수출입": 18
    },
    "status": [
-    "기준 바닥(하위 1/3): 트렌드, 수출입, 전체"
+    "기준 바닥(하위 1/3): 트렌드, 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2832,19 +2644,14 @@
    "kor_exports_2024_usd": 184569,
    "groups_pct_in_pool": {
     "성장성": 20,
-    "트렌드": 68,
-    "수출입": 20,
-    "전체": 28
+    "트렌드": 67,
+    "수출입": 20
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 수출입, 전체"
+    "기준 바닥(하위 1/3): 성장성, 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2860,19 +2667,14 @@
    "kor_exports_2024_usd": 677892,
    "groups_pct_in_pool": {
     "성장성": 18,
-    "트렌드": 66,
-    "수출입": 58,
-    "전체": 34
+    "트렌드": 65,
+    "수출입": 57
    },
    "status": [
     "기준 바닥(하위 1/3): 성장성"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2887,20 +2689,15 @@
    "overall_rank": 45.3,
    "kor_exports_2024_usd": 323834,
    "groups_pct_in_pool": {
-    "성장성": 68,
+    "성장성": 67,
     "트렌드": 10,
-    "수출입": 28,
-    "전체": 36
+    "수출입": 27
    },
    "status": [
     "기준 바닥(하위 1/3): 트렌드, 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2915,20 +2712,15 @@
    "overall_rank": 45.3,
    "kor_exports_2024_usd": 204142,
    "groups_pct_in_pool": {
-    "성장성": 62,
+    "성장성": 61,
     "트렌드": 18,
-    "수출입": 38,
-    "전체": 30
+    "수출입": 37
    },
    "status": [
-    "기준 바닥(하위 1/3): 트렌드, 전체"
+    "기준 바닥(하위 1/3): 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2944,19 +2736,14 @@
    "kor_exports_2024_usd": 1863422,
    "groups_pct_in_pool": {
     "성장성": 12,
-    "트렌드": 50,
-    "수출입": 76,
-    "전체": 46
+    "트렌드": 49,
+    "수출입": 76
    },
    "status": [
     "기준 바닥(하위 1/3): 성장성"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -2970,21 +2757,14 @@
    "name": "Nigeria",
    "overall_rank": 46.3,
    "kor_exports_2024_usd": 137186,
-   "groups_pct_in_pool": {
-    "성장성": 30,
-    "트렌드": 26,
-    "수출입": 22,
-    "전체": 38
-   },
+   "groups_pct_in_pool": null,
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입"
+    "사전 필터: 정치 불안(PV.EST -1.90)"
    ],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "warn": [
+    "법치·부패 리스크(CC.EST -1.14)"
    ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3000,19 +2780,14 @@
    "kor_exports_2024_usd": 379282,
    "groups_pct_in_pool": {
     "성장성": 16,
-    "트렌드": 60,
-    "수출입": 44,
-    "전체": 14
+    "트렌드": 59,
+    "수출입": 43
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 전체"
+    "기준 바닥(하위 1/3): 성장성"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3029,18 +2804,13 @@
    "groups_pct_in_pool": {
     "성장성": 24,
     "트렌드": 20,
-    "수출입": 74,
-    "전체": 32
+    "수출입": 73
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 트렌드, 전체"
+    "기준 바닥(하위 1/3): 성장성, 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3055,20 +2825,15 @@
    "overall_rank": 51.7,
    "kor_exports_2024_usd": 1640174,
    "groups_pct_in_pool": {
-    "성장성": 54,
+    "성장성": 53,
     "트렌드": 4,
-    "수출입": 70,
-    "전체": 18
+    "수출입": 69
    },
    "status": [
-    "기준 바닥(하위 1/3): 트렌드, 전체"
+    "기준 바닥(하위 1/3): 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3085,14 +2850,13 @@
    "groups_pct_in_pool": null,
    "status": [
     "롯데 기진출국",
-    "사전 필터: 전쟁·내전 진행 중"
+    "사전 필터: 전쟁·내전 진행 중, 정치 불안(PV.EST -2.17)"
    ],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "warn": [
+    "법치·부패 리스크(RL.EST -1.71)",
+    "법치·부패 리스크(CC.EST -1.16)"
    ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3111,11 +2875,7 @@
     "사전 필터: 전쟁·내전 진행 중"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3131,19 +2891,14 @@
    "kor_exports_2024_usd": 109050,
    "groups_pct_in_pool": {
     "성장성": 2,
-    "트렌드": 64,
-    "수출입": 12,
-    "전체": 12
+    "트렌드": 63,
+    "수출입": 12
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 수출입, 전체"
+    "기준 바닥(하위 1/3): 성장성, 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3159,19 +2914,14 @@
    "kor_exports_2024_usd": 172878,
    "groups_pct_in_pool": {
     "성장성": 4,
-    "트렌드": 34,
-    "수출입": 36,
-    "전체": 20
+    "트렌드": 33,
+    "수출입": 35
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 전체"
+    "기준 바닥(하위 1/3): 성장성, 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3187,19 +2937,14 @@
    "kor_exports_2024_usd": 141700,
    "groups_pct_in_pool": {
     "성장성": 10,
-    "트렌드": 30,
-    "수출입": 26,
-    "전체": 10
+    "트렌드": 29,
+    "수출입": 24
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입, 전체"
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3214,20 +2959,17 @@
    "overall_rank": 57.0,
    "kor_exports_2024_usd": 122713,
    "groups_pct_in_pool": {
-    "성장성": 38,
+    "성장성": 37,
     "트렌드": 12,
-    "수출입": 2,
-    "전체": 4
+    "수출입": 2
    },
    "status": [
-    "기준 바닥(하위 1/3): 트렌드, 수출입, 전체"
+    "기준 바닥(하위 1/3): 트렌드, 수출입"
    ],
-   "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
+   "warn": [
+    "정치 불안(PV.EST -1.07)"
    ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3242,20 +2984,15 @@
    "overall_rank": 57.3,
    "kor_exports_2024_usd": 175476,
    "groups_pct_in_pool": {
-    "성장성": 26,
+    "성장성": 27,
     "트렌드": 6,
-    "수출입": 32,
-    "전체": 16
+    "수출입": 31
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입, 전체"
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3272,18 +3009,13 @@
    "groups_pct_in_pool": {
     "성장성": 14,
     "트렌드": 14,
-    "수출입": 46,
-    "전체": 8
+    "수출입": 45
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 트렌드, 전체"
+    "기준 바닥(하위 1/3): 성장성, 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3300,18 +3032,13 @@
    "groups_pct_in_pool": {
     "성장성": 8,
     "트렌드": 22,
-    "수출입": 24,
-    "전체": 6
+    "수출입": 22
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입, 전체"
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [
@@ -3328,18 +3055,13 @@
    "groups_pct_in_pool": {
     "성장성": 6,
     "트렌드": 2,
-    "수출입": 42,
-    "전체": 2
+    "수출입": 41
    },
    "status": [
-    "기준 바닥(하위 1/3): 성장성, 트렌드, 전체"
+    "기준 바닥(하위 1/3): 성장성, 트렌드"
    ],
    "warn": [],
-   "unknown": [
-    "정치 불안(PV.EST 미수집)",
-    "법치·부패 리스크(RL.EST 미수집)",
-    "법치·부패 리스크(CC.EST 미수집)"
-   ],
+   "unknown": [],
    "boot_mean_rank": null,
    "top3_prob": null,
    "reasons": [

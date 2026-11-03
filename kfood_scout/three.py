@@ -363,6 +363,7 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
     # 기준별 점수(후보 안 백분위)와 바닥 기준 제외
     if final_models:
         gsc = pd.concat([m.group_scores(P_now) for m in final_models]).groupby(level=0).mean()
+        gsc = gsc[[g for g in G3 if g in gsc.columns]]  # 바닥 규칙은 세 기준만(기존 방식 모델의 "전체" 열 제외)
         overall_rank = ensemble_rank(final_models, P_now)
     else:  # 통과 모델 없음 → 큰 시장 순
         gsc = pd.DataFrame({g: P_now[[i for i in ids if gmap[i] == g]].mean(1) for g in G3})
