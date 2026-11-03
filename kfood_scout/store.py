@@ -82,7 +82,7 @@ def wb_series(code: str, years: list[int], fetch: bool = True, log=print) -> pd.
 
 def external_series(name: str, years: list[int], fetch: bool = True, log=print) -> pd.DataFrame:
     """외부 원천(구글 트렌드, 방한 관광객 등) 1개 = 파일 1개. 원천 추가는 sources/external.SOURCES 에 등록만."""
-    if external.SOURCES.get(name, {}).get("kind") == "file":  # 로컬 파일은 매번 다시 읽음(갱신 반영)
+    if external.SOURCES.get(name, {}).get("kind") in ("file", "korea_fta"):  # 로컬 파일은 매번 다시 읽음(갱신 반영)
         df = external.fetch(name, years, log=log)
         return df if df is not None else pd.DataFrame(columns=["iso3", "year", "value"])
     df, done = _load("external", name)

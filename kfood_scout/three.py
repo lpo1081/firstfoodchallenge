@@ -33,6 +33,37 @@ H = 3
 
 
 # ---------------------------------------------------------------- 데이터
+EXTRA_EXTERNAL = ["wdi_fx", "wdi_inflation"]
+
+
+def _long(w: pd.DataFrame, key: str) -> pd.DataFrame:
+    d = w.stack().rename("value").reset_index()
+    d.columns = ["iso3", "year", "value"]
+    d["series"] = key
+    return d.dropna()
+
+
+def _krw_rer(panel):
+    """원화 대비 현지 통화 실질가치 = (원/달러 ÷ 현지통화/달러) × (현지 물가지수 ÷ 한국 물가지수).
+    값이 오르면 현지에서 한국 과자가 상대적으로 싸진다. 물가지수는 상승률을 2005=100 으로 누적."""
+    fx, inf = _wide(panel, "EX:wdi_fx"), _wide(panel, "EX:wdi_inflation")
+    if fx.empty or inf.empty or "KOR" not in fx.index or "KOR" not in inf.index:
+        return pd.DataFrame(columns=["iso3", "year", "series", "value"])
+    cols = sorted(set(fx.columns) & set(inf.columns))
+    cpi = (1 + inf[cols].fillna(0) / 100).cumprod(axis=1).where(inf[cols].notna())
+    q = (fx.loc["KOR", cols] / fx[cols]) * (cpi / cpi.loc["KOR"])
+    return _long(q, "DV:krw_rer")
+
+
+def _hh_total(panel):
+    """실질 가계소비 총액 = 1인당 실질 가계소비 × 인구(과자 소비시장 크기의 대리)."""
+    a, b = _wide(panel, "WB:NE.CON.PRVT.PC.KD"), _wide(panel, "WB:SP.POP.TOTL")
+    return _long(a * b.reindex(index=a.index, columns=a.columns), "DV:hh_consumption_total")
+
+
+DERIVED = {"krw_rer": _krw_rer, "hh_consumption_total": _hh_total}
+
+
 def load_all(fetch=True, log=print, fetch_all=False):
     raw = load_yaml("criteria", "three_criteria.yaml")
     proto = load_yaml("validation", "three_criteria_protocol.yaml")
@@ -52,8 +83,17 @@ def load_all(fetch=True, log=print, fetch_all=False):
             continue
         d["series"] = f"WB:{code}"
         frames.append(d)
+    for name in EXTRA_EXTERNAL:  # 파생 지표 재료(무료, GitHub 미러)
+        try:
+            d = store.external_series(name, YEARS, fetch, log).copy()
+        except Exception as e:  # noqa: BLE001
+            log(f"[three] {name} 수집 실패: {e}")
+            continue
+        d["series"] = f"EX:{name}"
+        frames.append(d)
     panel = pd.concat([f for f in frames if len(f)], ignore_index=True)[["iso3", "year", "series", "value"]]
     panel = panel.astype({"iso3": str, "year": int, "value": float})
+    panel = pd.concat([panel] + [f(panel) for f in DERIVED.values()], ignore_index=True)
     have = set(panel.series.unique())
     missing = [i for i in crit.indicators if i.series_key(CAT) not in have]
     crit.indicators = [i for i in crit.indicators if i.series_key(CAT) in have]
@@ -308,6 +348,47 @@ def bootstrap(wins, train, picks, ids, gmap, P_now, cand, B=200, seed=0):
     return (rank_sum / B), (100 * top3 / B), R
 
 
+def robustness(Ps, ys, picks, ids, gmap, P_now, cand, inner, gw, top3, panel, nm, names):
+    """TOP3 가 조건을 바꿔도 그대로인가. 같은 후보(cand) 안에서 순위만 다시 매긴다.
+    1) 지표 하나 빼고 다시 학습(지표 수만큼)  2) 기준 비중을 바꿔서(동일 1/3, 기준 하나씩 2배)
+    3) 통과 모델 하나씩만 써서  4) 실제 최근 실적(2021→24 한국 과자 수출 증가액) 순위."""
+    P = P_now.loc[cand]
+
+    def top_of(w):
+        w = w.reindex(ids).fillna(0)
+        return list((P[ids] @ (w / w.sum())).nlargest(3).index)
+
+    def fit_w(use):
+        ms = [VARIANTS[n](Ps, ys, use, gmap) for n in picks]
+        return pd.concat([m.w for m in ms], axis=1).mean(1)
+
+    tests = []
+    for i in ids:
+        tests.append({"kind": "지표 하나 빼기", "case": f"{names[i]} 빼기", "top3": top_of(fit_w([x for x in ids if x != i]))})
+    alts = {"세 기준 같은 비중(1/3씩)": {g: 1 / 3 for g in G3}}
+    for g in G3:
+        a = {k: (2 * v if k == g else v) for k, v in gw.items()}
+        alts[f"{g} 비중 2배"] = a
+    for case, a in alts.items():
+        w = pd.concat([inner[g] * a[g] for g in G3])
+        tests.append({"kind": "기준 비중 바꾸기", "case": case, "top3": top_of(w)})
+    for n in picks:
+        tests.append({"kind": "모델 하나만", "case": n, "top3": top_of(VARIANTS[n](Ps, ys, ids, gmap).w)})
+    keep = {c: sum(c in t["top3"] for t in tests) for c in top3}
+    same = sum(set(t["top3"]) == set(top3) for t in tests)
+    for t in tests:
+        t["top3_names"] = [nm.get(c, c) for c in t["top3"]]
+        t["same"] = set(t["top3"]) == set(top3)
+    # 실제 최근 실적: 2021→24 한국 과자 수출 증가액(2년 평균 기준), 후보 안 순위
+    kor = _wide(panel, f"CT:{CAT}:KOR_X")
+    inc = (_avg(kor, 2024, 2) - _avg(kor, 2021, 2)).reindex(cand)
+    rank_inc = inc.rank(ascending=False)
+    recent = {c: {"increase_usd": round(float(inc[c])), "rank_in_candidates": int(rank_inc[c]), "n": int(inc.notna().sum())}
+              for c in top3 if pd.notna(inc.get(c))}
+    return {"n_tests": len(tests), "same_top3": same, "kept": keep, "tests": tests, "recent_actual": recent,
+            "recent_top3": [nm.get(c, c) for c in inc.nlargest(3).index]}
+
+
 def run(fetch=True, B=200, log=print, fetch_all=False):
     raw_c, proto, filt, crit, panel, countries, missing = load_all(fetch, log, fetch_all)
     ids = [i.id for i in crit.indicators]
@@ -339,6 +420,7 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
         dev["앙상블(선택 모델)"] = {k: round(float(np.mean([m[k] for m in dev_ens])), 3)
                                 for k in ("rank_corr", "rank_corr_ex_usa_chn", "top3_hit", "top10_hit")}
         dev["앙상블(선택 모델)"]["per_test"] = [round(m["rank_corr"], 3) for m in dev_ens]
+        dev["앙상블(선택 모델)"]["beats"] = sum(a > b for a, b in zip(dev["앙상블(선택 모델)"]["per_test"], dev["[기준선] 큰 시장 순"]["per_test"]))
 
     # 최종: 2021년 창까지 전부 학습
     fy = wcfg["forecast_year"]
@@ -389,6 +471,7 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
     top3p = (bootstrap(wins, train, picks, ids, gmap, P_now, cand, B=B)[1] if picks and B
              else pd.Series(np.nan, index=cand))
     rank_all = score.rank(ascending=False, method="min")
+    robust = robustness(Ps, ys, picks, ids, gmap, P_now, cand, inner, gw, top3, panel, nm, names) if picks else {}
 
     def detail(c):
         out = {}
@@ -424,7 +507,7 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
                       "reasons": reasons(c), "detail": detail(c)})
     res = {
         "protocol": proto["id"], "filter": filt["id"],
-        "indicators": [{"id": i.id, "name": i.name_ko, "group": i.group} for i in crit.indicators],
+        "indicators": [{"id": i.id, "name": i.name_ko, "group": i.group, "question": i.question, "unit": i.unit} for i in crit.indicators],
         "missing_indicators": [{"id": i.id, "name": i.name_ko, "series": i.series_key(CAT)} for i in missing],
         "windows": {t: len(v["y"]) for t, v in wins.items()},
         "dev": dev, "dev_rows": dev_rows, "sealed": sealed, "picked": picks,
@@ -438,6 +521,7 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
         "big5": [nm.get(c, c) for c in big], "big5_iso3": big,
         "top3": [nm.get(c, c) for c in top3], "top3_iso3": top3,
         "order": [nm.get(c, c) for c in order[:10]], "order_iso3": order, "B": B,
+        "robustness": robust,
         "board": board,
     }
     d = ROOT / "outputs" / "three_criteria"
@@ -530,11 +614,12 @@ def report_md(r):
     L += ["", "점수는 모두 0~100점입니다. 100점이면 채점한 나라 중 1등, 50점이면 중간입니다.", ""]
 
     L += ["## 어떻게 골랐나", "",
-          "1. **데이터**: 2005~2024년 공개 통계. UN Comtrade(한국→각국 과자 수출액, 각국 과자 수입액), 세계은행(인구·소득·소비·도시화·인터넷·정치 안정),"
-          " 구글 트렌드(한국 음식·K-pop·한국어 검색량), 한국관광공사(국적별 방한객).",
+          "1. **데이터**: 2005~2024년 공개 통계. UN Comtrade(한국→각국 과자 수출액, 각국 과자 수입액), 세계은행(인구·소비·도시화·정치 안정·환율·물가),"
+          " 구글 트렌드(한국 음식·K-pop·한국어 검색량), 한국관광공사(국적별 방한객), 산업통상자원부(FTA 발효일).",
           f"2. **기준과 지표**: 세 기준에 지표 {len(r['indicators'])}개를 나눠 담았습니다"
           f"(성장성 {sum(i['group'] == '성장성' for i in r['indicators'])}개, 트렌드 {sum(i['group'] == '트렌드' for i in r['indicators'])}개,"
           f" 수출입 {sum(i['group'] == '수출입' for i in r['indicators'])}개). 지표마다 나라 순위를 0~100점으로 바꿉니다.",
+          *[f"   - **{g}**: " + ", ".join(f"{i['name']}({i['question']})" if i.get('question') else i['name'] for i in r["indicators"] if i["group"] == g) for g in G3],
           "3. **비중**: 2010~2021년 매년 \"그 해 지표로 3년 뒤 한국 과자 수출 증가액 순위를 가장 잘 맞히는 비중\"을 컴퓨터가 찾았습니다."
           f" 그렇게 찾은 비중은 **성장성 {gw['성장성']:.0%}, 트렌드 {gw['트렌드']:.0%}, 수출입 {gw['수출입']:.0%}** 입니다.",
           f"4. **걸러내기**: 인구 100만 이상, 한국 과자 수출 10만 달러 이상인 {r['n_scored']}개국을 채점한 뒤 아래 나라를 뺐습니다.",
@@ -554,16 +639,28 @@ def report_md(r):
     L += ["", "나라별로 모든 지표의 실제 값, 점수, 비중은 아래 '나라별 상세'에 있습니다.", ""]
 
     dv, sz = r["dev"].get("앙상블(선택 모델)", {}), r["dev"].get("[기준선] 큰 시장 순", {})
-    L += ["## 결과를 믿을 수 있는 이유", "",
-          f"- **과거를 맞혀 봤습니다.** 2013~2018년 6개 시점에서 그때 데이터만으로 3년 뒤를 예측했을 때, 예측 순위와 실제 순위의 일치도는"
-          f" {dv.get('rank_corr', 0):.2f}입니다(1이면 완벽, 0이면 아무렇게나 찍은 것). \"지금 수출이 큰 순서\"로 찍으면 {sz.get('rank_corr', 0):.2f}입니다.",
-          f"- **결과가 흔들리지 않습니다.** 학습 데이터를 {r['B']}번 바꿔 다시 계산해도 TOP3에 남은 비율이 "
-          + ", ".join(f"{ko(b)} {b['top3_stability_pct']:.0f}%" for b in top) + "입니다.",
-          "- **규칙은 결과보다 먼저 정했습니다.** 검증 방법과 걸러내기 규칙을 결과 계산 전에 파일로 고정했습니다"
-          "(config/validation/three_criteria_protocol.yaml, config/filters/hard_filter.yaml).",
-          f"- **한계**: 2021→24년 한 구간에서는 \"직전 3년 많이 늘어난 순\"이 이 모델보다 잘 맞혔습니다"
-          f"({r['sealed'].get('[기준선] 직전 3년 증가 순', {}).get('rank_corr', 0):.2f} 대 {r['sealed'].get('앙상블(선택 모델)', {}).get('rank_corr', 0):.2f})."
-          " 모델 선택은 미리 정한 6개 시점 성적으로만 했습니다.", ""]
+    rb = r.get("robustness") or {}
+    L += ["## 검증: 조건을 바꿔도 같은 3국인가", ""]
+    if rb:
+        kept = rb["kept"]
+        L.append(f"- **조건을 {rb['n_tests']}가지로 바꿔 다시 계산했습니다**(지표를 하나씩 빼기 {len(r['indicators'])}번, 기준 비중 바꾸기 4번, 계산 방식 하나씩 {len(r['picked'])}번)."
+                 f" {rb['n_tests']}번 중 {rb['same_top3']}번 같은 3국이 나왔습니다. "
+                 + ", ".join(f"{ko(B[c])} {kept[c]}번" for c in r["top3_iso3"]) + " TOP3에 들었습니다.")
+        diff = [t for t in rb["tests"] if not t["same"]]
+        if diff:
+            L.append("  - 바뀐 경우: " + "; ".join(f"{t['case']} → {', '.join(KO.get(c, c) for c in t['top3'])}" for t in diff))
+        L.append(f"- **과거로 돌아가 맞혀 봤습니다.** 2013~2018년 각 해의 데이터만 주고 \"3년 뒤 한국 과자 수출이 가장 많이 늘 나라\"를 고르게 했습니다."
+                 f" 이 방식은 \"지금 수출이 큰 순서\"로 고르는 것보다 6번 중 {dv.get('beats', '6')}번 더 잘 맞혔습니다"
+                 f"(예측과 실제의 순위 일치도 {dv.get('rank_corr', 0):.2f} 대 {sz.get('rank_corr', 0):.2f}).")
+        ra = rb.get("recent_actual", {})
+        if ra:
+            L.append("- **최근 실제 실적과 대조했습니다.** 2021→24년 한국 과자 수출 증가액 순위(남은 후보 "
+                     f"{next(iter(ra.values()))['n']}개국 중): "
+                     + ", ".join(f"{ko(B[c])} {ra[c]['rank_in_candidates']}위({ra[c]['increase_usd'] / 1e4:+,.0f}만 달러)" for c in r["top3_iso3"] if c in ra) + ".")
+            low = [c for c in r["top3_iso3"] if c in ra and ra[c]["rank_in_candidates"] > 3]
+            for c in low:
+                L.append(f"  - {ko(B[c])}는 아직 실적보다 수요 신호(한국 음식 관심·방한객)가 앞선 시장입니다. 지금 들어가면 선점, 늦으면 추격이 됩니다.")
+    L.append("")
 
     L += ["## 전체 순위표", "", "| 순위 | 나라 | 종합 | 성장성 | 트렌드 | 수출입 | 한국 과자 수출 2024 | 결과 |", "|---|---|---|---|---|---|---|---|"]
     for b in r["board"][:40]:

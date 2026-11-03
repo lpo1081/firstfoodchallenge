@@ -22,12 +22,15 @@ class Indicator:
     flow: str | None = None
     unit: str = ""
     meaning: str = ""
+    question: str = ""   # 이 지표가 나라에 대해 묻는 질문(보고서·화면 표시용)
     group: str = ""
     smooth: int = 1   # cagr/diff 시작·끝 값을 몇 년 평균으로 잡을지 (이상값 완화)
 
     def series_key(self, category: str) -> str:
         if self.source == "comtrade":
             return f"CT:{category}:{self.flow}"
+        if self.source == "derived":   # 다른 시리즈로 계산하는 지표(kfood_scout/three.py DERIVED)
+            return f"DV:{self.series}"
         if self.source == "external":   # 국가×연도 표 원천(sources/external.py 레지스트리)
             return f"EX:{self.series}"
         return f"WB:{self.series}"
