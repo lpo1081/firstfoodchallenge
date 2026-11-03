@@ -79,5 +79,5 @@ python -m kfood_scout.agent report                               # outputs/agent
 - **적중률 재계산** `scripts/hit_rate.py`: 정답 abs/log × 국가 전체/미국·중국 제외, 대조군에 '큰 시장 순(한국 수출 규모 순)' 추가, 요약은 전체 7구간·안 겹치는 3구간·봉인 1구간으로 나눔. '무작위 대비 ○배'만으로 발표하지 말 것(미국이 매 구간 1위라 적중 수가 부풀려짐).
 - **XX**: 기본을 추세 연장 → 최신 X(`combine: latest`)로 변경. 세 방식(latest·mean2·extrapolate)의 성적은 `xx_test` 에 함께 남음.
 - **TOP-k 확률**: 마지막 구간 국가를 다시 뽑아 가중치를 `top_prob_B`(기본 200)번 다시 찾고, 각 나라가 TOP3·5·10 에 든 비율을 `forecast_XX[].prob` 에 기록.
-- **정답 기본값 = 증가율(log)**, **체급별 비교**(`tiers: 3`): 한국 수출 규모 3분위(큰·중간·작은 시장)로 나눠 `forecast_XX[].tier`·`tier_rank`, hit_rate 의 `tier:*` 시나리오로 체급 안 순위·적중률을 본다. 모델은 하나(표본 54개국 유지), 비교·발표만 체급별.
+- **정답 기본값 = 증가액(abs)**(증가율은 실데이터에서 TOP3 적중 0이라 보조로만), **체급별 비교**(`tiers: 3`): 한국 수출 규모 3분위(큰·중간·작은 시장)로 나눠 `forecast_XX[].tier`·`tier_rank`, hit_rate 의 `tier:*` 시나리오로 체급 안 순위·적중률을 본다. 모델은 하나(표본 54개국 유지), 비교·발표만 체급별.
 - 맥북 한 번에 실행: `sh scripts/recheck.sh` (비용 0원).
