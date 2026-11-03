@@ -237,3 +237,8 @@ def test_scout_hints_strategy_after_repeated_failures(tmp_path):
     assert r["status"] == "gave_up"
     hints = [b for m in cl.last if m["role"] == "user" and isinstance(m["content"], list) for b in m["content"] if b.get("type") == "text"]
     assert len(hints) == 1 and "다른 원천" in hints[0]["text"]
+
+
+def test_selection_windows_never_touch_sealed_period():
+    from kfood_scout.agent import loop
+    assert max(loop.STARTS) + loop.H <= loop.SEAL_FROM  # 선택용 마지막 창의 정답이 봉인 구간 시작 전에 끝남

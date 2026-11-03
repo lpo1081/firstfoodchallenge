@@ -15,6 +15,8 @@ methods:
   rolling:
     starts: [2012, 2015, 2018, 2021]
     forecast_year: 2024
+    combine: latest      # latest(최신 X) / mean2(최근 두 X 평균) / extrapolate(추세 연장, 옛 방식)
+    top_prob_B: 200      # TOP-k 확률 계산용 재표본 횟수(0이면 안 함)
 data:
   years: [2005, 2024]            # 수집 범위(롤링 2012 창의 5년 성장률 + 평활 3년이 2005부터 필요)
 overrides: []

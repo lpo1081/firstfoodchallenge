@@ -127,7 +127,7 @@ def clean(h: dict) -> dict:
 
 def propose(panel, countries, base_raw, category, ledger, t=None, n=3, llm=None) -> tuple[list[dict], list[dict], str]:
     """반환: (검증 가능한 가설, 걸러진 가설과 이유, 프롬프트). llm 은 테스트용 대체 함수."""
-    t = t or max(base_raw.get("_starts", [2021]))
+    t = t or max(base_raw.get("_starts", [2018]))
     prompt = build_prompt(base_raw, ledger, misses(panel, countries, base_raw, category, t), n)
     js = (llm or call_llm)(prompt)
     ok, dropped = [], []
