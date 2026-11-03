@@ -1,0 +1,38 @@
+id: auto_korea_economic_footprint
+statement: 한국 기업의 직접투자와 한국 정부의 개발원조(ODA)가 많이 들어간 나라일수록, 현지 한국계 유통망과 한국 브랜드 노출이 쌓여
+  이후 3년간 한국 과자 수출이 더 늘어난다.
+rationale: 한국 기업의 현지 투자(롯데·CJ·오리온 등 식품·유통 법인, 대형 제조업 공장)는 한국계 마트와 주재원 수요를 만든다. 동시에
+  현지 유통업체와의 거래 경로를 열어 과자 같은 소비재 수출을 끌고 온다. KOICA 사업과 ODA는 네팔·케냐·이라크처럼 소득이 낮고 수입시장이
+  작아 현재 모델이 하위로 매기는 나라에서 한국에 대한 인지도와 인적 교류를 미리 키운다. 이런 나라는 이번 창에서 실제 순위가 모델 순위보다 15~25계단
+  높았다. 투자와 원조는 집행 후 시차를 두고 소비재 교역에 반영되므로 t년까지의 누적치가 이후 수출 증가를 앞서 보여줄 수 있다. 인적 연결망
+  가설(체류외국인·재외동포, 자료 대기)과 달리 자본·정책 경로를 본다.
+group: 수출입
+new_source_needed: 'korea_odi_stock: 한국수출입은행 해외투자통계(stats.koreaexim.go.kr) ''국가별 해외직접투자
+  신고·송금 실적'' 연간 표(1980~)를 받는다. 송금액을 2005년 이전부터 누적해 국가×연도 누적 투자액(USD)으로 만든 뒤 iso3,year,value
+  CSV로 변환한다. korea_oda_disb: OECD.Stat CRS 또는 DAC2a 표에서 공여국=Korea, 수원국별 총 ODA 지출액(USD,
+  연간 2005~)을 받아 iso3,year,value CSV로 변환하고, 수원 실적이 없는 고소득국은 0으로 채운다.'
+indicators:
+- id: korea_odi_stock_log
+  name_ko: 한국 기업 누적 직접투자 규모
+  group: 수출입
+  source: external
+  series: korea_odi_stock
+  transform: level_log
+  window: 1
+  direction: 1
+- id: korea_oda_pc
+  name_ko: 1인당 한국 ODA 수혜액
+  group: 수출입
+  source: external
+  series: korea_oda_disb
+  transform: per_capita
+  window: 1
+  direction: 1
+proposed_by: llm:claude-opus-5-5
+status: data_needed
+reason: '미등록 외부 원천 korea_odi_stock (new_source_needed: korea_odi_stock: 한국수출입은행 해외투자통계(stats.koreaexim.go.kr)
+  ''국가별 해외직접투자 신고·송금 실적'' 연간 표(1980~)를 받는다. 송금액을 2005년 이전부터 누적해 국가×연도 누적 투자액(USD)으로
+  만든 뒤 iso3,year,value CSV로 변환한다. korea_oda_disb: OECD.Stat CRS 또는 DAC2a 표에서 공여국=Korea,
+  수원국별 총 ODA 지출액(USD, 연간 2005~)을 받아 iso3,year,value CSV로 변환하고, 수원 실적이 없는 고소득국은 0으로
+  채운다.)'
+created: '2026-11-03'

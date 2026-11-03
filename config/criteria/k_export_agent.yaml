@@ -26,17 +26,6 @@ indicators:
   direction: 1
   weight: 0.1
   unit: ln(USD)
-- id: import_market_cagr
-  group: 성장성
-  name_ko: 수입시장 성장률
-  source: comtrade
-  flow: M
-  transform: cagr
-  window: 5
-  smooth: 3
-  direction: 1
-  weight: 0.1
-  unit: '%/년'
 - id: hh_consumption_pc_cagr
   group: 성장성
   name_ko: 1인당 실질 가계소비 성장률
@@ -120,16 +109,6 @@ indicators:
   direction: 1
   weight: 0.1
   unit: '%/년'
-- id: korea_share
-  group: 수출입
-  name_ko: 수입 중 한국산 비중
-  source: comtrade
-  flow: KOR_X
-  transform: share
-  window: 3
-  direction: 1
-  weight: 0.1
-  unit: '%'
 - id: korea_share_change
   group: 수출입
   name_ko: 한국산 비중 변화
@@ -140,6 +119,16 @@ indicators:
   direction: 1
   weight: 0.1
   unit: '%p/5년'
+- id: kpop_interest
+  name_ko: K-pop 검색 관심도
+  group: 소비트렌드
+  source: external
+  series: gtrends_kpop
+  transform: level
+  window: 3
+  direction: 1
+  unit: 0-100
+  weight: 0.0
 - id: kfood_interest
   name_ko: 한국 음식 검색 관심도
   group: 소비트렌드
@@ -159,4 +148,14 @@ indicators:
   window: 3
   direction: 1
   unit: 명/인
+  weight: 0.0
+- id: learn_korean_interest
+  name_ko: 한국어 학습 검색 관심도
+  group: 소비트렌드
+  source: external
+  series: gtrends_learnkorean
+  transform: level
+  window: 3
+  direction: 1
+  unit: 0-100
   weight: 0.0

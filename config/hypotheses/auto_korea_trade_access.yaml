@@ -1,0 +1,37 @@
+id: auto_korea_trade_access
+statement: 한국과 FTA가 발효되어 있거나 식품·1차산품 수입관세가 내려가는 나라일수록, 소득·시장 규모와 별개로 이후 3년간 한국 과자
+  수출이 더 늘어난다.
+rationale: 과자류는 단가가 낮고 가격 탄력성이 커서 관세 몇 %포인트 차이가 현지 소매가와 유통업체 입점 판단을 바로 바꾼다. FTA 발효와
+  단계적 관세 인하는 발효 시점에 미리 공표되므로 t년까지의 정보만으로 이후 3년의 가격 경쟁력 개선을 알 수 있다. 현재 모델은 수요 측(소득·인구·수입시장)과
+  한국산 점유율만 보고 제도적 진입장벽은 보지 않는다. 그래서 수입시장 성장률이 낮은데도 실제 순위가 높았던 싱가포르(한-싱 FTA)와 이스라엘(한-이스라엘
+  FTA 2022 서명·2023 발효) 같은 나라를 놓쳤을 수 있다. 관세 인하 폭은 소득 수준과 상관이 약해 기존 지표와 정보가 덜 겹칠 것으로
+  본다.
+group: 수출입
+new_source_needed: 'korea_fta_in_force: 산업통상자원부 ''FTA 강국 KOREA'' 누리집(fta.go.kr)의 발효
+  FTA 목록(상대국, 발효일)으로 국가×연도(2005~2024) 표를 만든다. 값은 해당 연도 말 기준 발효 후 경과 연수(미발효 0, 상한 10)로
+  하고, 한-ASEAN·한-EU 같은 다자 FTA는 회원국별로 펼쳐 iso3,year,value CSV로 변환한다. 관세 지표는 WDI 코드라 따로
+  받을 필요가 없다.'
+indicators:
+- id: korea_fta_years
+  name_ko: 한국과의 FTA 발효 경과 연수
+  group: 수출입
+  source: external
+  series: korea_fta_in_force
+  transform: level
+  window: 1
+  direction: 1
+- id: primary_tariff_change
+  name_ko: 1차산품 가중평균 관세율 변화
+  group: 수출입
+  source: worldbank
+  series: TM.TAX.TCOM.WM.AR.ZS
+  transform: diff
+  window: 3
+  direction: -1
+proposed_by: llm:claude-opus-5-5
+status: data_needed
+reason: '미등록 외부 원천 korea_fta_in_force (new_source_needed: korea_fta_in_force: 산업통상자원부
+  ''FTA 강국 KOREA'' 누리집(fta.go.kr)의 발효 FTA 목록(상대국, 발효일)으로 국가×연도(2005~2024) 표를 만든다.
+  값은 해당 연도 말 기준 발효 후 경과 연수(미발효 0, 상한 10)로 하고, 한-ASEAN·한-EU 같은 다자 FTA는 회원국별로 펼쳐 iso3,year,value
+  CSV로 변환한다. 관세 지표는 WDI 코드라 따로 받을 필요가 없다.)'
+created: '2026-11-03'

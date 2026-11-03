@@ -23,7 +23,7 @@ indicators:
   - {id: youth_share, group: 소비트렌드, name_ko: 유소년(0-14세) 비중, source: worldbank, series: SP.POP.0014.TO.ZS, transform: level, window: 1, direction: 1, weight: 0.1, unit: "%"}
   - {id: urbanization_change, group: 소비트렌드, name_ko: 도시화 진행 속도, source: worldbank, series: SP.URB.TOTL.IN.ZS, transform: diff, window: 5, direction: 1, weight: 0.1, unit: "%p/5년"}
   - {id: gdp_pc_ppp, group: 소비트렌드, name_ko: 1인당 GDP(PPP), source: worldbank, series: NY.GDP.PCAP.PP.KD, transform: level_log, window: 1, direction: 1, weight: 0.1, unit: ln(USD)}
-  - {id: import_pc_cagr, group: 소비트렌드, name_ko: 1인당 수입 증가율, source: comtrade, flow: M, transform: per_capita_cagr, window: 5, direction: 1, weight: 0.1, unit: "%/년"}
+  - {id: import_pc_cagr, group: 소비트렌드, name_ko: 1인당 수입 증가율, source: comtrade, flow: M, transform: per_capita_cagr, window: 5, smooth: 3, direction: 1, weight: 0.1, unit: "%/년"}
   # --- 기준3 수출입 현황 (한국 특화) ---
   - {id: korea_exports_size, group: 수출입, name_ko: 한국 수출 규모, source: comtrade, flow: KOR_X, transform: level_log, window: 3, direction: 1, weight: 0.1, unit: ln(USD)}
   - {id: korea_exports_cagr, group: 수출입, name_ko: 한국 수출 성장률, source: comtrade, flow: KOR_X, transform: cagr, window: 5, smooth: 3, direction: 1, weight: 0.1, unit: "%/년"}

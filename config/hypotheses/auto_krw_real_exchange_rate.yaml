@@ -1,0 +1,30 @@
+id: auto_krw_real_exchange_rate
+statement: 원화 대비 현지 통화의 실질가치가 오른(한국산이 상대적으로 싸진) 나라일수록 이후 3년간 한국 과자 수출이 더 늘어난다.
+rationale: 과자는 대체재가 많은 저가 소비재라서 현지 통화 기준 가격이 수입업체 발주량과 소매 진열 결정에 크게 작용한다. 현지 통화가 원화
+  대비 실질 절상되면 같은 원화 가격의 한국 과자가 현지에서 싸지고 수입상의 마진 여유도 커진다. 환율 효과는 보통 1~2년 시차를 두고 물량에
+  반영되므로 t년까지의 변화가 이후 3년 수출 증가를 앞서 보여준다. 현재 모델의 수입시장 규모와 성장률은 달러 기준이라, 달러 표시 수입이 정체된
+  쿠웨이트·싱가포르·이탈리아처럼 원화 대비 구매력은 개선된 나라를 낮게 평가했을 수 있다. 또 원화 약세기(2008, 2022년 등)에 국가별 상대가격
+  변화를 구분해 주므로 소득·인구 지표와 겹치는 정보가 적을 것으로 본다.
+group: 수출입
+new_source_needed: 'krw_bilateral_rer: 각국 통화의 원화 대비 실질환율 지수(국가×연도 2005~2024)로, 값이
+  클수록 현지 통화의 실질가치가 높다. WDI의 PA.NUS.FCRF(현지통화/USD 공식환율)와 FP.CPI.TOTL(소비자물가지수)을 한국과
+  상대국 모두 받아 RER = (KRW/USD ÷ LCU/USD) × (CPI_partner ÷ CPI_KOR)로 계산하고 iso3,year,value
+  CSV로 저장한다. 유로존 국가는 EUR 환율을 공통 적용하고, 아르헨티나처럼 공식환율과 시장환율 괴리가 큰 경우는 IMF IFS 값으로 교차
+  확인한다.'
+indicators:
+- id: krw_rer_change
+  name_ko: 원화 대비 현지통화 실질가치 변화율
+  group: 수출입
+  source: external
+  series: krw_bilateral_rer
+  transform: cagr
+  window: 3
+  direction: 1
+proposed_by: llm:claude-opus-5-5
+status: data_needed
+reason: '미등록 외부 원천 krw_bilateral_rer (new_source_needed: krw_bilateral_rer: 각국 통화의
+  원화 대비 실질환율 지수(국가×연도 2005~2024)로, 값이 클수록 현지 통화의 실질가치가 높다. WDI의 PA.NUS.FCRF(현지통화/USD
+  공식환율)와 FP.CPI.TOTL(소비자물가지수)을 한국과 상대국 모두 받아 RER = (KRW/USD ÷ LCU/USD) × (CPI_partner
+  ÷ CPI_KOR)로 계산하고 iso3,year,value CSV로 저장한다. 유로존 국가는 EUR 환율을 공통 적용하고, 아르헨티나처럼 공식환율과
+  시장환율 괴리가 큰 경우는 IMF IFS 값으로 교차 확인한다.)'
+created: '2026-11-03'
