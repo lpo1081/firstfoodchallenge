@@ -1,0 +1,31 @@
+id: k_export
+name_ko: K-푸드 수출 유망도 (3개 기준 통합, 카테고리 공통)
+universe:
+  min_population: 1000000
+  exclude_iso3: [KOR]
+  min_indicator_coverage: 8
+  min_korea_exports_usd: 100000   # 기준연도 한국 수출이 10만 달러 미만인 나라는 성장률이 노이즈라 제외
+benchmarks:              # 표본 밖 비교용 단순 규칙(지표 하나에 100%)
+  momentum: korea_exports_cagr
+  size_only: korea_exports_size
+min_window_n: 15         # 창의 평가대상국이 이보다 적으면 그 창은 건너뜀(소규모 카테고리 대비)
+target:
+  series: KOR_X          # CT:<category>:KOR_X
+  horizon: 3
+  kind: abs              # abs = 증가액(USD), log = 로그 성장률
+indicators:
+  # --- 기준1 식품시장 성장성 ---
+  - {id: import_market_size, group: 성장성, name_ko: 수입시장 규모, source: comtrade, flow: M, transform: level_log, window: 3, direction: 1, weight: 0.1, unit: ln(USD)}
+  - {id: import_market_cagr, group: 성장성, name_ko: 수입시장 성장률, source: comtrade, flow: M, transform: cagr, window: 5, smooth: 3, direction: 1, weight: 0.1, unit: "%/년"}
+  - {id: hh_consumption_pc_cagr, group: 성장성, name_ko: 1인당 실질 가계소비 성장률, source: worldbank, series: NE.CON.PRVT.PC.KD, transform: cagr, window: 5, smooth: 3, direction: 1, weight: 0.1, unit: "%/년"}
+  - {id: population_size, group: 성장성, name_ko: 인구 규모, source: worldbank, series: SP.POP.TOTL, transform: level_log, window: 1, direction: 1, weight: 0.1, unit: ln(명)}
+  # --- 기준2 소비 트렌드 (공공 데이터 대리지표) ---
+  - {id: youth_share, group: 소비트렌드, name_ko: 유소년(0-14세) 비중, source: worldbank, series: SP.POP.0014.TO.ZS, transform: level, window: 1, direction: 1, weight: 0.1, unit: "%"}
+  - {id: urbanization_change, group: 소비트렌드, name_ko: 도시화 진행 속도, source: worldbank, series: SP.URB.TOTL.IN.ZS, transform: diff, window: 5, direction: 1, weight: 0.1, unit: "%p/5년"}
+  - {id: gdp_pc_ppp, group: 소비트렌드, name_ko: 1인당 GDP(PPP), source: worldbank, series: NY.GDP.PCAP.PP.KD, transform: level_log, window: 1, direction: 1, weight: 0.1, unit: ln(USD)}
+  - {id: import_pc_cagr, group: 소비트렌드, name_ko: 1인당 수입 증가율, source: comtrade, flow: M, transform: per_capita_cagr, window: 5, direction: 1, weight: 0.1, unit: "%/년"}
+  # --- 기준3 수출입 현황 (한국 특화) ---
+  - {id: korea_exports_size, group: 수출입, name_ko: 한국 수출 규모, source: comtrade, flow: KOR_X, transform: level_log, window: 3, direction: 1, weight: 0.1, unit: ln(USD)}
+  - {id: korea_exports_cagr, group: 수출입, name_ko: 한국 수출 성장률, source: comtrade, flow: KOR_X, transform: cagr, window: 5, smooth: 3, direction: 1, weight: 0.1, unit: "%/년"}
+  - {id: korea_share, group: 수출입, name_ko: 수입 중 한국산 비중, source: comtrade, flow: KOR_X, transform: share, window: 3, direction: 1, weight: 0.1, unit: "%"}
+  - {id: korea_share_change, group: 수출입, name_ko: 한국산 비중 변화, source: comtrade, flow: KOR_X, transform: share_diff, window: 5, direction: 1, weight: 0.1, unit: "%p/5년"}

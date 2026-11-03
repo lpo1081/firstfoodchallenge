@@ -1,0 +1,97 @@
+{
+ "added": [
+  "kpop_interest",
+  "kfood_interest",
+  "korea_visitors_pc",
+  "learn_korean_interest"
+ ],
+ "dropped": [
+  "import_market_cagr",
+  "korea_share"
+ ],
+ "mean_weights": {
+  "import_market_size": 0.18,
+  "import_market_cagr": 0.028,
+  "hh_consumption_pc_cagr": 0.037,
+  "population_size": 0.064,
+  "youth_share": 0.035,
+  "urbanization_change": 0.049,
+  "gdp_pc_ppp": 0.095,
+  "import_pc_cagr": 0.036,
+  "korea_exports_size": 0.053,
+  "korea_exports_cagr": 0.04,
+  "korea_share": 0.025,
+  "korea_share_change": 0.05,
+  "kpop_interest": 0.068,
+  "kfood_interest": 0.12,
+  "korea_visitors_pc": 0.07,
+  "learn_korean_interest": 0.05
+ },
+ "oos_vs_base": {
+  "mean_delta": 0.11842857142857144,
+  "p_better": 1.0,
+  "ci90": [
+   0.06380270166002437,
+   0.16680243273490897
+  ]
+ },
+ "oos_pairs": [
+  {
+   "fit": 2012,
+   "test": 2015,
+   "n": 54,
+   "base": 0.191,
+   "aug": 0.3,
+   "delta": 0.109
+  },
+  {
+   "fit": 2013,
+   "test": 2016,
+   "n": 50,
+   "base": 0.286,
+   "aug": 0.292,
+   "delta": 0.006
+  },
+  {
+   "fit": 2014,
+   "test": 2017,
+   "n": 50,
+   "base": 0.245,
+   "aug": 0.359,
+   "delta": 0.114
+  },
+  {
+   "fit": 2015,
+   "test": 2018,
+   "n": 55,
+   "base": 0.488,
+   "aug": 0.605,
+   "delta": 0.117
+  },
+  {
+   "fit": 2016,
+   "test": 2019,
+   "n": 54,
+   "base": 0.499,
+   "aug": 0.611,
+   "delta": 0.111
+  },
+  {
+   "fit": 2017,
+   "test": 2020,
+   "n": 57,
+   "base": 0.267,
+   "aug": 0.497,
+   "delta": 0.23
+  },
+  {
+   "fit": 2018,
+   "test": 2021,
+   "n": 57,
+   "base": 0.352,
+   "aug": 0.494,
+   "delta": 0.142
+  }
+ ],
+ "written": true
+}

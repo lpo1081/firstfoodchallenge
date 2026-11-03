@@ -1,0 +1,46 @@
+id: auto_korea_human_network
+statement: 한국에 장기 체류하는 노동자·유학생과 현지 한인 동포 같은 인적 연결망이 두텁고, 해외 송금 유입이 큰 나라일수록 이후 3년간
+  한국 과자 수출이 더 늘어난다.
+rationale: 네팔은 고용허가제로 한국에 온 노동자가 매우 많은 나라다. 소득 수준과 수입시장 규모가 바닥인데도 실제 수출 증가 순위가 26위였다.
+  아르헨티나는 남미 최대급 한인 사회가 있고, 케냐·이라크·쿠웨이트에는 한국 기업과 건설 인력의 현지 네트워크가 있다. 이미 채택된 방한 관광객
+  지표는 단기 체류만 잡는다. 반면 장기 체류자는 귀국 뒤나 가족을 통해 한국 식품 소비 습관을 본국에 옮기고, 현지 한인 마트와 수입상 같은 유통
+  거점을 만든다. 그래서 공식 수입 통계에 수요가 나타나기 전에 수출 증가를 먼저 보여줄 수 있다. 또 송금 유입은 GDP나 가계소비 통계에 다
+  잡히지 않는 가계의 가처분 구매력이다. 특히 송금이 많은 저소득국에서는 포장 과자 같은 수입 간식 수요를 끌어올린다.
+group: 소비트렌드
+new_source_needed: '(1) moj_foreign_residents: 법무부 「출입국·외국인정책 통계연보」 국적별 체류외국인 수(연간,
+  2005~). 공공데이터포털(data.go.kr) 또는 법무부 출입국·외국인정책본부 통계에서 국적별 연말 체류자 표를 받아 iso3,year,value
+  CSV로 변환한다. (2) mofa_overseas_koreans: 외교부 「재외동포현황」 국가별 재외동포 수(격년 발간). 외교부 누리집 PDF
+  또는 공공데이터포털 파일에서 받아 iso3,year,value CSV로 변환하고, 빠진 해는 직전 값으로 채운다.'
+indicators:
+- id: residents_in_korea_pc
+  name_ko: 인구 대비 한국 체류자 수
+  group: 소비트렌드
+  source: external
+  series: moj_foreign_residents
+  transform: per_capita
+  window: 3
+  direction: 1
+- id: overseas_koreans_pc
+  name_ko: 인구 대비 현지 한인 동포 수
+  group: 소비트렌드
+  source: external
+  series: mofa_overseas_koreans
+  transform: per_capita
+  window: 3
+  direction: 1
+- id: remittance_gdp
+  name_ko: GDP 대비 개인 송금 유입
+  group: 소비트렌드
+  source: worldbank
+  series: BX.TRF.PWKR.DT.GD.ZS
+  transform: level
+  window: 3
+  direction: 1
+proposed_by: llm:claude-opus-5-5
+status: data_needed
+reason: '미등록 외부 원천 moj_foreign_residents (new_source_needed: (1) moj_foreign_residents:
+  법무부 「출입국·외국인정책 통계연보」 국적별 체류외국인 수(연간, 2005~). 공공데이터포털(data.go.kr) 또는 법무부 출입국·외국인정책본부
+  통계에서 국적별 연말 체류자 표를 받아 iso3,year,value CSV로 변환한다. (2) mofa_overseas_koreans: 외교부
+  「재외동포현황」 국가별 재외동포 수(격년 발간). 외교부 누리집 PDF 또는 공공데이터포털 파일에서 받아 iso3,year,value CSV로
+  변환하고, 빠진 해는 직전 값으로 채운다.)'
+created: '2026-11-03'

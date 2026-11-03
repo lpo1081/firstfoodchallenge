@@ -1,0 +1,240 @@
+<title>카테고리별 흐름 비교</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+KR:wght@600&display=swap">
+<style>
+/* Layout: 결론 → 카테고리별 기준 이동(작은 막대 묶음) → 과자 대비 비교표 → 카테고리별 TOP5 → 매출 가중 통합 순위(조정 가능) */
+:root {
+  --bg: #f6f6f3; --surface: #ffffff; --ink: #1f1c19; --muted: #6a645d; --line: #e3e0da;
+  --accent: #9c3d26; --accent-soft: #f3e3dc; --good: #2f7a4f; --warn: #b26b00;
+  --g1: #b8866b; --g2: #5f7f6a; --g3: #4d6487;
+  --f-display: "Noto Serif KR", "Apple SD Gothic Neo", serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #161412; --surface: #201d1a; --ink: #ece7e1; --muted: #a39a91; --line: #35302b;
+  --accent: #e3805f; --accent-soft: #3a2620; --good: #6cc192; --warn: #e0a64a;
+  --g1: #c99a80; --g2: #7fa58b; --g3: #7f97bd; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #161412; --surface: #201d1a; --ink: #ece7e1; --muted: #a39a91; --line: #35302b;
+  --accent: #e3805f; --accent-soft: #3a2620; --good: #6cc192; --warn: #e0a64a;
+  --g1: #c99a80; --g2: #7fa58b; --g3: #7f97bd; color-scheme: dark }
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 48px }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 24px }
+header { display: grid; gap: 6px }
+.eyebrow { font-size: 12px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase }
+h1 { font-family: var(--f-display); font-size: clamp(22px, 3.2vw, 30px); margin: 0; text-wrap: balance; font-weight: 600 }
+h2 { font-size: 18px; margin: 0; font-weight: 600; text-wrap: balance }
+.sub { color: var(--muted); margin: 0; max-width: 72ch }
+.findings { margin: 8px 0 0; padding: 14px 16px 14px 34px; background: var(--accent-soft); border-radius: 10px; display: grid; gap: 6px; max-width: 920px; font-size: 14px }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 14px; min-width: 0 }
+.note { font-size: 12.5px; color: var(--muted); margin: 0; max-width: 80ch; overflow-wrap: anywhere }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted) }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px }
+.stack-rows { display: grid; gap: 10px }
+.srow { display: grid; grid-template-columns: 112px 1fr; gap: 12px; align-items: center }
+.srow .lbl { font-family: var(--f-mono); font-size: 13px; color: var(--muted) }
+.srow .lbl b { color: var(--ink); font-weight: 500 }
+.bar { display: flex; height: 26px; border-radius: 4px; overflow: hidden; background: var(--line) }
+.bar span { display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-family: var(--f-mono); color: var(--surface); white-space: nowrap; overflow: hidden }
+.srow.xx .lbl b { color: var(--accent) }
+.srow.xx .bar { outline: 2px solid var(--accent); outline-offset: 2px }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap }
+th { font-weight: 500; color: var(--muted); font-size: 12px; background: var(--surface) }
+td.num, th.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; text-align: right }
+.hi { color: var(--accent); font-weight: 500 }
+.good { color: var(--good) } .warn { color: var(--warn) }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px }
+.grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start }
+@media (max-width: 880px) { .grid { grid-template-columns: 1fr } }
+.w-group { display: grid; gap: 10px }
+.w-group h3 { margin: 0; font-size: 13px; color: var(--muted); font-weight: 500; letter-spacing: .04em }
+.w-row { display: grid; gap: 2px }
+.w-head { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px }
+.w-val { font-family: var(--f-mono); color: var(--accent); font-variant-numeric: tabular-nums }
+input[type=range] { width: 100%; accent-color: var(--accent) }
+.btns { display: flex; flex-wrap: wrap; gap: 6px }
+button { font: inherit; font-size: 12.5px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer }
+button:hover { border-color: var(--accent) }
+button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface) }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.toggle { display: flex; gap: 8px; align-items: center; font-size: 13.5px; cursor: pointer }
+.toggle input { accent-color: var(--accent); width: 16px; height: 16px }
+.main { display: grid; gap: 16px; min-width: 0 }
+.top3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px }
+@media (max-width: 620px) { .top3 { grid-template-columns: 1fr } }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0 }
+.pick:first-child { border-color: var(--accent) }
+.pick .rk { font-family: var(--f-mono); font-size: 12px; color: var(--muted) }
+.pick .nm { font-size: 19px; font-weight: 600 }
+.pick .sc { font-family: var(--f-mono); font-size: 13px; color: var(--accent) }
+.pick ul { margin: 4px 0 0; padding-left: 18px; font-size: 13px; color: var(--muted) }
+.pill { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-left: 6px }
+.mini { display: inline-block; width: 40px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; vertical-align: middle; margin-left: 6px }
+.mini i { display: block; height: 100% }
+.sources { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; overflow-wrap: anywhere; min-width: 0 }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 14px }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; min-width: 0 }
+.card.base { border-color: var(--accent) }
+.card h3 { margin: 0; font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; gap: 8px; align-items: baseline }
+.card h3 small { font-family: var(--f-mono); font-weight: 400; font-size: 12px; color: var(--muted) }
+.card .srow { grid-template-columns: 74px 1fr; gap: 8px }
+.card .bar { height: 20px }
+.card .meta { font-size: 12.5px; color: var(--muted); margin: 0 }
+.err { color: var(--warn); font-size: 13px; margin: 0 }
+.yes { color: var(--good) } .no { color: var(--warn) }
+.cols { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: start }
+@media (max-width: 880px) { .cols { grid-template-columns: minmax(0, 1fr) } }
+td.cat { font-size: 12.5px }
+.cols .main, .panel, .wrap { grid-template-columns: minmax(0, 1fr) }
+.score { display: inline-block; min-width: 34px }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">K-푸드 수출 유망국 · 카테고리 비교</div>
+  <h1 id="title"></h1>
+  <p class="sub" id="subtitle"></p>
+  <ul class="findings" id="findings"></ul>
+</header>
+
+<section class="panel">
+  <h2>카테고리마다 '뜨는 나라'를 고르는 기준이 어떻게 옮겨갔나</h2>
+  <p class="note">각 막대는 그 시기(기준연도 → 3년 뒤)의 한국 수출 증가를 가장 잘 맞힌 가중치(프로그램 X)를 3개 기준으로 묶은 것입니다. 마지막 줄 XX는 그 추세를 한 칸 연장한 '지금 써야 할' 가중치입니다.</p>
+  <div class="legend" id="legend"></div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section class="panel">
+  <h2>과자 대비 비교</h2>
+  <p class="note">순위상관은 2024년 기준 국가 순위(XX 가중치)가 과자와 얼마나 비슷한지(1이면 같음), TOP10 겹침은 기진출국을 뺀 상위 10개국 중 공통 국가 수입니다. 표본 밖 예측력은 앞 시기 X로 다음 시기를 맞힌 순위상관 평균입니다.</p>
+  <div class="tbl"><table id="cmp"></table></div>
+</section>
+
+<section class="panel">
+  <h2>카테고리별 신규 유망국 TOP5 (2024 → 2027, 기진출국 제외)</h2>
+  <div class="tbl"><table id="tops"></table></div>
+</section>
+
+<section class="panel">
+  <h2>롯데웰푸드 매출 비중으로 합친 통합 순위</h2>
+  <p class="note" id="pf-note"></p>
+  <div class="cols">
+    <div class="w-group" id="sliders"></div>
+    <div class="main">
+      <label class="toggle"><input type="checkbox" id="hide-existing" checked> 기진출국 제외</label>
+      <div class="top3" id="picks"></div>
+      <div class="tbl"><table id="rank"></table></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>데이터와 방법</h2>
+  <ul class="note" id="sources"></ul>
+</section>
+</div>
+<script>
+const D = __DATA__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pct = v => v == null ? "–" : (v * 100).toFixed(0) + "%";
+const f2 = v => v == null ? "–" : v.toFixed(2);
+const usd = v => v == null ? "–" : v >= 1e9 ? "$" + (v / 1e9).toFixed(2) + "B" : "$" + (v / 1e6).toFixed(1) + "M";
+const groups = [...new Set(D.indicators.map(i => i.group))];
+const gcol = g => `var(--g${groups.indexOf(g) + 1}, var(--muted))`;
+const shares = (D.portfolio || {}).categories || {};
+const runs = D.runs.slice().sort((a, b) => (shares[b.combo.category]?.share || 0) - (shares[a.combo.category]?.share || 0));
+const base = D.runs.find(r => r.run_id === D.baseline_run);
+const label = r => r.category_name + (Object.keys(r.combo).filter(k => k !== "category" && D.study.axes[k].length > 1).map(k => " · " + r.combo[k]).join(""));
+
+$("title").textContent = D.study.name_ko;
+$("subtitle").textContent = D.subtitle || "";
+$("findings").innerHTML = (D.findings || []).map(f => `<li>${f}</li>`).join("");
+$("legend").innerHTML = groups.map(g => `<span><i style="background:${gcol(g)}"></i>${esc(g)}</span>`).join("");
+
+function bar(gs) {
+  return `<div class="bar">${groups.map(g => { const v = gs[g] || 0; return v > 0 ? `<span style="width:${v * 100}%;background:${gcol(g)}" title="${esc(g)} ${pct(v)}">${v >= .12 ? pct(v) : ""}</span>` : ""; }).join("")}</div>`;
+}
+$("cards").innerHTML = runs.map(r => {
+  const sh = shares[r.combo.category];
+  const head = `<h3>${esc(label(r))}<small>${sh ? "매출 " + (sh.share * 100).toFixed(1) + "%" : ""}${r === base ? " · 대조군" : ""}</small></h3>`;
+  if (r.error) return `<div class="card">${head}<p class="err">계산 불가: ${esc(r.error)}</p></div>`;
+  const rows = r.windows.map(w => `<div class="srow"><div class="lbl">${w.t}→${String(w.t + w.h).slice(2)}</div>${bar(w.groups)}</div>`).join("");
+  return `<div class="card ${r === base ? "base" : ""}">${head}<div class="stack-rows">${rows}<div class="srow xx"><div class="lbl"><b>XX</b></div>${bar(r.summary.XX_groups)}</div></div>
+    <p class="meta">시기별 평가국 ${r.summary.n_windows.join("·")}개 · 한국 수출 ${usd(r.summary.kor_exports_last)} (10년 연 ${pct(r.summary.kor_exports_cagr_10y)})</p></div>`;
+}).join("");
+
+// 신뢰도: 검증 가능한 창 수와 표본 밖 예측력으로 판정(규칙은 여기 한 곳)
+function rel(s) {
+  const nw = s.n_windows.length, o = s.oos_X_prev;
+  if (nw >= 3 && o != null && o >= 0.2) return '<span class="yes">높음</span>';
+  if (nw >= 3 && o != null && o > 0) return '<span class="warn">낮음</span>';
+  return `<span class="no">참고용</span> <span class="note">(${nw < 3 ? "창 " + nw + "개" : "예측력 없음"})</span>`;
+}
+(function cmpTable() {
+  const th = `<tr><th>카테고리</th><th class="num">매출 비중</th><th class="num">한국 수출(최근)</th><th class="num">10년 연성장</th>${groups.map(g => `<th class="num">${esc(g)} 변화</th>`).join("")}<th>신뢰도</th><th class="num">표본 밖 예측력</th><th class="num">과자 대비 순위상관</th><th class="num">TOP10 겹침</th><th>기준 이동 방향</th></tr>`;
+  const tr = runs.map(r => {
+    const sh = shares[r.combo.category];
+    if (r.error) return `<tr><td>${esc(label(r))}</td><td class="num">${sh ? (sh.share * 100).toFixed(1) + "%" : "–"}</td><td colspan="${7 + groups.length}" class="err">${esc(r.error)}</td></tr>`;
+    const s = r.summary, v = r.vs_baseline || {};
+    const same = v.group_trend_same_direction || {};
+    const nSame = Object.values(same).filter(Boolean).length;
+    return `<tr><td>${esc(label(r))}${r === base ? '<span class="pill">대조군</span>' : ""}</td>
+      <td class="num">${sh ? (sh.share * 100).toFixed(1) + "%" : "–"}</td><td class="num">${usd(s.kor_exports_last)}</td><td class="num">${pct(s.kor_exports_cagr_10y)}</td>
+      ${groups.map(g => { const d = Math.round((s.group_trend[g] || 0) * 100) / 100; return `<td class="num ${d > 0 ? "good" : d < 0 ? "warn" : ""}">${d > 0 ? "+" : ""}${Math.round(d * 100)}%p</td>`; }).join("")}
+      <td>${rel(s)}</td><td class="num">${f2(s.oos_X_prev)}</td><td class="num">${r === base ? "–" : f2(v.forecast_rank_corr)}</td><td class="num">${r === base ? "–" : (v.top10_overlap ?? "–") + "/10"}</td>
+      <td>${r === base ? "–" : `<span class="${nSame === groups.length ? "yes" : "no"}">${nSame}/${groups.length} 같음</span>`}</td></tr>`;
+  }).join("");
+  $("cmp").innerHTML = `<thead>${th}</thead><tbody>${tr}</tbody>`;
+})();
+
+(function tops() {
+  const ok = runs.filter(r => !r.error);
+  const lists = ok.map(r => r.forecast_XX.filter(c => !c.existing).slice(0, 5));
+  const baseSet = new Set(base && !base.error ? base.forecast_XX.filter(c => !c.existing).slice(0, 10).map(c => c.iso3) : []);
+  let h = `<thead><tr><th class="num">순위</th>${ok.map(r => `<th>${esc(label(r))}</th>`).join("")}</tr></thead><tbody>`;
+  for (let i = 0; i < 5; i++) h += `<tr><td class="num">${i + 1}</td>${lists.map((l, j) => { const c = l[i]; if (!c) return "<td>–</td>"; const hi = ok[j] !== base && baseSet.has(c.iso3); return `<td class="cat ${hi ? "hi" : ""}">${esc(c.name)}</td>`; }).join("")}</tr>`;
+  $("tops").innerHTML = h + `</tbody><caption class="note" style="caption-side:bottom;text-align:left;padding:8px 10px">강조 = 과자 TOP10에도 있는 나라</caption>`;
+})();
+
+const W = {};
+const cons = D.consensus || [];
+const cats = runs.filter(r => !r.error && shares[r.combo.category]).map(r => r.combo.category);
+const nameOf = Object.fromEntries(runs.map(r => [r.combo.category, r.category_name]));
+cats.forEach(c => W[c] = shares[c].share);
+$("pf-note").textContent = D.portfolio ? `${D.portfolio.name_ko} ${D.portfolio.basis} 출처: ${D.portfolio.source}. 카테고리별 국가 순위 백분위를 매출 비중으로 가중평균합니다. 비중을 바꿔 보세요.` : "";
+function sliders() {
+  $("sliders").innerHTML = `<h3>카테고리 가중치 (기본 = 매출 비중)</h3>` + cats.map(c => `<div class="w-row"><div class="w-head"><label for="s-${c}">${esc(nameOf[c])}</label><span class="w-val" id="v-${c}">${(W[c] * 100).toFixed(1)}</span></div><input type="range" id="s-${c}" min="0" max="50" step="0.5" value="${W[c] * 100}"></div>`).join("") + `<div class="btns"><button id="reset">매출 비중으로</button><button id="equal">균등</button><button id="only-base">과자만</button></div>`;
+  cats.forEach(c => $("s-" + c).addEventListener("input", e => { W[c] = +e.target.value / 100; $("v-" + c).textContent = (+e.target.value).toFixed(1); rank(); }));
+  const set = fn => { cats.forEach(c => W[c] = fn(c)); sliders(); rank(); };
+  $("reset").onclick = () => set(c => shares[c].share);
+  $("equal").onclick = () => set(() => 0.2);
+  $("only-base").onclick = () => set(c => c === base?.combo.category ? 0.3 : 0);
+}
+function rank() {
+  const hide = $("hide-existing").checked;
+  const rows = cons.map(x => {
+    let s = 0, w = 0;
+    for (const c of cats) if (x.by_category[c] != null && W[c] > 0) { s += W[c] * x.by_category[c]; w += W[c]; }
+    return { ...x, sc: w ? s / w : null };
+  }).filter(x => x.sc != null && (!hide || !x.existing)).sort((a, b) => b.sc - a.sc);
+  $("picks").innerHTML = rows.slice(0, 3).map((x, i) => {
+    const best = cats.filter(c => x.by_category[c] != null).sort((a, b) => x.by_category[b] - x.by_category[a]).slice(0, 3);
+    return `<div class="pick"><div class="rk">#${i + 1}</div><div class="nm">${esc(x.name)}${x.existing ? '<span class="pill">기진출</span>' : ""}</div><div class="sc">${x.sc.toFixed(1)}점</div><ul>${best.map(c => `<li>${esc(nameOf[c])} 상위 ${Math.max(1, Math.round(100 - x.by_category[c]))}%</li>`).join("")}</ul></div>`;
+  }).join("");
+  $("rank").innerHTML = `<thead><tr><th class="num">#</th><th>국가</th><th class="num">통합</th>${cats.map(c => `<th class="num">${esc(nameOf[c].split(" ")[0])}</th>`).join("")}</tr></thead><tbody>` +
+    rows.slice(0, 25).map((x, i) => `<tr><td class="num">${i + 1}</td><td>${esc(x.name)}${x.existing ? '<span class="pill">기진출</span>' : ""}</td><td class="num hi">${x.sc.toFixed(1)}</td>${cats.map(c => `<td class="num">${x.by_category[c] == null ? "–" : x.by_category[c].toFixed(0)}</td>`).join("")}</tr>`).join("") + "</tbody>";
+}
+$("hide-existing").addEventListener("change", rank);
+sliders(); rank();
+$("sources").innerHTML = (D.sources || []).map(s => `<li>${s}</li>`).join("") +
+  runs.map(r => `<li>${esc(r.category_name)}: HS ${Object.entries(r.hs_codes || {}).map(([k, v]) => `${k} ${esc(v)}`).join(", ")}</li>`).join("");
+</script>

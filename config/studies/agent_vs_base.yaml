@@ -1,0 +1,17 @@
+# 대조군(k_export) vs 에이전트가 갱신한 기준(k_export_agent), 과자 기준.
+# 다른 카테고리로 넓히려면 category 축에 값만 추가.
+id: agent_vs_base
+name_ko: 에이전트 갱신 기준 vs 기존 기준 (과자)
+entries: lotte_wellfood
+axes:
+  category: [dry_confectionery]
+  criterion: [k_export, k_export_agent]
+  method: [rolling]
+baseline: {category: dry_confectionery, criterion: k_export, method: rolling}
+methods:
+  rolling:
+    starts: [2012, 2015, 2018, 2021]
+    forecast_year: 2024
+data:
+  years: [2005, 2024]
+overrides: []

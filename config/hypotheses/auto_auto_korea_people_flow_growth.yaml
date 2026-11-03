@@ -1,0 +1,28 @@
+id: auto_auto_korea_people_flow_growth
+statement: 한국을 오가는 사람의 수가 빠르게 늘고, 해외 근로 송금 의존도가 높은 나라일수록 이후 3년간 한국 과자 수출이 더 늘어난다.
+rationale: 네팔(실제 26위, 모델 49위)과 케냐는 소득이 매우 낮아 기존 모델에서 하위권이었습니다. 하지만 네팔은 고용허가제를 통한 한국행
+  근로자가 급증한 나라입니다. 귀국자와 그 가족은 한국 제품에 대한 친숙도를 국내로 들여오고, 해외 근로 송금은 통계상 소득보다 실제 구매력을 키웁니다.
+  기존에 채택된 korea_visitors_pc는 방한객의 '수준'만 보므로, 여기서는 방한객 수의 증가율을 따로 넣어 인적 연결이 막 두꺼워지는
+  단계의 나라를 포착하려 합니다. 법무부·외교부 자료가 없어 보류된 인적 연결망 가설 가운데, 지금 바로 받을 수 있는 자료(KTO 방한객, WDI
+  송금)만 떼어 먼저 검증하는 성격도 있습니다. 송금 유입 비중은 GDP 대비 값이라 소득 수준과 겹침이 적을 것으로 예상합니다.
+group: 소비트렌드
+new_source_needed: ''
+indicators:
+- id: korea_visitors_cagr
+  name_ko: 방한 관광객 수 증가율
+  group: 소비트렌드
+  source: external
+  series: kto_visitors
+  transform: cagr
+  window: 3
+  direction: 1
+- id: remittance_inflow_gdp
+  name_ko: 개인 송금 유입(GDP 대비)
+  group: 성장성
+  source: worldbank
+  series: BX.TRF.PWKR.DT.GD.ZS
+  transform: level
+  window: 1
+  direction: 1
+proposed_by: llm:claude-opus-5-5
+created: '2026-11-03'

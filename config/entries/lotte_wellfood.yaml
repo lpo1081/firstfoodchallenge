@@ -1,0 +1,81 @@
+# 롯데웰푸드(구 롯데제과) 건과 부문 해외 진출 이력 — 검증(역산)용 정답 세트
+# year = 진출 의사결정 시점(법인 설립·인수 발표·공장 착공). 지표는 year-1 기준으로 재계산한다.
+# mode: greenfield(신설) / acquisition(인수) / brand_acquisition(프리미엄 브랜드 인수: 시장 성장성보다 브랜드 확보 목적)
+# include: false 이면 가중치 역산에서 제외(비교표에는 표시)
+
+company: 롯데웰푸드
+entries:
+  - iso3: CHN
+    country_ko: 중국
+    year: 1994
+    mode: greenfield
+    detail: 1994.8 베이징 롯데(중국)식품유한공사 설립, 이후 칭다오(1996)·상하이(2005) 법인
+    sources:
+      - https://www.mt.co.kr/stock/2007/03/19/2007031914480079571
+      - https://www.etoday.co.kr/news/view/168775
+    include: true
+
+  - iso3: IND
+    country_ko: 인도
+    year: 2004
+    mode: acquisition
+    detail: 현지 제과사 패리스(Parrys Confectionery) 인수 후 롯데인디아 설립. 2010 첸나이, 2015 뉴델리 공장
+    sources:
+      - https://news.bizwatch.co.kr/article/consumer/2015/08/26/0034
+      - https://www.mt.co.kr/stock/2007/03/19/2007031914480079571
+    include: true
+
+  - iso3: VNM
+    country_ko: 베트남
+    year: 2007
+    mode: acquisition
+    detail: 현지 제과사 비비카(Bibica) 지분 20% 인수(2015년 44%로 확대, 이후 PAN 그룹에 경영권 이전)
+    sources:
+      - https://www.sateconomy.co.kr/news/view/179589250128308
+    include: true
+
+  - iso3: BEL
+    country_ko: 벨기에
+    year: 2008
+    mode: brand_acquisition
+    detail: 프리미엄 초콜릿 브랜드 길리안(Guylian) 인수 — 시장 성장성보다 브랜드·기술 확보 목적
+    sources:
+      - https://www.confectionerynews.com/Manufacturers/Lotte-eyes-ambitious-overseas-growth-driven-by-China
+    include: false
+
+  - iso3: RUS
+    country_ko: 러시아
+    year: 2008
+    mode: greenfield
+    detail: 2008 칼루가주 오브닌스크 초코파이 공장 착공, 2010 가동(투자 8,000만 달러)
+    sources:
+      - https://sg-network.org/en/news/20080616-lotte-builds-a-new-plant-in-russia
+      - https://www.just-food.com/news/russia-lotte-opens-first-confectionery-plant-in-russia
+    include: true
+
+  - iso3: PAK
+    country_ko: 파키스탄
+    year: 2011
+    mode: acquisition
+    detail: 현지 식품사 콜슨(Kolson) 인수 → 롯데콜손. 2018 라호르 초코파이 공장
+    sources:
+      - https://sateconomy.co.kr/news/view/179588174069230
+    include: true
+
+  - iso3: KAZ
+    country_ko: 카자흐스탄
+    year: 2013
+    mode: acquisition
+    detail: 현지 1위 제과사 라하트(Rakhat) 지분 76% 인수(1억 5,700만 달러)
+    sources:
+      - https://www.confectionerynews.com/Article/2013/11/28/Lotte-finalizes-deal-for-Kazakh-confectionery-firm
+    include: true
+
+  - iso3: MMR
+    country_ko: 미얀마
+    year: 2018
+    mode: acquisition
+    detail: 현지 제빵·비스킷사 L&M 메이슨(Mayson) 지분 80% 인수(769억원)
+    sources:
+      - https://www.sateconomy.co.kr/news/view/179589317428692
+    include: true

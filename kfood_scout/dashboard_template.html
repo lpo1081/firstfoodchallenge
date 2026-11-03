@@ -1,0 +1,249 @@
+<title>K-과자 유망국 스코어보드</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+KR:wght@600&display=swap">
+<style>
+/* Layout: 왼쪽 가중치 조정 패널 + 오른쪽 결과(요약 → 상세), 좁은 화면에선 한 열로 쌓임 */
+:root {
+  --bg: #f6f6f3; --surface: #ffffff; --ink: #1f1c19; --muted: #6a645d; --line: #e3e0da;
+  --accent: #9c3d26; --accent-soft: #f3e3dc; --good: #2f7a4f; --warn: #b26b00; --bar: #c9b8ad;
+  --f-display: "Noto Serif KR", "Apple SD Gothic Neo", serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #161412; --surface: #201d1a; --ink: #ece7e1; --muted: #a39a91; --line: #35302b;
+  --accent: #e3805f; --accent-soft: #3a2620; --good: #6cc192; --warn: #e0a64a; --bar: #6b5a4f; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #161412; --surface: #201d1a; --ink: #ece7e1; --muted: #a39a91; --line: #35302b;
+  --accent: #e3805f; --accent-soft: #3a2620; --good: #6cc192; --warn: #e0a64a; --bar: #6b5a4f; color-scheme: dark }
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 48px }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 20px }
+header { display: grid; gap: 6px }
+.eyebrow { font-size: 12px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase }
+h1 { font-family: var(--f-display); font-size: clamp(22px, 3.2vw, 30px); margin: 0; text-wrap: balance; font-weight: 600 }
+h2 { font-size: 17px; margin: 0; font-weight: 600 }
+.sub { color: var(--muted); margin: 0; max-width: 70ch }
+nav { display: flex; gap: 4px; border-bottom: 1px solid var(--line) }
+nav a { padding: 8px 14px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 500 }
+nav a[aria-current="page"] { color: var(--ink); border-color: var(--accent) }
+nav a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.grid { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start }
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 16px; min-width: 0 }
+.w-row { display: grid; gap: 4px }
+.w-head { display: flex; justify-content: space-between; gap: 8px; font-size: 14px }
+.w-head b { font-weight: 500 }
+.w-val { font-family: var(--f-mono); color: var(--accent); font-variant-numeric: tabular-nums }
+.w-meaning { font-size: 12.5px; color: var(--muted); margin: 0 }
+input[type=range] { width: 100%; accent-color: var(--accent) }
+.btns { display: flex; flex-wrap: wrap; gap: 8px }
+button { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer }
+button:hover { border-color: var(--accent) }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface) }
+.findings { margin: 8px 0 0; padding: 14px 16px 14px 34px; background: var(--accent-soft); border-radius: 10px; display: grid; gap: 6px; max-width: 900px; font-size: 14px }
+.findings:empty { display: none }
+.toggle { display: flex; gap: 8px; align-items: center; font-size: 13.5px; cursor: pointer }
+.toggle input { accent-color: var(--accent); width: 16px; height: 16px }
+.main { display: grid; gap: 20px; min-width: 0 }
+.top3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px }
+@media (max-width: 620px) { .top3 { grid-template-columns: 1fr } }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; min-width: 0 }
+.pick:first-child { border-color: var(--accent) }
+.pick .rk { font-family: var(--f-mono); font-size: 12px; color: var(--muted) }
+.pick .nm { font-size: 19px; font-weight: 600 }
+.pick .sc { font-family: var(--f-mono); font-size: 13px; color: var(--accent) }
+.pick ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--muted) }
+.tbl { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap }
+th { font-weight: 500; color: var(--muted); font-size: 12px; position: sticky; top: 0; background: var(--surface) }
+td.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; text-align: right }
+.delta-up { color: var(--good) } .delta-dn { color: var(--warn) }
+.cell { display: flex; align-items: center; gap: 6px; justify-content: flex-end }
+.mini { width: 44px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden }
+.mini i { display: block; height: 100%; background: var(--bar) }
+.pill { display: inline-block; font-size: 11.5px; padding: 1px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent) }
+.pill.off { background: var(--line); color: var(--muted) }
+.note { font-size: 12.5px; color: var(--muted); margin: 0 }
+.events { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 12px }
+.ev { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; min-width: 0 }
+.ev h3 { margin: 0; font-size: 15px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap }
+.ev .meta { font-size: 12.5px; color: var(--muted) }
+.gap-row { display: grid; grid-template-columns: 1fr 140px; gap: 8px; align-items: center; font-size: 12.5px }
+.gap-bar { position: relative; height: 14px }
+.gap-bar .track { position: absolute; inset: 6px 0; background: var(--line); border-radius: 1px }
+.gap-bar .a, .gap-bar .t { position: absolute; top: 1px; width: 3px; height: 12px; border-radius: 1px }
+.gap-bar .a { background: var(--accent) } .gap-bar .t { background: var(--muted) }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); flex-wrap: wrap }
+.legend span::before { content: ""; display: inline-block; width: 3px; height: 11px; margin-right: 6px; vertical-align: -1px }
+.legend .la::before { background: var(--accent) } .legend .lt::before { background: var(--muted) }
+.sources { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; overflow-wrap: anywhere; min-width: 0 }
+.sources a { color: var(--accent) }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="title"></h1>
+    <p class="sub" id="subtitle"></p>
+    <ul class="findings" id="findings"></ul>
+  </header>
+  <nav>
+    <a href="#ranking" id="tab-ranking">유망국 순위</a>
+    <a href="#validation" id="tab-validation">역산 검증</a>
+  </nav>
+
+  <section id="view-ranking" class="grid">
+    <aside class="panel" aria-label="가중치 조정">
+      <div><h2>지표 가중치</h2><p class="note">슬라이더를 움직이면 순위가 바로 다시 계산됩니다. 가중치 합은 자동으로 100%로 맞춰집니다.</p></div>
+      <div id="sliders" style="display:grid;gap:16px"></div>
+      <div class="btns">
+        <button id="btn-default" class="primary">기본 가중치</button>
+        <button id="btn-inverse">역산 가중치 적용</button>
+        <button id="btn-equal">균등</button>
+      </div>
+      <label class="toggle" for="hide-existing"><input type="checkbox" id="hide-existing" checked> 롯데웰푸드 기진출국 제외하고 보기</label>
+    </aside>
+    <div class="main">
+      <div class="top3" id="top3"></div>
+      <div class="tbl"><table id="rank-table"></table></div>
+      <p class="note">괄호 없는 숫자는 백분위(0~100, 평가대상국 중 위치). 표의 막대도 같은 백분위입니다. 순위 변동은 기본 가중치 대비입니다.</p>
+    </div>
+  </section>
+
+  <section id="view-validation" class="main" hidden>
+    <div class="panel">
+      <h2>롯데웰푸드 실제 진출국을 당시 데이터로 다시 돌린 결과</h2>
+      <p class="note">각 진출 건의 '진출연도 − 1년' 데이터만으로 같은 모델을 다시 계산했습니다. 순위가 낮을수록 모델이 그 선택을 설명하지 못한다는 뜻입니다.</p>
+      <div class="tbl"><table id="ev-table"></table></div>
+    </div>
+    <div class="panel">
+      <h2>가중치 역산</h2>
+      <p class="note" id="inv-note"></p>
+      <div class="tbl"><table id="inv-table"></table></div>
+    </div>
+    <div>
+      <h2 style="margin-bottom:8px">진출국 vs 당시 모델 1위: 차이가 컸던 지표</h2>
+      <div class="legend"><span class="la">실제 진출국 백분위</span><span class="lt">당시 모델 1위 백분위</span></div>
+      <div class="events" id="events" style="margin-top:10px"></div>
+    </div>
+    <div class="panel">
+      <h2>새 지표 후보 검토</h2>
+      <p class="note">후보 지표를 6번째 지표로 넣고 가중치를 다시 역산했을 때 실제 진출국 설명력이 얼마나 오르는지입니다.</p>
+      <div class="tbl"><table id="cand-table"></table></div>
+    </div>
+  </section>
+
+  <div class="sources" id="sources"></div>
+</div>
+
+<script type="application/json" id="data">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const IND = D.indicators;
+const V = D.validation;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const pctTxt = (x) => (x == null ? '–' : Math.round(x));
+
+$('eyebrow').textContent = `${D.criterion} · 기준연도 ${D.as_of}`;
+$('title').textContent = `${D.category} 수출 유망국`;
+$('subtitle').textContent = `공공 원천 데이터로 계산한 ${D.countries.length}개국의 5개 지표를 백분위로 바꿔 가중합했습니다.`;
+
+$('findings').innerHTML = (D.findings || []).map((f) => `<li>${esc(f)}</li>`).join('');
+const defaultW = Object.fromEntries(IND.map((i) => [i.id, i.weight]));
+const inverseW = V ? V.inverse.robust_mean : null;
+let W = { ...defaultW };
+
+function scores(w) {
+  const tot = IND.reduce((s, i) => s + (w[i.id] || 0), 0) || 1;
+  return D.countries.map((c) => ({ ...c, score: IND.reduce((s, i) => s + (w[i.id] || 0) * (c.pct[i.id] ?? 50), 0) / tot }))
+    .sort((a, b) => b.score - a.score).map((c, k) => ({ ...c, rank: k + 1 }));
+}
+const EXIST = new Set(D.existing || []);
+const hideExisting = () => $('hide-existing') && $('hide-existing').checked;
+function ranked(w) {
+  const all = scores(w);
+  const list = hideExisting() ? all.filter((c) => !EXIST.has(c.iso3)) : all;
+  return list.map((c, k) => ({ ...c, rank: k + 1 }));
+}
+let baseRank = {};
+function rebase() { baseRank = Object.fromEntries(ranked(defaultW).map((c) => [c.iso3, c.rank])); }
+
+function sliders() {
+  $('sliders').innerHTML = IND.map((i) => `
+    <div class="w-row">
+      <label class="w-head" for="w-${i.id}"><b>${esc(i.name)}</b><span class="w-val" id="wv-${i.id}"></span></label>
+      <input type="range" id="w-${i.id}" min="0" max="100" step="1" value="${Math.round((W[i.id] || 0) * 100)}">
+      <p class="w-meaning">${esc(i.meaning)}</p>
+    </div>`).join('');
+  IND.forEach((i) => $('w-' + i.id).addEventListener('input', (e) => { W[i.id] = +e.target.value / 100; render(); }));
+}
+function setW(w) { W = { ...w }; IND.forEach((i) => ($('w-' + i.id).value = Math.round((W[i.id] || 0) * 100))); render(); }
+
+function render() {
+  const tot = IND.reduce((s, i) => s + (W[i.id] || 0), 0) || 1;
+  IND.forEach((i) => ($('wv-' + i.id).textContent = Math.round(((W[i.id] || 0) / tot) * 100) + '%'));
+  const S = ranked(W);
+  $('top3').innerHTML = S.slice(0, 3).map((c) => {
+    const strong = IND.map((i) => [i, c.pct[i.id]]).filter((x) => x[1] != null).sort((a, b) => b[1] - a[1]).slice(0, 2);
+    return `<div class="pick"><span class="rk">${c.rank}위</span><span class="nm">${esc(c.name)}</span>
+      <span class="sc">점수 ${c.score.toFixed(1)}</span>
+      <ul>${strong.map(([i, p]) => `<li>${esc(i.name)} 상위 ${Math.max(1, Math.round(100 - p))}%</li>`).join('')}</ul></div>`;
+  }).join('');
+  $('rank-table').innerHTML = `<thead><tr><th>순위</th><th>변동</th><th>국가</th><th>지역</th><th style="text-align:right">점수</th>${IND.map((i) => `<th style="text-align:right">${esc(i.name)}</th>`).join('')}</tr></thead>
+    <tbody>${S.slice(0, 40).map((c) => {
+      const d = baseRank[c.iso3] - c.rank;
+      const dt = d === 0 ? '' : d > 0 ? `<span class="delta-up">▲${d}</span>` : `<span class="delta-dn">▼${-d}</span>`;
+      return `<tr><td class="num">${c.rank}</td><td>${dt}</td><td>${esc(c.name)}${EXIST.has(c.iso3) ? ' <span class="pill">기진출</span>' : ''}</td><td>${esc(c.region)}</td><td class="num">${c.score.toFixed(1)}</td>
+        ${IND.map((i) => `<td class="num"><span class="cell">${pctTxt(c.pct[i.id])}<span class="mini"><i style="width:${c.pct[i.id] ?? 0}%"></i></span></span></td>`).join('')}</tr>`;
+    }).join('')}</tbody>`;
+}
+
+function renderValidation() {
+  if (!V) { $('tab-validation').hidden = true; $('btn-inverse').hidden = true; return; }
+  const modes = { greenfield: '신설', acquisition: '인수', brand_acquisition: '브랜드 인수' };
+  $('ev-table').innerHTML = `<thead><tr><th>진출국</th><th>연도</th><th>방식</th><th>역산 포함</th><th style="text-align:right">모델 순위</th><th>당시 모델 1위</th><th>내용</th></tr></thead><tbody>
+    ${V.events.map((e) => `<tr><td>${esc(e.country_ko)}</td><td class="num">${e.year}</td><td>${modes[e.mode] || esc(e.mode)}</td>
+      <td>${e.include ? '<span class="pill">포함</span>' : '<span class="pill off">제외</span>'}</td>
+      <td class="num">${e.rank ? `${e.rank} / ${e.n}` : '데이터 부족'}</td><td>${esc(e.top1 || '–')}</td>
+      <td style="white-space:normal;min-width:260px">${esc(e.detail)} ${e.sources.map((s, k) => `<a href="${esc(s)}" target="_blank" rel="noopener">[${k + 1}]</a>`).join(' ')}</td></tr>`).join('')}</tbody>`;
+  const inv = V.inverse;
+  $('inv-note').textContent = `${inv.n_combinations.toLocaleString()}개 가중치 조합을 모두 시도해 실제 진출 ${inv.n_events}건이 가장 높은 순위에 오르는 조합을 찾았습니다. 실제 진출국의 평균 순위 백분위는 기본 가중치 ${Math.round(inv.default_mean_percentile * 100)}%에서 역산 가중치 ${Math.round(inv.best_mean_percentile * 100)}%로 바뀝니다(100% = 매번 1위). 사례가 적어서 단일 최적값보다 상위 1% 조합의 평균과 범위를 보는 게 안전합니다.`;
+  const nm = Object.fromEntries(IND.map((i) => [i.id, i.name]));
+  const p = (x) => Math.round(x * 100) + '%';
+  $('inv-table').innerHTML = `<thead><tr><th>지표</th><th style="text-align:right">기본</th><th style="text-align:right">최적</th><th style="text-align:right">설명 가능 범위(평균)</th><th style="text-align:right">최소~최대</th></tr></thead><tbody>
+    ${Object.keys(inv.best_weights).map((k) => `<tr><td>${esc(nm[k])}</td><td class="num">${p(inv.default_weights[k])}</td><td class="num">${p(inv.best_weights[k])}</td><td class="num">${p(inv.robust_mean[k])}</td><td class="num">${p(inv.robust_min[k])}~${p(inv.robust_max[k])}</td></tr>`).join('')}</tbody>`;
+  $('events').innerHTML = V.events.filter((e) => e.rank).map((e) => `
+    <div class="ev"><h3>${esc(e.country_ko)} ${e.year} <span class="pill ${e.include ? '' : 'off'}">모델 ${e.rank}위 / ${e.n}</span></h3>
+      <div class="meta">당시 모델 1위: ${esc(e.top1)}</div>
+      ${e.gap.slice(0, 5).map((g) => `<div class="gap-row"><span>${esc(g.name)}${g.kind === '후보' ? ' <span class="pill off">후보</span>' : ''}</span>
+        <div class="gap-bar" title="실제 ${pctTxt(g.actual)} / 1위 ${pctTxt(g.top1)}"><div class="track"></div>
+        ${g.actual != null ? `<div class="a" style="left:calc(${g.actual}% - 1px)"></div>` : ''}${g.top1 != null ? `<div class="t" style="left:calc(${g.top1}% - 1px)"></div>` : ''}</div></div>`).join('')}
+    </div>`).join('');
+  $('cand-table').innerHTML = `<thead><tr><th>후보 지표</th><th style="text-align:right">진출국 평균 백분위</th><th style="text-align:right">50 초과</th><th style="text-align:right">설명력 개선</th><th style="text-align:right">그때 가중치</th></tr></thead><tbody>
+    ${V.candidates.map((c) => `<tr><td>${esc(c['지표'])}</td><td class="num">${c['실제국_평균백분위'] == null ? '–' : Math.round(c['실제국_평균백분위'])}</td><td class="num">${c['50초과_사례수']}/${c['사례수']}</td>
+      <td class="num ${c['개선폭(%p)'] > 3 ? 'delta-up' : ''}">${c['개선폭(%p)'] >= 0 ? '+' : ''}${c['개선폭(%p)'].toFixed(1)}%p</td><td class="num">${Math.round(c['추가시_가중치'] * 100)}%</td></tr>`).join('')}</tbody>`;
+}
+
+$('sources').innerHTML = '<b>데이터 출처</b>' + D.sources.map((s) => `<span>${esc(s)}</span>`).join('');
+$('btn-default').onclick = () => setW(defaultW);
+$('hide-existing').addEventListener('change', () => { rebase(); render(); });
+$('btn-equal').onclick = () => setW(Object.fromEntries(IND.map((i) => [i.id, 0.2])));
+$('btn-inverse').onclick = () => inverseW && setW(inverseW);
+
+function route() {
+  const v = location.hash === '#validation' && V ? 'validation' : 'ranking';
+  $('view-ranking').hidden = v !== 'ranking';
+  $('view-validation').hidden = v !== 'validation';
+  $('tab-ranking').setAttribute('aria-current', v === 'ranking' ? 'page' : 'false');
+  $('tab-validation').setAttribute('aria-current', v === 'validation' ? 'page' : 'false');
+}
+window.addEventListener('hashchange', route);
+rebase(); sliders(); render(); renderValidation(); route();
+</script>

@@ -1,0 +1,29 @@
+id: auto_digital_adoption_speed
+statement: 인터넷 보급률이 빠르게 오르는 나라일수록 SNS를 통한 해외 간식 유행과 온라인 유통 확산이 일어나, 이후 3년간 한국 과자 수출이
+  더 늘어난다.
+rationale: 케냐·네팔·이라크처럼 모델이 하위권으로 본 저소득국에서도 실제 수출 증가가 상위권에 가까웠다. 이 나라들의 공통점은 같은 시기
+  모바일 인터넷 이용자가 급증했다는 점이다. 한국 과자의 해외 수요는 유튜브·틱톡 먹방, 챌린지, 리뷰 콘텐츠로 퍼지는 경우가 많다. 인터넷 보급의
+  '증가 속도'는 새로 온라인에 들어온 젊은 소비층의 크기를 나타낸다. 이는 한류 검색량(관심의 크기)이나 소득 수준과 다른 정보다. 콘텐츠에 노출될
+  수 있는 인구 기반 자체가 늘어나는 정도를 보여주기 때문이다. 또 온라인 쇼핑과 소셜 커머스가 넓어지면 기존 수입 유통망이 약한 시장에서도 소량
+  수입이 쉬워진다. 그래서 공식 수입시장이 작고 정체된 나라에서도 수출이 늘 신호를 미리 잡을 수 있다.
+group: 소비트렌드
+new_source_needed: ''
+indicators:
+- id: internet_users_change
+  name_ko: 인터넷 이용률 상승 폭
+  group: 소비트렌드
+  source: worldbank
+  series: IT.NET.USER.ZS
+  transform: diff
+  window: 3
+  direction: 1
+- id: broadband_change
+  name_ko: 유선 초고속인터넷 가입 증가 폭
+  group: 소비트렌드
+  source: worldbank
+  series: IT.NET.BBND.P2
+  transform: diff
+  window: 3
+  direction: 1
+proposed_by: llm:claude-opus-5-5
+created: '2026-11-03'

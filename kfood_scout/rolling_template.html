@@ -1,0 +1,193 @@
+<title>K-과자 수출 예측 모델</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+KR:wght@600&display=swap">
+<style>
+/* Layout: 결론 → 프로그램 X의 변화(시기별 막대) → 예측력 → 전망(가중치 조정 + 순위) */
+:root {
+  --bg: #f6f6f3; --surface: #ffffff; --ink: #1f1c19; --muted: #6a645d; --line: #e3e0da;
+  --accent: #9c3d26; --accent-soft: #f3e3dc; --good: #2f7a4f; --warn: #b26b00;
+  --g1: #b8866b; --g2: #5f7f6a; --g3: #4d6487;
+  --f-display: "Noto Serif KR", "Apple SD Gothic Neo", serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #161412; --surface: #201d1a; --ink: #ece7e1; --muted: #a39a91; --line: #35302b;
+  --accent: #e3805f; --accent-soft: #3a2620; --good: #6cc192; --warn: #e0a64a;
+  --g1: #c99a80; --g2: #7fa58b; --g3: #7f97bd; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #161412; --surface: #201d1a; --ink: #ece7e1; --muted: #a39a91; --line: #35302b;
+  --accent: #e3805f; --accent-soft: #3a2620; --good: #6cc192; --warn: #e0a64a;
+  --g1: #c99a80; --g2: #7fa58b; --g3: #7f97bd; color-scheme: dark }
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 48px }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 24px }
+header { display: grid; gap: 6px }
+.eyebrow { font-size: 12px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase }
+h1 { font-family: var(--f-display); font-size: clamp(22px, 3.2vw, 30px); margin: 0; text-wrap: balance; font-weight: 600 }
+h2 { font-size: 18px; margin: 0; font-weight: 600; text-wrap: balance }
+.sub { color: var(--muted); margin: 0; max-width: 72ch }
+.findings { margin: 8px 0 0; padding: 14px 16px 14px 34px; background: var(--accent-soft); border-radius: 10px; display: grid; gap: 6px; max-width: 920px; font-size: 14px }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 14px; min-width: 0 }
+.note { font-size: 12.5px; color: var(--muted); margin: 0; max-width: 80ch }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted) }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px }
+.stack-rows { display: grid; gap: 10px }
+.srow { display: grid; grid-template-columns: 112px 1fr; gap: 12px; align-items: center }
+.srow .lbl { font-family: var(--f-mono); font-size: 13px; color: var(--muted) }
+.srow .lbl b { color: var(--ink); font-weight: 500 }
+.bar { display: flex; height: 26px; border-radius: 4px; overflow: hidden; background: var(--line) }
+.bar span { display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-family: var(--f-mono); color: var(--surface); white-space: nowrap; overflow: hidden }
+.srow.xx .lbl b { color: var(--accent) }
+.srow.xx .bar { outline: 2px solid var(--accent); outline-offset: 2px }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap }
+th { font-weight: 500; color: var(--muted); font-size: 12px; background: var(--surface) }
+td.num, th.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; text-align: right }
+.hi { color: var(--accent); font-weight: 500 }
+.good { color: var(--good) } .warn { color: var(--warn) }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px }
+.grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start }
+@media (max-width: 880px) { .grid { grid-template-columns: 1fr } }
+.w-group { display: grid; gap: 10px }
+.w-group h3 { margin: 0; font-size: 13px; color: var(--muted); font-weight: 500; letter-spacing: .04em }
+.w-row { display: grid; gap: 2px }
+.w-head { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px }
+.w-val { font-family: var(--f-mono); color: var(--accent); font-variant-numeric: tabular-nums }
+input[type=range] { width: 100%; accent-color: var(--accent) }
+.btns { display: flex; flex-wrap: wrap; gap: 6px }
+button { font: inherit; font-size: 12.5px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer }
+button:hover { border-color: var(--accent) }
+button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface) }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.toggle { display: flex; gap: 8px; align-items: center; font-size: 13.5px; cursor: pointer }
+.toggle input { accent-color: var(--accent); width: 16px; height: 16px }
+.main { display: grid; gap: 16px; min-width: 0 }
+.top3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px }
+@media (max-width: 620px) { .top3 { grid-template-columns: 1fr } }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0 }
+.pick:first-child { border-color: var(--accent) }
+.pick .rk { font-family: var(--f-mono); font-size: 12px; color: var(--muted) }
+.pick .nm { font-size: 19px; font-weight: 600 }
+.pick .sc { font-family: var(--f-mono); font-size: 13px; color: var(--accent) }
+.pick ul { margin: 4px 0 0; padding-left: 18px; font-size: 13px; color: var(--muted) }
+.pill { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-left: 6px }
+.mini { display: inline-block; width: 40px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; vertical-align: middle; margin-left: 6px }
+.mini i { display: block; height: 100% }
+.sources { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; overflow-wrap: anywhere; min-width: 0 }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">건식 과자류 · 3개 기준 통합 · 롤링 역산</div>
+    <h1>3년 뒤 한국 과자가 뜰 나라를 맞히는 모델</h1>
+    <p class="sub">2012·2015·2018·2021년 시점의 데이터만으로, 그 뒤 3년간 한국 과자 수출이 실제로 늘어난 순서를 가장 잘 맞히는 가중치(프로그램 X)를 시기별로 역산했습니다. X가 바뀌어 온 방향을 한 걸음 연장한 것이 XX입니다.</p>
+    <ul class="findings" id="findings"></ul>
+  </header>
+
+  <section class="panel" aria-labelledby="h-drift">
+    <h2 id="h-drift">프로그램 X는 어떻게 바뀌어 왔나</h2>
+    <div class="legend" id="legend"></div>
+    <div class="stack-rows" id="stack"></div>
+    <p class="note">막대는 3개 기준별 가중치 합입니다. 아래 표는 12개 지표 각각의 가중치이고, 시기마다 정답 순위를 가장 잘 맞힌 상위 1% 가중치 조합의 평균입니다.</p>
+    <div class="tbl"><table id="wtable"></table></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-oos">
+    <h2 id="h-oos">정말 예측이 되나: 직전 X로 다음 3년 맞히기</h2>
+    <p class="note">값은 예측 순위와 실제 한국 과자 수출 증가 순위의 상관(스피어만, 1이면 완벽, 0이면 무관)입니다. 모델을 찾을 때 쓰지 않은 다음 시기에 적용한 결과라 과적합이 아닌 실제 예측력을 보여줍니다.</p>
+    <div class="tbl"><table id="oos"></table></div>
+    <p class="note" id="xxnote"></p>
+  </section>
+
+  <section aria-labelledby="h-fc" style="display:grid;gap:12px">
+    <h2 id="h-fc">향후 3년(2024→2027) 유망국</h2>
+    <div class="grid">
+      <aside class="panel" aria-label="가중치 조정">
+        <div class="btns" id="presets"></div>
+        <label class="toggle" for="hide-existing"><input type="checkbox" id="hide-existing" checked> 롯데웰푸드 기진출국 제외</label>
+        <div id="sliders" style="display:grid;gap:16px"></div>
+      </aside>
+      <div class="main">
+        <div class="top3" id="top3"></div>
+        <div class="tbl"><table id="rank"></table></div>
+        <p class="note">지표 값은 백분위(0~100, 평가 대상 60개국 중 위치)입니다. 한국 과자 수출은 2023~24년 평균, 미국 달러 기준입니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sources" id="sources"></div>
+</div>
+
+<script type="application/json" id="data">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const IND = D.indicators;
+const GROUPS = ['성장성', '소비트렌드', '수출입'];
+const GCOL = { '성장성': 'var(--g1)', '소비트렌드': 'var(--g2)', '수출입': 'var(--g3)' };
+const pct = (x) => Math.round(x * 100) + '%';
+const usd = (v) => v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : '$' + Math.round(v / 1e3) + 'K';
+
+$('findings').innerHTML = D.findings.map((f) => `<li>${esc(f)}</li>`).join('');
+$('legend').innerHTML = GROUPS.map((g) => `<span><i style="background:${GCOL[g]}"></i>${g}</span>`).join('');
+
+const rows = D.windows.map((w) => ({ label: `${w.t}→${w.t + 3}`, groups: w.groups, xx: false }))
+  .concat([{ label: 'XX (지금)', groups: D.XX_groups, xx: true }]);
+$('stack').innerHTML = rows.map((r) => `<div class="srow ${r.xx ? 'xx' : ''}"><span class="lbl"><b>${r.label}</b></span>
+  <div class="bar" role="img" aria-label="${GROUPS.map((g) => g + ' ' + pct(r.groups[g])).join(', ')}">${GROUPS.map((g) =>
+    `<span style="width:${r.groups[g] * 100}%;background:${GCOL[g]}">${r.groups[g] >= 0.08 ? g + ' ' + pct(r.groups[g]) : ''}</span>`).join('')}</div></div>`).join('');
+
+$('wtable').innerHTML = `<thead><tr><th>지표</th><th>기준</th>${D.windows.map((w) => `<th class="num">${w.t}→${w.t + 3}</th>`).join('')}<th class="num">XX</th></tr></thead><tbody>
+  ${IND.map((i) => `<tr><td>${esc(i.name)}</td><td><span class="dot" style="background:${GCOL[i.group]}"></span>${i.group}</td>
+    ${D.windows.map((w) => `<td class="num">${pct(w.weights[i.id])}</td>`).join('')}<td class="num hi">${pct(D.XX[i.id])}</td></tr>`).join('')}
+  <tr><td>시기 내 설명력(순위상관)</td><td></td>${D.windows.map((w) => `<td class="num">${w.rho_robust.toFixed(2)}</td>`).join('')}<td></td></tr>
+  <tr><td>실제로 가장 많이 늘어난 나라</td><td></td>${D.windows.map((w) => `<td style="white-space:normal;min-width:140px;font-size:12.5px">${esc(w.actual_top.slice(0, 3).join(', '))}</td>`).join('')}<td></td></tr></tbody>`;
+
+const f2 = (v) => `<td class="num ${v < 0.1 ? 'warn' : ''}">${v.toFixed(2)}</td>`;
+$('oos').innerHTML = `<thead><tr><th>X를 찾은 시기</th><th>맞힌 시기</th><th class="num">직전 X</th><th class="num">균등 가중</th><th class="num">한국 수출 규모만</th><th class="num">작년 성장 추세만</th></tr></thead><tbody>
+  ${D.oos.map((o) => {
+    const best = Math.max(o.X_prev, o.equal, o.size_only, o.momentum);
+    return `<tr><td>${o.fit}→${o.fit + 3}</td><td>${o.test}→${o.test + 3}</td><td class="num ${o.X_prev === best ? 'good' : ''}">${o.X_prev.toFixed(2)}</td>${f2(o.equal)}${f2(o.size_only)}${f2(o.momentum)}</tr>`;
+  }).join('')}</tbody>`;
+$('xxnote').textContent = `추세를 연장한 XX 방식을 같은 방법으로 검증하면(2012~2018년 X로 만든 XX로 ${D.xx_test.test}→${D.xx_test.test + 3} 예측) ${D.xx_test.XX_extrapolated.toFixed(2)}로, 직전 X의 ${D.xx_test.X_prev.toFixed(2)}와 비슷하거나 약간 낮습니다. 그래서 순위는 최신 X와 XX가 함께 꼽는 나라를 추천합니다.`;
+
+const presets = D.windows.map((w) => ({ key: 'X' + w.t, label: `X ${w.t}`, w: w.weights })).concat([{ key: 'XX', label: 'XX (지금)', w: D.XX }]);
+let W = { ...D.XX }, active = 'XX';
+$('presets').innerHTML = presets.map((p) => `<button type="button" id="p-${p.key}" aria-pressed="${p.key === active}">${p.label}</button>`).join('');
+presets.forEach((p) => ($('p-' + p.key).onclick = () => { active = p.key; W = { ...p.w }; syncSliders(); render(); }));
+
+$('sliders').innerHTML = GROUPS.map((g) => `<div class="w-group"><h3><span class="dot" style="background:${GCOL[g]}"></span>${g}</h3>
+  ${IND.filter((i) => i.group === g).map((i) => `<div class="w-row"><label class="w-head" for="w-${i.id}"><span>${esc(i.name)}</span><span class="w-val" id="wv-${i.id}"></span></label>
+  <input type="range" id="w-${i.id}" min="0" max="50" step="0.5"></div>`).join('')}</div>`).join('');
+IND.forEach((i) => $('w-' + i.id).addEventListener('input', (e) => { W[i.id] = +e.target.value / 100; active = ''; render(); }));
+function syncSliders() { IND.forEach((i) => ($('w-' + i.id).value = (W[i.id] || 0) * 100)); }
+$('hide-existing').addEventListener('change', render);
+
+function render() {
+  presets.forEach((p) => $('p-' + p.key).setAttribute('aria-pressed', String(p.key === active)));
+  const tot = IND.reduce((s, i) => s + (W[i.id] || 0), 0) || 1;
+  IND.forEach((i) => ($('wv-' + i.id).textContent = pct((W[i.id] || 0) / tot)));
+  let S = D.countries.map((c) => ({ ...c, score: IND.reduce((s, i) => s + (W[i.id] || 0) * (c.pct[i.id] ?? 50), 0) / tot }))
+    .sort((a, b) => b.score - a.score);
+  if ($('hide-existing').checked) S = S.filter((c) => !c.existing);
+  $('top3').innerHTML = S.slice(0, 3).map((c, k) => {
+    const contrib = IND.map((i) => [i, (W[i.id] || 0) * (c.pct[i.id] ?? 50)]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    return `<div class="pick"><span class="rk">${k + 1}위</span><span class="nm">${esc(c.name)}</span>
+      <span class="sc">점수 ${c.score.toFixed(1)} · 한국 과자 수출 ${usd(c.kor)}</span>
+      <ul>${contrib.map(([i]) => `<li>${esc(i.name)} 상위 ${Math.max(1, Math.round(100 - c.pct[i.id]))}%</li>`).join('')}</ul></div>`;
+  }).join('');
+  const show = IND.slice().sort((a, b) => (W[b.id] || 0) - (W[a.id] || 0)).slice(0, 5);
+  $('rank').innerHTML = `<thead><tr><th class="num">순위</th><th>국가</th><th class="num">점수</th><th class="num">한국 과자 수출</th>${show.map((i) => `<th class="num">${esc(i.name)}</th>`).join('')}</tr></thead><tbody>
+    ${S.slice(0, 25).map((c, k) => `<tr><td class="num">${k + 1}</td><td>${esc(c.name)}${c.existing ? '<span class="pill">기진출</span>' : ''}</td><td class="num">${c.score.toFixed(1)}</td><td class="num">${usd(c.kor)}</td>
+      ${show.map((i) => `<td class="num">${Math.round(c.pct[i.id])}<span class="mini"><i style="width:${c.pct[i.id]}%;background:${GCOL[i.group]}"></i></span></td>`).join('')}</tr>`).join('')}</tbody>`;
+}
+$('sources').innerHTML = '<b>데이터 출처</b>' + D.sources.map((s) => `<span>${esc(s)}</span>`).join('');
+syncSliders(); render();
+</script>

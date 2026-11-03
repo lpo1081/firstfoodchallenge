@@ -1,0 +1,37 @@
+"""합성 데이터: 한국 수출 증가가 '한국산 비중 변화'와 '인구'로 결정되는 가상 세계에서 롤링 역산이 그 신호를 찾는지 확인."""
+import numpy as np
+import pandas as pd
+
+from kfood_scout import rolling
+from kfood_scout.config import load_criterion
+
+
+def synthetic(seed=1):
+    rng = np.random.default_rng(seed)
+    isos = [f"C{i:02d}" for i in range(80)]
+    rows = []
+    for c in isos:
+        pop0 = rng.uniform(2e6, 3e8); imp0 = rng.uniform(5e6, 1e9); kor0 = rng.uniform(2e5, 3e7)
+        g_imp, g_kor = rng.normal(0.05, 0.04), rng.normal(0.06, 0.08)
+        youth, cons, urb = rng.uniform(15, 45), rng.uniform(800, 3e4), rng.uniform(20, 80)
+        for y in range(2000, 2026):
+            t = y - 2000
+            kor = kor0 * (1 + g_kor) ** t
+            rows += [(c, y, "WB:SP.POP.TOTL", pop0 * 1.01 ** t), (c, y, "CT:dry_confectionery:M", imp0 * (1 + g_imp) ** t),
+                     (c, y, "CT:dry_confectionery:KOR_X", kor), (c, y, "WB:NE.CON.PRVT.PC.KD", cons * 1.02 ** t),
+                     (c, y, "WB:SP.URB.TOTL.IN.ZS", urb + 0.3 * t), (c, y, "WB:SP.POP.0014.TO.ZS", youth),
+                     (c, y, "WB:NY.GDP.PCAP.PP.KD", cons * 2)]
+    return pd.DataFrame(rows, columns=["iso3", "year", "series", "value"]), pd.DataFrame({"iso3": isos, "name": isos})
+
+
+def test_rolling_runs_and_finds_signal():
+    panel, countries = synthetic()
+    crit = load_criterion("k_export")
+    out = rolling.run(panel, countries, crit, "dry_confectionery", starts=(2010, 2013, 2016, 2019), forecast_year=2022,
+                      existing={"C01"})
+    assert len(out["windows"]) == 4 and out["windows"][0]["n"] > 50
+    # 한국 수출 증가액은 한국 수출 규모·성장률로 결정되므로 수출입 그룹이 큰 비중이어야 함
+    assert out["windows"][-1]["groups"]["수출입"] > 0.5
+    assert out["out_of_sample"][0]["X_prev"] > out["out_of_sample"][0]["equal"]
+    assert abs(sum(out["XX"].values()) - 1) < 0.01
+    assert len(out["forecast_XX"]) > 50

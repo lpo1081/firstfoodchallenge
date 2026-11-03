@@ -1,0 +1,14 @@
+id: kculture
+proposed_by: human (형님)
+statement: >-
+  신흥국의 소득 성장과 별개로, 한류(K-문화) 확산이 큰 나라일수록 이후 3년간 한국 과자 수출이 더 늘었다.
+rationale: >-
+  2차 모델에서 소비트렌드 비중이 15% → 43%로 올랐지만 지표가 인구·소득 대리지표뿐이었다.
+  K-문화 노출을 직접 재는 지표를 넣어, 소득을 통제해도 설명력이 남는지 본다.
+group: 소비트렌드
+indicators:
+  - {id: kpop_interest, name_ko: K-pop 검색 관심도, group: 소비트렌드, source: external, series: gtrends_kpop, transform: level, window: 3, direction: 1, unit: "0-100"}
+  - {id: kpop_interest_change, name_ko: K-pop 관심도 변화, group: 소비트렌드, source: external, series: gtrends_kpop, transform: diff, window: 3, smooth: 2, direction: 1, unit: "p/3년"}
+  - {id: kfood_interest, name_ko: 한국 음식 검색 관심도, group: 소비트렌드, source: external, series: gtrends_kfood, transform: level, window: 3, direction: 1, unit: "0-100"}
+  - {id: korea_visitors_pc, name_ko: 인구 대비 방한 관광객, group: 소비트렌드, source: external, series: kto_visitors, transform: per_capita, window: 3, direction: 1, unit: "명/인"}
+  - {id: learn_korean_interest, name_ko: 한국어 학습 검색 관심도, group: 소비트렌드, source: external, series: gtrends_learnkorean, transform: level, window: 3, direction: 1, unit: "0-100"}

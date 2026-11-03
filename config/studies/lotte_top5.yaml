@@ -1,0 +1,22 @@
+# 비교 설계(study) = 축(axis)의 곱. 축에 값을 넣고 빼는 것만으로 비교군·대조군이 바뀐다.
+# - axes 의 각 키는 category / criterion / method 중 하나(또는 새로 등록한 축).
+# - baseline: 대조군(다른 모든 조합을 이것과 비교).
+# - overrides: 특정 조합에만 설정을 덮어씀(점 표기 경로).
+id: lotte_top5
+name_ko: 롯데웰푸드 매출 상위 5개 카테고리 × 과자 흐름 비교
+portfolio: lotte_wellfood
+entries: lotte_wellfood          # 기진출국 표시용
+axes:
+  category: [dry_confectionery, ice_cream, edible_fats, hmr, processed_meat]
+  criterion: [k_export]
+  method: [rolling]
+baseline: {category: dry_confectionery, criterion: k_export, method: rolling}
+methods:
+  rolling:
+    starts: [2012, 2015, 2018, 2021]
+    forecast_year: 2024
+data:
+  years: [2005, 2024]            # 수집 범위(롤링 2012 창의 5년 성장률 + 평활 3년이 2005부터 필요)
+overrides: []
+#  - when: {category: edible_fats}
+#    set: {criterion.universe.min_korea_exports_usd: 50000}

@@ -1,0 +1,142 @@
+# 기준 1: 식품시장 성장성
+# 각 지표 = (원천, 시리즈, 변환, 방향, 가중치). 가중치는 합이 1일 필요 없음(자동 정규화).
+# 형님이 가중치를 바꾸려면 weight 값만 수정하거나 CLI --weights 로 덮어쓰면 된다.
+#
+# source:
+#   comtrade  -> UN Comtrade, 카테고리 HS 코드 합계. flow: M(수입) / X(수출)
+#   worldbank -> World Bank WDI 시리즈 코드
+# transform:
+#   level      : 기준연도까지 window년 평균
+#   level_log  : 위 값의 자연로그 (규모 지표의 극단값 완화)
+#   cagr       : 기준연도-window ~ 기준연도 연평균 성장률(%)
+#   diff       : 기준연도 값 - window년 전 값 (%p 변화)
+#   per_capita : comtrade 값 / 인구 (USD/인)
+
+id: market_growth
+name_ko: 식품시장 성장성
+universe:
+  min_population: 5000000      # 인구 500만 미만 소국 제외
+  exclude_iso3: [KOR]          # 본국 제외
+  min_indicator_coverage: 4    # 5개 중 최소 4개 지표가 있어야 평가 대상
+
+indicators:
+  - id: import_market_size
+    name_ko: 과자 수입시장 규모
+    source: comtrade
+    flow: M
+    transform: level_log
+    window: 3
+    direction: 1
+    weight: 0.25
+    unit: ln(USD)
+    meaning: >
+      수출 기업이 실제로 공략할 수 있는 '수입 과자' 시장의 크기. 3년 평균으로 단년 변동을 줄였다.
+      자국 생산 비중이 큰 나라는 전체 시장보다 작게 잡힌다는 한계가 있다.
+
+  - id: import_market_cagr
+    name_ko: 과자 수입시장 성장률
+    source: comtrade
+    flow: M
+    transform: cagr
+    window: 5
+    direction: 1
+    weight: 0.30
+    unit: "%/년"
+    meaning: >
+      최근 5년간 수입 과자 수요가 얼마나 빠르게 커졌는지. 성장성 기준의 핵심 지표라 가장 높은 가중치.
+
+  - id: hh_consumption_pc_cagr
+    name_ko: 1인당 실질 가계소비 성장률
+    source: worldbank
+    series: NE.CON.PRVT.PC.KD
+    transform: cagr
+    window: 5
+    direction: 1
+    weight: 0.20
+    unit: "%/년"
+    meaning: >
+      과자는 소득 탄력적 기호식품. 1인당 실질 소비지출이 늘면 간식·브랜드 과자 지출이 따라 는다.
+      GDP 대신 가계소비를 써서 자원수출국의 착시를 줄였다.
+
+  - id: population_size
+    name_ko: 인구 규모
+    source: worldbank
+    series: SP.POP.TOTL
+    transform: level_log
+    window: 1
+    direction: 1
+    weight: 0.10
+    unit: ln(명)
+    meaning: >
+      장기 잠재 수요의 상한. 현재 수입 규모가 작아도 인구가 크면 성장 여지가 크다.
+
+  - id: urbanization_change
+    name_ko: 도시화 진행 속도
+    source: worldbank
+    series: SP.URB.TOTL.IN.ZS
+    transform: diff
+    window: 5
+    direction: 1
+    weight: 0.15
+    unit: "%p/5년"
+    meaning: >
+      도시화는 편의점·마트 같은 현대 유통 확대와 포장 과자 소비 전환의 선행 지표.
+
+# 검증(역산) 단계에서 '빠진 지표'인지 검토할 후보들. 기본 가중치 0 → 스코어에는 안 들어감.
+candidates:
+  - id: youth_share
+    name_ko: 유소년(0-14세) 인구 비중
+    source: worldbank
+    series: SP.POP.0014.TO.ZS
+    transform: level
+    window: 1
+    direction: 1
+    unit: "%"
+  - id: gdp_pc_ppp
+    name_ko: 1인당 GDP(PPP)
+    source: worldbank
+    series: NY.GDP.PCAP.PP.KD
+    transform: level_log
+    window: 1
+    direction: 1
+    unit: ln(USD)
+  - id: import_per_capita
+    name_ko: 1인당 과자 수입액
+    source: comtrade
+    flow: M
+    transform: per_capita
+    window: 3
+    direction: 1
+    unit: USD/인
+  - id: local_industry_exports
+    name_ko: 현지 과자 제조기반(과자 수출액)
+    source: comtrade
+    flow: X
+    transform: level_log
+    window: 3
+    direction: 1
+    unit: ln(USD)
+  - id: population_cagr
+    name_ko: 인구 증가율
+    source: worldbank
+    series: SP.POP.TOTL
+    transform: cagr
+    window: 5
+    direction: 1
+    unit: "%/년"
+  - id: inflation
+    name_ko: 소비자물가 상승률
+    source: worldbank
+    series: FP.CPI.TOTL.ZG
+    transform: level
+    window: 3
+    direction: -1
+    unit: "%"
+  - id: urbanization_level
+    name_ko: 도시화율 수준
+    source: worldbank
+    series: SP.URB.TOTL.IN.ZS
+    transform: level
+    window: 1
+    direction: 1
+    unit: "%"

@@ -1,0 +1,30 @@
+id: auto_auto_migrant_population
+statement: 외국 출신 이주민이 인구에서 차지하는 비중이 크고 순유입이 많은 나라일수록, 소득·시장 규모와 별개로 이후 3년간 한국 과자 수출이
+  더 늘어난다.
+rationale: 모델이 크게 놓친 싱가포르·쿠웨이트·이스라엘은 수입시장 성장률과 유소년 비중이 낮아 기존 지표로는 낮게 평가됐습니다. 그러나 세
+  나라 모두 외국 출신 인구 비중이 매우 높습니다. 특히 걸프 국가와 싱가포르에는 동남아·남아시아 출신 노동자층이 두텁습니다. 이들은 아시아식 간식에
+  익숙하고, 이들을 상대하는 아시아계 식료품 유통망도 이미 갖춰져 있습니다. 그래서 한국 과자가 처음 진입하기 쉽고 수요가 빠르게 확산될 수 있습니다.
+  이주민 인구가 늘면 식품 다양성 수요도 함께 늘기 때문에, 1인당 순이주 유입을 함께 넣어 변화 속도도 반영합니다. 이주민 비중은 소득(gdp_pc_ppp)과
+  일부 겹치지만, 쿠웨이트처럼 소득 대비 비중이 유난히 높은 나라를 구분해 줄 수 있습니다. 이 지표는 앞서 기각된 '1인당 수입 수준'과 달리
+  소비자 구성의 다양성을 측정합니다.
+group: 소비트렌드
+new_source_needed: ''
+indicators:
+- id: migrant_stock_share
+  name_ko: 이주민 인구 비중
+  group: 소비트렌드
+  source: worldbank
+  series: SM.POP.TOTL.ZS
+  transform: level
+  window: 1
+  direction: 1
+- id: net_migration_pc
+  name_ko: 1인당 순이주 유입
+  group: 소비트렌드
+  source: worldbank
+  series: SM.POP.NETM
+  transform: per_capita
+  window: 1
+  direction: 1
+proposed_by: llm:claude-opus-5-5
+created: '2026-11-03'

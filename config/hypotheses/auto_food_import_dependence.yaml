@@ -1,0 +1,29 @@
+id: auto_food_import_dependence
+statement: 자국 식품 생산 기반이 약해 식품을 수입에 크게 의존하고, 1인당 수입 구매 수준이 높은 나라일수록 이후 3년간 한국 과자 수출이
+  더 늘어난다.
+rationale: 모델이 놓친 싱가포르·쿠웨이트·이스라엘·이라크는 모두 식품 소비의 상당 부분을 수입으로 채운다. 그러나 수입시장 성장률과 인구가
+  낮게 잡혀 순위가 밀렸다. 현재 모델은 수입시장의 총규모(log)와 증가율만 보고, 국민 한 명이 수입 식품을 얼마나 사는지는 보지 않는다. 그래서
+  인구는 작아도 수입품 소비가 생활화된 시장을 과소평가한다. 식품 수입 의존도가 높은 나라는 유통 채널이 이미 수입 브랜드에 열려 있다. 새 공급국
+  제품이 진열대에 들어가는 비용이 낮아, 한국 과자처럼 신규 진입하는 제품의 물량이 빠르게 늘 수 있다. 1인당 수입액 '수준'은 시장 총규모나
+  성장률과 구분되는 정보다. 수입 성장이 둔화된 고소득 소국에서도 이미 넓은 수입 소비층이 교체 수요로 신규 공급국을 받아들일 여지를 보여준다.
+group: 수출입
+new_source_needed: ''
+indicators:
+- id: food_import_share_merch
+  name_ko: 상품수입 중 식품 비중
+  group: 수출입
+  source: worldbank
+  series: TM.VAL.FOOD.ZS.UN
+  transform: level
+  window: 3
+  direction: 1
+- id: import_pc_level
+  name_ko: 1인당 수입액 수준
+  group: 수출입
+  source: comtrade
+  flow: M
+  transform: per_capita
+  window: 3
+  direction: 1
+proposed_by: llm:claude-opus-5-5
+created: '2026-11-03'

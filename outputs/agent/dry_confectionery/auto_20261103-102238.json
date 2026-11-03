@@ -1,0 +1,17 @@
+{
+ "run": "20261103-102238",
+ "stop": "예산 소진($0.77/$1.00)",
+ "rounds": [
+  {
+   "round": 1,
+   "tested": {},
+   "scouted": {
+    "korea_fta_in_force": "budget"
+   },
+   "spent": 0.77
+  }
+ ],
+ "spent_usd": 0.77,
+ "api_calls": 10,
+ "adopt": null
+}
