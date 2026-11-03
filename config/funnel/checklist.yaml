@@ -1,0 +1,63 @@
+# 대기업·공공기관이 진출국을 고를 때 보는 요소 전체 목록 → 이 패키지에서 어떻게 다루는지.
+# status: data(공개 데이터로 숫자화해 단계에 반영) / proxy(대체 지표로 반영, 한계 있음) / human(사람 확인 = TOP3 이후 상세 검토)
+# 2026-11-03 작성. 요소 추가는 줄 하나.
+
+sources:
+  cavusgil: {name: "국제 마케팅 교과서 3단계 진출국 선정(1차 거르기 → 정밀 심사 → 최종 선정·실사)", url: "https://wsu.pressbooks.pub/cpim/chapter/6-5-selecting-the-countries-to-enter/"}
+  pestel: {name: "PESTEL(정치·경제·사회·기술·환경·법)", url: "https://ecampusontario.pressbooks.pub/globalmarketing/chapter/4-4-selecting-the-countries-to-enter/"}
+  cage: {name: "Ghemawat CAGE 거리(문화·제도·지리·경제)", url: "https://thinkinsights.net/leadership/cage-market-entry-model"}
+  itc_epi: {name: "ITC 수출잠재력 지표(공급×무역 용이성×수요: 수입 전망·관세 우위·거리)", url: "https://umbraco.exportpotential.intracen.org/media/cklh2pi5/epa-methodology_230627.pdf"}
+  kotra: {name: "KOTRA 해외시장 빅데이터(트라이빅): 품목별 유망시장 추천, 수입규제, 수출 지속가능성 신호등", url: "https://kotra.or.kr/bigdata/guide/aboutTribig"}
+  lek: {name: "L.E.K. 식품기업 해외 진출: 성장률·마진·소비 트렌드·채널 요건·경쟁·자사 역량, 진출 방식(직접·제휴·인수)", url: "https://www.lek.com/insights/food-products-company-develops-recipe-reach-new-consumers-globally"}
+  lotte: {name: "롯데웰푸드 빼빼로 글로벌 전략(2035년 1조, 인도 생산, 싱가포르 합작법인으로 일본 롯데 유통망 공유)", url: "https://theguru.co.kr/news/article.html?no=106593"}
+  orion: {name: "오리온 해외 투자(중국·베트남·러시아 현지 생산, 현지 채널·온라인 입점)", url: "https://www.newstomato.com/ReadNews.aspx?no=1259508"}
+
+factors:
+  # ---------------- 1차 거르기 (거시 위험·기본 자격)
+  - {stage: 1, factor: 국제 제재·전쟁, from: [pestel, cavusgil], status: data, how: "OFAC 제재국, ACLED 극단 분쟁국 목록(hard_filter.yaml)"}
+  - {stage: 1, factor: 정치 안정, from: [pestel, cavusgil], status: data, how: "세계은행 WGI 정치안정 3년 평균"}
+  - {stage: 1, factor: 최소 시장 규모, from: [cavusgil, itc_epi], status: data, how: "품목 수입시장 3년 평균(UN Comtrade)"}
+  - {stage: 1, factor: 소득 수준(구매력), from: [pestel, cavusgil], status: data, how: "1인당 GDP(PPP, 세계은행)"}
+  - {stage: 1, factor: 회사 포트폴리오(기진출·방어 시장), from: [lotte], status: data, how: "롯데웰푸드 진출 이력, 한국 수출 상위국"}
+  # ---------------- 시장 매력도
+  - {stage: 2, factor: 품목 시장 규모, from: [cavusgil, itc_epi, kotra], status: proxy, how: "수입시장 규모(현지 생산분 제외 → 수입 과자 시장만 봄)"}
+  - {stage: 2, factor: 품목 시장 성장률, from: [cavusgil, itc_epi, lek], status: proxy, how: "수입시장 5년 성장률"}
+  - {stage: 2, factor: 가계 소비력·성장, from: [pestel, cavusgil], status: data, how: "실질 가계소비 총액, 1인당 5년 성장률"}
+  - {stage: 2, factor: 경제 성장, from: [pestel, itc_epi], status: data, how: "실질 GDP 성장률 5년 평균(WDI)"}
+  - {stage: 2, factor: 인구 증가, from: [pestel, itc_epi], status: data, how: "인구 5년 증가율"}
+  - {stage: 2, factor: 인구 구조(어린 소비층), from: [pestel], status: data, how: "0~14세 비중"}
+  - {stage: 2, factor: 도시화(현대 유통 접근), from: [pestel], status: proxy, how: "도시화율 5년 변화(편의점·마트 확산의 대리 지표)"}
+  - {stage: 2, factor: 1인당 수입 과자 소비, from: [lek], status: data, how: "1인당 품목 수입액"}
+  - {stage: 2, factor: 소비 트렌드(건강·프리미엄), from: [lek, orion], status: human, how: "현지 판매 데이터(닐슨·유로모니터 유료) 필요 → 상세 검토"}
+  # ---------------- 승산(CAGE + 발판 + 경쟁)
+  - {stage: 3, factor: 문화 거리(한국 친숙도), from: [cage], status: proxy, how: "구글 트렌드 한국 음식·K-pop·한국어, 인구 대비 방한객"}
+  - {stage: 3, factor: 한국 제품 기존 발판, from: [kotra, itc_epi], status: data, how: "한국산 수출 규모, 수입 중 한국산 비중, 직전 3년 증가액"}
+  - {stage: 3, factor: 지리 거리, from: [cage, itc_epi], status: data, how: "서울~상대국 중심 대권거리(km)"}
+  - {stage: 3, factor: 제도 거리(FTA·관세 우위), from: [cage, itc_epi], status: data, how: "한국 FTA 발효 경과 연수"}
+  - {stage: 3, factor: 경쟁 강도, from: [cavusgil, lek], status: proxy, how: "수입 중 일본산 비중(같은 프리미엄 아시아 과자 경쟁). 현지 1위 브랜드 점유율은 상세 검토"}
+  - {stage: 3, factor: 언어(라벨), from: [cage], status: data, how: "영어 공용어 여부 → 4단계 라벨 비용"}
+  - {stage: 3, factor: 종교(할랄), from: [cage], status: data, how: "이슬람협력기구 회원국 → 4단계 할랄 비용·준비기간"}
+  # ---------------- 진입 장벽·비용
+  - {stage: 4, factor: 관세, from: [itc_epi, kotra], status: data, how: "costs.yaml 확인 세율, 없으면 규칙(FTA 5%, 비FTA 10%)"}
+  - {stage: 4, factor: 물류비(운임), from: [cavusgil], status: data, how: "KCCI 부산발 항로 운임"}
+  - {stage: 4, factor: 인증·등록·라벨, from: [kotra], status: data, how: "제품 등록, 현지어 라벨, 할랄 인증 비용·기간"}
+  - {stage: 4, factor: 투자 회수(5년 순이익·회수기간), from: [cavusgil], status: data, how: "entry_cost 모듈(위험 반영 할인율)"}
+  - {stage: 4, factor: 입점비·판촉비, from: [lek], status: proxy, how: "첫 2년 매출의 10% 일괄 가정 → 실제 입점 조건은 상세 검토"}
+  - {stage: 4, factor: 비관세 장벽(첨가물·색소 기준), from: [kotra], status: human, how: "품목별 성분 대조 → 상세 검토"}
+  # ---------------- 위험·충격
+  - {stage: 5, factor: 물가 불안, from: [pestel], status: data, how: "소비자물가 5년 평균(WDI)"}
+  - {stage: 5, factor: 환율 변동, from: [pestel], status: data, how: "달러 대비 환율 연간 변화율 10년 표준편차(WDI)"}
+  - {stage: 5, factor: 법치·부패(계약·통관 위험), from: [pestel, cage], status: data, how: "WGI 법치·부패통제"}
+  - {stage: 5, factor: 물류 인프라, from: [itc_epi], status: data, how: "세계은행 물류성과지수 LPI"}
+  - {stage: 5, factor: 시나리오(한류 둔화·침체·통화급락·운임·FTA·국가위험), from: [pestel, cavusgil], status: data, how: "충격 7가지 + 비중 1,000번 흔들기"}
+  # ---------------- 최종 선정 이후(사람만 확인 가능)
+  - {stage: 6, factor: 현지 수입상·유통 파트너, from: [lek, lotte], status: human, how: "후보 수입상 3곳 이상 면담, 일본 롯데·싱가포르 합작법인 유통망과 겹치는지"}
+  - {stage: 6, factor: 주요 소매 채널 입점 조건, from: [lek, orion], status: human, how: "대형마트·편의점·이커머스 입점비, 진열 조건"}
+  - {stage: 6, factor: 경쟁사 가격·반응, from: [cavusgil, lek], status: human, how: "매장 가격 조사(현지 1위·일본·한국 경쟁 제품)"}
+  - {stage: 6, factor: 소비자 맛·가격 테스트, from: [lek], status: human, how: "소포장·가격대 시험 판매"}
+  - {stage: 6, factor: 진출 방식(수출·합작·현지생산·인수), from: [lek, lotte, orion], status: human, how: "1~3년차 수출, 성과 나면 현지 생산 검토(인도 사례)"}
+  - {stage: 6, factor: 규제 세부·인증 실사, from: [kotra], status: human, how: "등록 대행사 견적, 할랄 인증기관 확인"}
+  - {stage: 6, factor: 현지 조직·인력, from: [cavusgil], status: human, how: "주재원 vs 대리인 운영"}
+
+# 이슬람협력기구(OIC) 회원국: 할랄 비용 규칙(4단계)에 사용. 출처 https://www.oic-oci.org/states/?lan=en
+oic_members: [AFG, ALB, DZA, AZE, BHR, BGD, BEN, BRN, BFA, CMR, TCD, COM, DJI, EGY, GAB, GMB, GIN, GNB, GUY, IDN, IRN, IRQ, CIV, JOR, KAZ, KWT, KGZ, LBN, LBY, MDV, MYS, MLI, MRT, MAR, MOZ, NER, NGA, OMN, PAK, PSE, QAT, SAU, SEN, SLE, SOM, SDN, SUR, SYR, TJK, TGO, TUN, TUR, TKM, UGA, ARE, UZB, YEM]
