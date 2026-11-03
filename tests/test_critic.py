@@ -98,8 +98,9 @@ def test_ranking_file(tmp_path):
     c = cr.candidates(cr.load_cfg(), ranking=str(p), top=2)
     assert [x["iso3"] for x in c] == ["PHL", "MNG"] and c[0]["name_ko"] == "필리핀"
     j = tmp_path / "r.json"
-    j.write_text(json.dumps({"ranking": [{"iso3": "IDN"}, {"iso3": "THA"}]}))
-    assert [x["iso3"] for x in cr.candidates(cr.load_cfg(), ranking=str(j))] == ["IDN", "THA"]
+    j.write_text(json.dumps({"ranking": [{"iso3": "IDN"}, {"iso3": "KEN", "name": "Kenya"}]}))
+    c = cr.candidates(cr.load_cfg(), ranking=str(j))
+    assert [x["iso3"] for x in c] == ["IDN", "KEN"] and c[1]["name_en"] == "Kenya"  # 설정에 없는 나라는 파일 이름 사용
 
 
 def test_seeds_reach_proposer_and_board(tmp_path, monkeypatch):

@@ -75,7 +75,7 @@ python -m kfood_scout.agent report                               # outputs/agent
 - 값 퇴화 검사: 후보 지표의 고유값이 5개 미만이면 검증에서 빼고 '퇴화'로 표시(구글 트렌드 0/100 사고 재발 방지). 구글 트렌드는 키워드별로 따로 요청하도록 수정. 맥북의 `data/store/external/gtrends_*.csv` 는 지우고 다시 받아야 함.
 
 ### 레드팀(비판 에이전트)과 가설 장부 (2026-11-03)
-- `python -m kfood_scout.agent critic --budget 1.0` : 후보국마다 Claude 가 최근 2년 기사·규제·정치 뉴스를 검색(국가당 4회 상한)해 "이 나라를 뽑으면 안 되는 이유"를 반론 카드로 낸다. 후보는 `config/critic.yaml`, 또는 `--ranking 순위파일(csv/json, iso3)` `--countries PHL,IDN` `--top 6`.
+- `python -m kfood_scout.agent critic --budget 1.0` : 후보국마다 Claude 가 최근 2년 기사·규제·정치 뉴스를 검색(국가당 4회 상한)해 "이 나라를 뽑으면 안 되는 이유"를 반론 카드로 낸다. 후보는 `config/critic.yaml`, 또는 3대 기준 순위 `--ranking outputs/three_criteria/ranking.json --top 5`, `--ranking 순위파일(csv/json, iso3)` `--countries PHL,IDN` `--top 6`.
 - 판정은 고정 코드(`agent/critic.py` `judge`)가 한다: 실제 검색 결과에 나온 주소만 근거로 인정(지어낸 출처 차단), 2년보다 오래된 기사 제외, '치명'은 서로 다른 출처 2곳 이상일 때만, 치명 1개면 **배제 권고**·중간 2개면 **주의**·그 외 **유지**. 규칙은 `config/critic.yaml` `rules`.
 - 숫자로 측정 가능한 반론은 `outputs/agent/critic/seeds.json`(가설 씨앗)에 쌓이고, 다음 `agent auto/loop` 때 가설 담당 AI 프롬프트에 들어가 지표 가설(critic_)로 바뀌어 통계 검증을 받는다. 기사(비정형) → 가설 → 숫자(정형) 판정.
 - 본 나라는 30일 동안 캐시 재사용(무료). 예산이 모자라 못 본 나라는 같은 명령을 다시 치면 이어서 본다.
