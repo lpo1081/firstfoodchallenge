@@ -35,8 +35,8 @@ def _raw(f: dict, cfg: dict, year: int, cache: dict) -> pd.Series:
     hs = cfg["hs"]
     if "wb" in f:
         w = cache.setdefault(f["wb"], wb(f["wb"]))
-    elif f.get("trade") == "M":
-        w = cache.setdefault("M", trade("M", hs))
+    elif f.get("trade") in ("M", "KOR_X"):
+        w = cache.setdefault(f["trade"], trade(f["trade"], hs))
     elif f.get("trade") == "KOR_SHARE":
         m = cache.setdefault("M", trade("M", hs))
         k = cache.setdefault("KOR_X", trade("KOR_X", hs)).reindex(m.index).fillna(0)
@@ -58,9 +58,9 @@ def _raw(f: dict, cfg: dict, year: int, cache: dict) -> pd.Series:
     return w[year]
 
 
-def profile(cfg: dict, year: int, pool: list[str], cache: dict) -> pd.DataFrame:
+def profile(cfg: dict, year: int, pool: list[str], cache: dict, feats: list[dict] | None = None) -> pd.DataFrame:
     """pool 나라들의 그해 백분위 표(나라 × 지표)."""
-    feats = cfg["methods"]["analog"]["features"]
+    feats = feats or cfg["methods"]["analog"]["features"]
     cols = {}
     for f in feats:
         r = _raw(f, cfg, year, cache).reindex(pool).replace([np.inf, -np.inf], np.nan)

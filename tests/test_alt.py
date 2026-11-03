@@ -48,3 +48,23 @@ def test_consensus_counts_methods():
 
 def test_outputs_only_in_alt_folder():
     assert common.OUT.parts[-2:] == ("outputs", "alt_methods")
+
+
+def test_failure_rule(tmp_path, monkeypatch):
+    from kfood_scout.alt import failure
+    rows = [("AAA", y, v) for y, v in zip(range(2005, 2016), [1, 2, 4, 6, 8, 10, 5, 4, 4, 4, 4])]   # 정점 후 반토막
+    rows += [("BBB", y, 5.0) for y in range(2005, 2016)]                                              # 평탄
+    _store(tmp_path, monkeypatch, [(c, y, v * 1e6) for c, y, v in rows])
+    cfg = {"hs": ["190531"], "checks": {"failure": {"rule": {
+        "peak_at_least_musd": 3, "fall_within_years": 4, "fall_to_at_most": 0.7, "first_year": 2007, "last_year": 2012}}}}
+    assert [x["iso3"] for x in failure.failures(cfg)] == ["AAA"]
+
+
+def test_timetravel_as_of_moves_windows():
+    from kfood_scout.alt import timetravel
+    cfg = common.load_cfg()
+    c = timetravel.as_of(cfg, 2015)
+    assert c["now_year"] == 2015
+    assert c["methods"]["follow"]["to_year"] == 2015 and c["methods"]["follow"]["from_year"] == 2010
+    assert c["methods"]["analog"]["takeoff"]["last_year"] == 2010
+    assert cfg["now_year"] == 2024   # 원본 설정은 그대로

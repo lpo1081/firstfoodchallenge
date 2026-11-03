@@ -12,7 +12,7 @@ import argparse
 import json
 
 from ..config import ROOT
-from . import analog, follow, gap
+from . import analog, failure, follow, gap, timetravel
 from .common import candidates, load_cfg, names, save
 
 METHODS = {          # 이름 → 모듈. 순서 = 보고서 순서
@@ -20,6 +20,9 @@ METHODS = {          # 이름 → 모듈. 순서 = 보고서 순서
     "gap": gap,
     "follow": follow,
 }
+
+
+FOCUS = 3   # 검사는 기존 모델 TOP3 + 합의 1위 나라에 대해 자세히 보여준다
 
 
 def base_ranking() -> list[str]:
@@ -51,7 +54,7 @@ def consensus(results: dict, base: list[str], top_n: int, cand: list[str]) -> li
 LABEL = {"base": "기존 3대 기준"}
 
 
-def report(cfg, results, cons, excluded, base) -> str:
+def report(cfg, results, cons, excluded, base, checks=None) -> str:
     nm = names()
     k = lambda c: nm.get(c, c)  # noqa: E731
     lab = dict(LABEL, **{m: cfg["methods"][m]["name_ko"] for m in results})
@@ -100,6 +103,28 @@ def report(cfg, results, cons, excluded, base) -> str:
             L.append(f"{i}. {k(r['iso3'])}: 일본 +{r['jp_increase_musd']}백만$({gr}, 현재 {r['jp_now_musd']}) / "
                      f"한국 현재 {r['kor_now_musd']}백만$" + (" ← 한국이 일본보다 작음" if r["kor_below_japan"] else ""))
         L.append("")
+    ch = checks or {}
+    fl = ch.get("failure")
+    if fl:
+        L.append("## 검사 1. 실패국 부검")
+        L.append("한국 과자 수출이 떴다가 4년 안에 정점의 70% 이하로 꺾인 사례: "
+                 + ", ".join(f"{k(c['iso3'])} {c['year']}년({c['peak_musd']}→{c['low_musd']}백만$)" for c in fl["failure_cases"]))
+        L.append("꺾이기 직전과 이륙 직전의 모습이 가장 크게 다른 지표(백분위, 실패 평균 vs 이륙 평균): "
+                 + ", ".join(f"{d['name_ko']} {d['fail_avg']:.0f} vs {d['takeoff_avg']:.0f}" for d in fl["biggest_differences"]))
+        for r in fl["focus"]:
+            fs = ", ".join(f"{f['name_ko']}({f['now']:.0f})" for f in r["flags"]) or "없음"
+            L.append(f"- {k(r['iso3'])}: {r['closer_to']} 쪽에 더 가까움 (실패와 거리 {r['dist_fail']}, 이륙과 거리 {r['dist_takeoff']}). "
+                     f"실패 쪽 지표: {fs}")
+        L.append("")
+    tt = ch.get("timetravel")
+    if tt:
+        L.append("## 검사 2. 시간여행 시험")
+        L.append(f"{tt['as_of'][0]}~{tt['as_of'][-1]}년 각 시점의 데이터만 주고 TOP{tt['top_n']}을 고르게 한 뒤, "
+                 f"이후 {tt['horizon']}년 실제 한국 수출 증가 TOP{tt['top_n']}과 겹친 수(평균). 무작위로 고르면 {tt['random_hits']}개.")
+        lab2 = dict(lab, big_market="비교: 큰 시장순", recent_trend="비교: 직전 3년 추세")
+        for m, v in sorted(tt["methods"].items(), key=lambda x: -x[1]["mean_hits"]):
+            L.append(f"- {lab2.get(m, m)}: {v['mean_hits']}개 / 10 (시점별 {', '.join(str(x['hits']) for x in v['per_year'])})")
+        L.append("")
     L.append("## 후보에서 뺀 나라 (기존 모델과 같은 규칙)")
     for c, w in sorted(excluded.items()):
         L.append(f"- {k(c)}: {', '.join(w)}")
@@ -120,10 +145,17 @@ def run(category: str | None = None, only: list[str] | None = None, log=print) -
         results[name] = mod.run(cfg, cand, universe)
     base = base_ranking()
     cons = consensus(results, base, cfg["top_n"], cand)
+    checks = {}
+    if not only:
+        focus = [c for c in base if c in cand][:FOCUS] + [r["iso3"] for r in cons[:1]]
+        log("[alt] 검사: 실패국 부검")
+        checks["failure"] = failure.run(cfg, cand, universe, focus)
+        log("[alt] 검사: 시간여행 시험")
+        checks["timetravel"] = timetravel.run(cfg)
     out = {"category": cfg["category"], "now_year": cfg["now_year"], "candidates": cand, "excluded": excluded,
-           "base_ranking": base, "methods": results, "consensus": cons}
+           "base_ranking": base, "methods": results, "consensus": cons, "checks": checks}
     save("result.json", out)
-    save("report.md", report(cfg, results, cons, excluded, base))
+    save("report.md", report(cfg, results, cons, excluded, base, checks))
     return out
 
 

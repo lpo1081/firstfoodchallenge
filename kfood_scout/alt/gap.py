@@ -8,29 +8,14 @@
 """
 from __future__ import annotations
 
-import json
 import math
-import urllib.request
 
 import numpy as np
 import pandas as pd
 
-from .common import STORE, avg_last, trade, wb
+from .common import avg_last, geo, trade, wb
 
 SEOUL = (37.5665, 126.9780)
-
-
-def centroids(cfg: dict) -> pd.DataFrame:
-    """나라 중심 좌표(iso3, lat, lng). 처음 한 번 내려받아 data/store/external/country_centroids.csv 에 저장."""
-    p = STORE / "external" / "country_centroids.csv"
-    if not p.exists():
-        url = cfg["methods"]["gap"]["centroids_url"]
-        with urllib.request.urlopen(url, timeout=60) as r:
-            js = json.load(r)
-        rows = [{"iso3": c["cca3"], "lat": c["latlng"][0], "lng": c["latlng"][1]} for c in js if c.get("latlng")]
-        p.parent.mkdir(parents=True, exist_ok=True)
-        pd.DataFrame(rows).to_csv(p, index=False)
-    return pd.read_csv(p).set_index("iso3")
 
 
 def km(lat1, lng1, lat2, lng2) -> float:
@@ -61,7 +46,7 @@ def design(cfg: dict, universe: list[str]) -> pd.DataFrame:
     m = avg_last(trade("M", cfg["hs"]), y, n)
     kor = avg_last(trade("KOR_X", cfg["hs"]), y, n)
     gdp = avg_last(wb("NY.GDP.PCAP.PP.KD"), y, 3)
-    cen = centroids(cfg)
+    cen = geo()
     rows = []
     for c in universe:
         if c not in cen.index or pd.isna(m.get(c)) or m.get(c, 0) <= 0 or pd.isna(gdp.get(c)):

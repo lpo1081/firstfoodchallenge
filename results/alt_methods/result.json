@@ -3520,5 +3520,884 @@
    },
    "avg_rank": 37.3
   }
- ]
+ ],
+ "checks": {
+  "failure": {
+   "check": "failure",
+   "failure_cases": [
+    {
+     "iso3": "ARE",
+     "year": 2011,
+     "peak_musd": 5.7,
+     "low_musd": 4.0
+    },
+    {
+     "iso3": "CHN",
+     "year": 2014,
+     "peak_musd": 111.7,
+     "low_musd": 60.5
+    },
+    {
+     "iso3": "JPN",
+     "year": 2012,
+     "peak_musd": 128.5,
+     "low_musd": 84.5
+    },
+    {
+     "iso3": "MYS",
+     "year": 2015,
+     "peak_musd": 9.5,
+     "low_musd": 6.3
+    },
+    {
+     "iso3": "PAK",
+     "year": 2015,
+     "peak_musd": 3.3,
+     "low_musd": 0.1
+    },
+    {
+     "iso3": "RUS",
+     "year": 2013,
+     "peak_musd": 10.3,
+     "low_musd": 6.6
+    },
+    {
+     "iso3": "THA",
+     "year": 2015,
+     "peak_musd": 7.5,
+     "low_musd": 4.3
+    }
+   ],
+   "takeoff_cases": [
+    {
+     "iso3": "MYS",
+     "year": 2008,
+     "start_musd": 1.13,
+     "end_musd": 5.46
+    },
+    {
+     "iso3": "SGP",
+     "year": 2009,
+     "start_musd": 1.41,
+     "end_musd": 6.73
+    },
+    {
+     "iso3": "THA",
+     "year": 2009,
+     "start_musd": 0.61,
+     "end_musd": 8.48
+    },
+    {
+     "iso3": "VNM",
+     "year": 2005,
+     "start_musd": 0.48,
+     "end_musd": 10.82
+    }
+   ],
+   "fail_center": {
+    "gdp_pc": 65.2,
+    "urban": 59.3,
+    "youth": 30.5,
+    "pop": 83.3,
+    "import_size": 74.6,
+    "kor_share": 94.8,
+    "kfood": 75.1,
+    "visitors_pc": 70.6,
+    "kor_growth": 61.6,
+    "pol_stab": 44.7
+   },
+   "takeoff_center": {
+    "gdp_pc": 64.3,
+    "urban": 52.9,
+    "youth": 32.9,
+    "pop": 69.6,
+    "import_size": 66.9,
+    "kor_share": 85.0,
+    "kfood": 83.2,
+    "visitors_pc": 80.5,
+    "kor_growth": 60.7,
+    "pol_stab": 61.1
+   },
+   "n_candidates": 118,
+   "biggest_differences": [
+    {
+     "id": "pol_stab",
+     "name_ko": "정치 안정(WGI)",
+     "fail_avg": 44.7,
+     "takeoff_avg": 61.1
+    },
+    {
+     "id": "pop",
+     "name_ko": "인구",
+     "fail_avg": 83.3,
+     "takeoff_avg": 69.6
+    },
+    {
+     "id": "kor_share",
+     "name_ko": "수입 중 한국산 비중",
+     "fail_avg": 94.8,
+     "takeoff_avg": 85.0
+    },
+    {
+     "id": "visitors_pc",
+     "name_ko": "인구 대비 방한객",
+     "fail_avg": 70.6,
+     "takeoff_avg": 80.5
+    }
+   ],
+   "focus": [
+    {
+     "iso3": "GBR",
+     "dist_fail": 15.0,
+     "dist_takeoff": 15.7,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 86.6,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "visitors_pc",
+       "name_ko": "인구 대비 방한객",
+       "now": 65.5,
+       "fail_avg": 70.6,
+       "takeoff_avg": 80.5
+      }
+     ],
+     "fail_similarity_rank": 4
+    },
+    {
+     "iso3": "MYS",
+     "dist_fail": 14.0,
+     "dist_takeoff": 11.0,
+     "closer_to": "이륙",
+     "flags": [
+      {
+       "id": "kor_share",
+       "name_ko": "수입 중 한국산 비중",
+       "now": 96.7,
+       "fail_avg": 94.8,
+       "takeoff_avg": 85.0
+      }
+     ],
+     "fail_similarity_rank": 2
+    },
+    {
+     "iso3": "PHL",
+     "dist_fail": 16.5,
+     "dist_takeoff": 18.5,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pol_stab",
+       "name_ko": "정치 안정(WGI)",
+       "now": 23.5,
+       "fail_avg": 44.7,
+       "takeoff_avg": 61.1
+      },
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 91.3,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "kor_share",
+       "name_ko": "수입 중 한국산 비중",
+       "now": 98.3,
+       "fail_avg": 94.8,
+       "takeoff_avg": 85.0
+      }
+     ],
+     "fail_similarity_rank": 6
+    },
+    {
+     "iso3": "SGP",
+     "dist_fail": 28.3,
+     "dist_takeoff": 25.7,
+     "closer_to": "이륙",
+     "flags": [
+      {
+       "id": "kor_share",
+       "name_ko": "수입 중 한국산 비중",
+       "now": 92.6,
+       "fail_avg": 94.8,
+       "takeoff_avg": 85.0
+      }
+     ],
+     "fail_similarity_rank": 53
+    }
+   ],
+   "most_like_failure": [
+    {
+     "iso3": "THA",
+     "dist_fail": 10.7,
+     "dist_takeoff": 12.9,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pol_stab",
+       "name_ko": "정치 안정(WGI)",
+       "now": 32.2,
+       "fail_avg": 44.7,
+       "takeoff_avg": 61.1
+      },
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 87.2,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "kor_share",
+       "name_ko": "수입 중 한국산 비중",
+       "now": 91.7,
+       "fail_avg": 94.8,
+       "takeoff_avg": 85.0
+      }
+     ],
+     "fail_similarity_rank": 1
+    },
+    {
+     "iso3": "MYS",
+     "dist_fail": 14.0,
+     "dist_takeoff": 11.0,
+     "closer_to": "이륙",
+     "flags": [
+      {
+       "id": "kor_share",
+       "name_ko": "수입 중 한국산 비중",
+       "now": 96.7,
+       "fail_avg": 94.8,
+       "takeoff_avg": 85.0
+      }
+     ],
+     "fail_similarity_rank": 2
+    },
+    {
+     "iso3": "IDN",
+     "dist_fail": 14.4,
+     "dist_takeoff": 16.8,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pol_stab",
+       "name_ko": "정치 안정(WGI)",
+       "now": 28.9,
+       "fail_avg": 44.7,
+       "takeoff_avg": 61.1
+      },
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 98.0,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "kor_share",
+       "name_ko": "수입 중 한국산 비중",
+       "now": 95.0,
+       "fail_avg": 94.8,
+       "takeoff_avg": 85.0
+      },
+      {
+       "id": "visitors_pc",
+       "name_ko": "인구 대비 방한객",
+       "now": 47.3,
+       "fail_avg": 70.6,
+       "takeoff_avg": 80.5
+      }
+     ],
+     "fail_similarity_rank": 3
+    },
+    {
+     "iso3": "GBR",
+     "dist_fail": 15.0,
+     "dist_takeoff": 15.7,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 86.6,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "visitors_pc",
+       "name_ko": "인구 대비 방한객",
+       "now": 65.5,
+       "fail_avg": 70.6,
+       "takeoff_avg": 80.5
+      }
+     ],
+     "fail_similarity_rank": 4
+    },
+    {
+     "iso3": "FRA",
+     "dist_fail": 15.4,
+     "dist_takeoff": 19.3,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pol_stab",
+       "name_ko": "정치 안정(WGI)",
+       "now": 52.3,
+       "fail_avg": 44.7,
+       "takeoff_avg": 61.1
+      },
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 85.2,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "visitors_pc",
+       "name_ko": "인구 대비 방한객",
+       "now": 69.1,
+       "fail_avg": 70.6,
+       "takeoff_avg": 80.5
+      }
+     ],
+     "fail_similarity_rank": 5
+    },
+    {
+     "iso3": "PHL",
+     "dist_fail": 16.5,
+     "dist_takeoff": 18.5,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pol_stab",
+       "name_ko": "정치 안정(WGI)",
+       "now": 23.5,
+       "fail_avg": 44.7,
+       "takeoff_avg": 61.1
+      },
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 91.3,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "kor_share",
+       "name_ko": "수입 중 한국산 비중",
+       "now": 98.3,
+       "fail_avg": 94.8,
+       "takeoff_avg": 85.0
+      }
+     ],
+     "fail_similarity_rank": 6
+    },
+    {
+     "iso3": "DEU",
+     "dist_fail": 17.5,
+     "dist_takeoff": 19.8,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 87.9,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "visitors_pc",
+       "name_ko": "인구 대비 방한객",
+       "now": 61.8,
+       "fail_avg": 70.6,
+       "takeoff_avg": 80.5
+      }
+     ],
+     "fail_similarity_rank": 7
+    },
+    {
+     "iso3": "NPL",
+     "dist_fail": 17.5,
+     "dist_takeoff": 15.8,
+     "closer_to": "이륙",
+     "flags": [
+      {
+       "id": "pol_stab",
+       "name_ko": "정치 안정(WGI)",
+       "now": 45.6,
+       "fail_avg": 44.7,
+       "takeoff_avg": 61.1
+      }
+     ],
+     "fail_similarity_rank": 8
+    },
+    {
+     "iso3": "MEX",
+     "dist_fail": 17.6,
+     "dist_takeoff": 22.6,
+     "closer_to": "실패",
+     "flags": [
+      {
+       "id": "pol_stab",
+       "name_ko": "정치 안정(WGI)",
+       "now": 31.5,
+       "fail_avg": 44.7,
+       "takeoff_avg": 61.1
+      },
+      {
+       "id": "pop",
+       "name_ko": "인구",
+       "now": 93.3,
+       "fail_avg": 83.3,
+       "takeoff_avg": 69.6
+      },
+      {
+       "id": "visitors_pc",
+       "name_ko": "인구 대비 방한객",
+       "now": 30.9,
+       "fail_avg": 70.6,
+       "takeoff_avg": 80.5
+      }
+     ],
+     "fail_similarity_rank": 9
+    },
+    {
+     "iso3": "CHL",
+     "dist_fail": 17.7,
+     "dist_takeoff": 15.7,
+     "closer_to": "이륙",
+     "flags": [
+      {
+       "id": "visitors_pc",
+       "name_ko": "인구 대비 방한객",
+       "now": 29.1,
+       "fail_avg": 70.6,
+       "takeoff_avg": 80.5
+      }
+     ],
+     "fail_similarity_rank": 10
+    }
+   ]
+  },
+  "timetravel": {
+   "check": "timetravel",
+   "as_of": [
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019
+   ],
+   "horizon": 5,
+   "top_n": 10,
+   "random_hits": 0.83,
+   "methods": {
+    "analog": {
+     "mean_hits": 5.33,
+     "mean_rank_corr": 0.302,
+     "per_year": [
+      {
+       "as_of": 2014,
+       "hits": 4,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "IDN",
+        "NZL"
+       ],
+       "rank_corr": 0.109
+      },
+      {
+       "as_of": 2015,
+       "hits": 5,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "IDN",
+        "NZL",
+        "PHL"
+       ],
+       "rank_corr": 0.183
+      },
+      {
+       "as_of": 2016,
+       "hits": 6,
+       "hit_names": [
+        "CAN",
+        "GBR",
+        "IDN",
+        "MYS",
+        "PHL",
+        "THA"
+       ],
+       "rank_corr": 0.345
+      },
+      {
+       "as_of": 2017,
+       "hits": 6,
+       "hit_names": [
+        "CAN",
+        "GBR",
+        "IDN",
+        "MYS",
+        "PHL",
+        "THA"
+       ],
+       "rank_corr": 0.394
+      },
+      {
+       "as_of": 2018,
+       "hits": 5,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "IDN",
+        "PHL",
+        "THA"
+       ],
+       "rank_corr": 0.38
+      },
+      {
+       "as_of": 2019,
+       "hits": 6,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "IDN",
+        "MYS",
+        "PHL",
+        "THA"
+       ],
+       "rank_corr": 0.401
+      }
+     ]
+    },
+    "gap": {
+     "mean_hits": 3.83,
+     "mean_rank_corr": 0.051,
+     "per_year": [
+      {
+       "as_of": 2014,
+       "hits": 5,
+       "hit_names": [
+        "DEU",
+        "FRA",
+        "GBR",
+        "MNG",
+        "NLD"
+       ],
+       "rank_corr": 0.45
+      },
+      {
+       "as_of": 2015,
+       "hits": 5,
+       "hit_names": [
+        "DEU",
+        "FRA",
+        "GBR",
+        "MNG",
+        "NLD"
+       ],
+       "rank_corr": 0.443
+      },
+      {
+       "as_of": 2016,
+       "hits": 4,
+       "hit_names": [
+        "DEU",
+        "GBR",
+        "NLD",
+        "PHL"
+       ],
+       "rank_corr": 0.108
+      },
+      {
+       "as_of": 2017,
+       "hits": 4,
+       "hit_names": [
+        "DEU",
+        "GBR",
+        "NLD",
+        "PHL"
+       ],
+       "rank_corr": -0.035
+      },
+      {
+       "as_of": 2018,
+       "hits": 3,
+       "hit_names": [
+        "DEU",
+        "GBR",
+        "NLD"
+       ],
+       "rank_corr": -0.358
+      },
+      {
+       "as_of": 2019,
+       "hits": 2,
+       "hit_names": [
+        "DEU",
+        "NLD"
+       ],
+       "rank_corr": -0.302
+      }
+     ]
+    },
+    "follow": {
+     "mean_hits": 5.67,
+     "mean_rank_corr": 0.312,
+     "per_year": [
+      {
+       "as_of": 2014,
+       "hits": 4,
+       "hit_names": [
+        "AUS",
+        "FRA",
+        "IDN",
+        "PHL"
+       ],
+       "rank_corr": -0.251
+      },
+      {
+       "as_of": 2015,
+       "hits": 4,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "IDN",
+        "PHL"
+       ],
+       "rank_corr": 0.02
+      },
+      {
+       "as_of": 2016,
+       "hits": 6,
+       "hit_names": [
+        "CAN",
+        "IDN",
+        "MYS",
+        "PHL",
+        "SGP",
+        "THA"
+       ],
+       "rank_corr": 0.482
+      },
+      {
+       "as_of": 2017,
+       "hits": 6,
+       "hit_names": [
+        "CAN",
+        "IDN",
+        "MYS",
+        "PHL",
+        "SGP",
+        "THA"
+       ],
+       "rank_corr": 0.512
+      },
+      {
+       "as_of": 2018,
+       "hits": 7,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "IDN",
+        "NLD",
+        "PHL",
+        "SGP",
+        "THA"
+       ],
+       "rank_corr": 0.524
+      },
+      {
+       "as_of": 2019,
+       "hits": 7,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "MYS",
+        "NLD",
+        "PHL",
+        "SGP",
+        "THA"
+       ],
+       "rank_corr": 0.586
+      }
+     ]
+    },
+    "big_market": {
+     "mean_hits": 4.83,
+     "mean_rank_corr": 0.401,
+     "per_year": [
+      {
+       "as_of": 2014,
+       "hits": 6,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "DEU",
+        "FRA",
+        "GBR",
+        "NLD"
+       ],
+       "rank_corr": 0.224
+      },
+      {
+       "as_of": 2015,
+       "hits": 6,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "DEU",
+        "FRA",
+        "GBR",
+        "NLD"
+       ],
+       "rank_corr": 0.346
+      },
+      {
+       "as_of": 2016,
+       "hits": 4,
+       "hit_names": [
+        "CAN",
+        "DEU",
+        "GBR",
+        "NLD"
+       ],
+       "rank_corr": 0.491
+      },
+      {
+       "as_of": 2017,
+       "hits": 4,
+       "hit_names": [
+        "CAN",
+        "DEU",
+        "GBR",
+        "NLD"
+       ],
+       "rank_corr": 0.476
+      },
+      {
+       "as_of": 2018,
+       "hits": 5,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "DEU",
+        "GBR",
+        "NLD"
+       ],
+       "rank_corr": 0.483
+      },
+      {
+       "as_of": 2019,
+       "hits": 4,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "DEU",
+        "NLD"
+       ],
+       "rank_corr": 0.383
+      }
+     ]
+    },
+    "recent_trend": {
+     "mean_hits": 6.5,
+     "mean_rank_corr": 0.178,
+     "per_year": [
+      {
+       "as_of": 2014,
+       "hits": 5,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "GBR",
+        "NZL",
+        "PHL"
+       ],
+       "rank_corr": 0.085
+      },
+      {
+       "as_of": 2015,
+       "hits": 6,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "DEU",
+        "GBR",
+        "NZL",
+        "PHL"
+       ],
+       "rank_corr": 0.282
+      },
+      {
+       "as_of": 2016,
+       "hits": 7,
+       "hit_names": [
+        "CAN",
+        "DEU",
+        "IDN",
+        "MYS",
+        "PHL",
+        "SGP",
+        "THA"
+       ],
+       "rank_corr": 0.259
+      },
+      {
+       "as_of": 2017,
+       "hits": 7,
+       "hit_names": [
+        "CAN",
+        "DEU",
+        "GBR",
+        "IDN",
+        "MNG",
+        "NLD",
+        "PHL"
+       ],
+       "rank_corr": 0.117
+      },
+      {
+       "as_of": 2018,
+       "hits": 8,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "DEU",
+        "GBR",
+        "IDN",
+        "MNG",
+        "NLD",
+        "PHL"
+       ],
+       "rank_corr": 0.106
+      },
+      {
+       "as_of": 2019,
+       "hits": 6,
+       "hit_names": [
+        "AUS",
+        "CAN",
+        "DEU",
+        "MNG",
+        "MYS",
+        "NLD"
+       ],
+       "rank_corr": 0.221
+      }
+     ]
+    }
+   }
+  }
+ }
 }

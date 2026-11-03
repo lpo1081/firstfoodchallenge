@@ -128,6 +128,45 @@ def candidates(cfg: dict) -> tuple[list[str], dict, list[str]]:
     return cand, {c: w for c, w in why.items() if w}, universe
 
 
+GEO_URL = "https://raw.githubusercontent.com/mledoze/countries/master/countries.json"
+
+
+def geo() -> pd.DataFrame:
+    """나라 지리 정보(iso3 → lat, lng, 육로 국경 이웃, UN 소지역). 처음 한 번 GitHub 공개 파일에서 받아
+    data/store/external/country_geo.csv 에 저장."""
+    p = STORE / "external" / "country_geo.csv"
+    if not p.exists():
+        import urllib.request
+        with urllib.request.urlopen(GEO_URL, timeout=60) as r:
+            js = json.load(r)
+        rows = [{"iso3": c["cca3"], "lat": c["latlng"][0], "lng": c["latlng"][1],
+                 "borders": ";".join(c.get("borders") or []), "subregion": c.get("subregion") or ""}
+                for c in js if c.get("latlng")]
+        p.parent.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(rows).to_csv(p, index=False)
+    return pd.read_csv(p, keep_default_na=False).set_index("iso3")
+
+
+def rank_corr(a: pd.Series, b: pd.Series) -> float:
+    d = pd.concat([a, b], axis=1).dropna()
+    if len(d) < 8:
+        return float("nan")
+    return float(d.iloc[:, 0].rank().corr(d.iloc[:, 1].rank()))
+
+
+def backtest(signal_at, cfg: dict, universe: list[str], horizon: int = 3, years=range(2010, 2022)) -> dict:
+    """과거 검증: t년 신호 순위와 t→t+horizon 한국 수출 증가액 순위의 상관(나라들 사이). 해마다 계산해 평균."""
+    kor = trade("KOR_X", cfg["hs"]).reindex(universe).fillna(0)
+    out = {}
+    for t in years:
+        if t + horizon not in kor.columns:
+            continue
+        y = kor[t + horizon] - kor[t]
+        out[t] = rank_corr(signal_at(t), y)
+    vals = [v for v in out.values() if not np.isnan(v)]
+    return {"per_year": {k: round(v, 3) for k, v in out.items()}, "mean": round(float(np.mean(vals)), 3) if vals else None}
+
+
 def save(name: str, obj) -> Path:
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / name

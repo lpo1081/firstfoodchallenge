@@ -1,6 +1,6 @@
 # 다른 방법 3가지로 진출국 찾기 (2026-11-03). 기존 3대 기준 모델과 완전히 분리된 모듈.
 # 읽기만 하는 것: data/store/ (기존 저장 데이터), config/entries/lotte_wellfood.yaml, config/filters/hard_filter.yaml, results/three_criteria/ranking.json
-# 쓰는 곳: outputs/alt_methods/ 만. 새로 받는 데이터: data/store/comtrade_JPN_X/(일본 수출), data/store/external/country_centroids.csv(나라 중심 좌표)
+# 쓰는 곳: outputs/alt_methods/ 만. 새로 받는 데이터: data/store/comtrade_JPN_X/(일본 수출), data/store/external/country_geo.csv(나라 좌표·이웃·소지역)
 id: alt_methods_v1
 frozen: 2026-11-03
 
@@ -109,7 +109,7 @@ methods:
       JPN: 2022
       ISR: 2022
       # 한-필리핀 FTA(2024-12-31)·한-인도네시아 CEPA(2023)는 한-아세안 FTA로 이미 1
-    centroids_url: https://raw.githubusercontent.com/mledoze/countries/master/countries.json
+    # 거리: 나라 중심 좌표(kfood_scout/alt/common.py GEO_URL, GitHub 공개 mledoze/countries)
 
   # 3) 일본 과자 추적: 일본 건과(포키·킷캣재팬 등 한국 과자의 직접 경쟁)가 최근 5년 가장 많이 늘어난 나라 = 경쟁국이 수요를 증명한 곳
   follow:
@@ -118,3 +118,28 @@ methods:
     reporter_iso3: JPN
     from_year: 2019
     to_year: 2024
+
+
+# ---------------------------------------------------------------- 검사(순위를 내지 않고 결론을 공격)
+checks:
+  # 실패국 부검: 한국 과자 수출이 떴다가 꺾인 나라의 '꺾이기 직전' 모습과 지금 후보가 닮았는가
+  failure:
+    name_ko: 실패국 부검
+    rule:                       # 실패 사례 정의(2년 평균 값 기준)
+      peak_at_least_musd: 3.0   # 정점 300만 달러 이상
+      fall_within_years: 4      # 정점 뒤 4년 안에
+      fall_to_at_most: 0.7      # 정점의 70% 이하로 떨어짐
+      first_year: 2007
+      last_year: 2020
+    extra_features:             # 방법 1의 지표 10개에 더해, 꺾임과 관련 있을 지표
+      - {id: kor_growth, name_ko: 한국 과자 수출 3년 증가율(과열), trade: KOR_X, cagr: 3}
+      - {id: pol_stab, name_ko: 정치 안정(WGI), wb: PV.EST}
+    flag_top_k: 4               # 실패·이륙 평균이 가장 크게 다른 지표 4개 중, 두 평균의 중간보다 실패 쪽에 있으면 '경고 지표'
+
+  # 시간여행 시험: 과거 시점 데이터만 주고 각 방법이 고른 TOP10이 이후 5년 실제 증가 TOP10과 얼마나 겹쳤나
+  timetravel:
+    name_ko: 시간여행 시험
+    as_of: [2014, 2015, 2016, 2017, 2018, 2019]
+    horizon: 5
+    top_n: 10
+    baselines: [big_market, recent_trend]   # 비교 기준: 큰 시장순, 직전 3년 한국 수출 증가순
