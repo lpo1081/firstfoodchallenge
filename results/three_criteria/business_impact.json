@@ -16,6 +16,10 @@
    38
   ],
   "value_of_1pp_share_eok": 118,
+  "entry_target_eok": [
+   147,
+   155
+  ],
   "entry_mode": "수출형",
   "entry_reason": "1인당 과자 수입 5.3달러로 이미 수입 과자를 사 먹는 시장"
  },
@@ -36,6 +40,10 @@
    13
   ],
   "value_of_1pp_share_eok": 92,
+  "entry_target_eok": [
+   94,
+   106
+  ],
   "entry_mode": "수출형",
   "entry_reason": "1인당 과자 수입 14.0달러로 이미 수입 과자를 사 먹는 시장"
  },
@@ -56,6 +64,10 @@
    13
   ],
   "value_of_1pp_share_eok": 113,
+  "entry_target_eok": [
+   118,
+   126
+  ],
   "entry_mode": "수출형",
   "entry_reason": "1인당 과자 수입 118.5달러로 이미 수입 과자를 사 먹는 시장"
  }

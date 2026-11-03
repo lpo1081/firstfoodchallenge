@@ -27,6 +27,7 @@ def run(cfg_path):
     top3 = [r["iso3"] for r in json.load(open(ROOT / cfg["ranking"]))["ranking"][:3]]
     panel = {c["iso3"]: c for c in json.load(open(ROOT / cfg["panel"]))["countries"]}
     n, fx, L = cfg["years_ahead"], cfg["krw_per_usd"], cfg["lotte_share_of_korea"]
+    G = cfg.get("target_share_gain_pp", 0) / 100
     out = []
     for iso in top3:
         c = panel[iso]; r = c["raw"]
@@ -45,6 +46,7 @@ def run(cfg_path):
             "korea_increase_eok": [eok(inc[0]), eok(inc[1])],
             "lotte_opportunity_eok": [eok(inc[0] * L), eok(inc[1] * L)],
             "value_of_1pp_share_eok": eok(mkt_n * 0.01),
+            "entry_target_eok": [eok(inc[0] * L + mkt_n * G), eok(inc[1] * L + mkt_n * G)],
             "entry_mode": mode, "entry_reason": why,
         })
     return cfg, out
@@ -55,16 +57,19 @@ def to_md(cfg, rows):
     L = round(cfg["lotte_share_of_korea"] * 100)
     t = [f"# TOP3 비즈니스 임팩트 ({2024+n}년, 2024년 대비 연 매출 증가)\n",
          f"환율 {cfg['krw_per_usd']:,}원/달러, 롯데 몫 {L}%(제과 3사 해외 매출 중 롯데 비중, 2023).\n",
-         "| 나라 | 진입 방식 | 롯데 기회(연) | 한국 과자 전체 증가(연) | 점유율 1%p 가치(연) | 과자 수입시장 2024 (성장률) | 한국산 비중 (5년 변화) |",
-         "|---|---|---|---|---|---|---|"]
+         "| 나라 | 진입 방식 | 진출 목표 매출(연) | 가만히 있어도 느는 몫(연) | 한국 과자 전체 증가(연) | 점유율 1%p 가치(연) | 과자 수입시장 2024 (성장률) | 한국산 비중 (5년 변화) |",
+         "|---|---|---|---|---|---|---|---|"]
     for r in rows:
         a, b = r["lotte_opportunity_eok"]; c, d = r["korea_increase_eok"]
-        t.append(f"| {r['name']} | {r['entry_mode']} | {a}~{b}억 | {c}~{d}억 | {r['value_of_1pp_share_eok']}억 | "
+        e1, e2 = r["entry_target_eok"]
+        t.append(f"| {r['name']} | {r['entry_mode']} | {e1}~{e2}억 | {a}~{b}억 | {c}~{d}억 | {r['value_of_1pp_share_eok']}억 | "
                  f"{r['import_market_2024_eok']:,}억 ({r['import_market_growth_pct']}%/년) | "
                  f"{r['korea_share_pct']}% ({r['korea_share_change_5y_pp']:+}%p) |")
     t.append("\n진입 방식 근거:")
     for r in rows:
         t.append(f"- {r['name']}: {r['entry_mode']}. {r['entry_reason']}.")
+    tot = [sum(r["entry_target_eok"][i] for r in rows) for i in (0, 1)]
+    t.append(f"\n**3개국 진출 목표 합계: 연 {tot[0]}~{tot[1]}억** (점유율 +{cfg.get('target_share_gain_pp', 0)}%p 목표 + 가만히 있어도 느는 몫)")
     t.append("\n범위의 두 끝: 한국산 비중이 지금 그대로인 경우와, 지난 5년 변화 속도로 계속 움직이는 경우.")
     return "\n".join(t) + "\n"
 
