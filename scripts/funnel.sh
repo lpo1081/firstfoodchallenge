@@ -4,3 +4,7 @@
 # 결과: outputs/funnel/biscuits/report.md (사람용), result.json
 cd "$(dirname "$0")/.." || exit 1
 .venv/bin/python -m kfood_scout.funnel "$@"
+# 결과 화면(HTML 한 장): outputs/funnel/biscuits/screen.html — 화면 생성기(PR #15)가 머지돼 있을 때만
+if [ -f kfood_scout/screen_funnel.py ]; then
+  .venv/bin/python -m kfood_scout.screen_funnel --category biscuits
+fi
