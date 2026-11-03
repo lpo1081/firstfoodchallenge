@@ -116,3 +116,14 @@ sh scripts/three.sh            # 맥북: 세계은행 거버넌스 지표만 새
 ### 결과 폴더 (2026-11-03)
 - `outputs/`: 실행할 때마다 다시 만들어지는 결과. **git 에서 뺐다**(.gitignore). 맥북에서 실행해도 다음 Pull 때 충돌이 나지 않는다.
 - `results/`: 공유용 스냅샷(클라우드 스레드·화면이 읽음). 코드는 여기에 쓰지 않는다. 화면(`kfood_scout/screen.py`)은 `outputs/` 가 있으면 그것을, 없으면 `results/` 를 읽는다.
+
+## 통합 진출국 선정 깔때기 (대기업 표준 5단계, 2026-11-03)
+```bash
+sh scripts/funnel.sh                      # 비스킷류(HS 1905): 결과 outputs/funnel/biscuits/report.md
+sh scripts/funnel.sh --category dry_confectionery
+```
+- 질문: "정석 단계를 전부 거쳐서, 상세 검토를 시작할 만큼 확실한 3개국은 어디인가"
+- 단계: 1 자격 심사(제재·전쟁·정치·최소 시장·소득·회사 포트폴리오) → 2 시장 매력도(규모·성장·소비구조) → 3 승산(CAGE 거리·한국 발판·경쟁) → 4 진입 비용(`kfood_scout/entry_cost` 그대로 사용) → 5 위험·충격 7가지 + 비중 1,000번 흔들기 → TOP3
+- 규칙: `config/funnel/protocol.yaml`(결과 전 커밋), 요소 체크리스트·출처: `config/funnel/checklist.yaml`(데이터/대체 지표/사람 확인 구분), 확인된 비용 사실값: `config/funnel/costs_extra.yaml`
+- 기존 모델·결과는 읽기만 한다. 새 원천은 공개 미러(세계은행 WDI 물가·환율·LPI·GDP 성장률, mledoze/countries 좌표·언어)뿐이고 처음 한 번 받아 `data/store/wdi_mirror`, `data/store/ref` 에 저장.
+- 공유 스냅샷: `results/funnel/biscuits/`
