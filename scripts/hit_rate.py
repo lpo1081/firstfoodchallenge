@@ -7,6 +7,7 @@
 
 실행(API 비용 없음, 저장된 데이터만 사용):
   .venv/bin/python scripts/hit_rate.py            # k_export, k_export_agent 둘 다
+  .venv/bin/python scripts/hit_rate.py --existing # 롯데 기진출국(config/entries)끼리만 순위를 매겨 비교
 결과: outputs/hit_rate/hit_rate.json 과 화면 요약
 """
 import json
@@ -20,14 +21,14 @@ import pandas as pd
 from kfood_scout import store
 from kfood_scout.agent import evaluate as ev
 from kfood_scout.agent import loop
-from kfood_scout.config import ROOT, criterion_from_dict, load_criterion_raw
+from kfood_scout.config import ROOT, criterion_from_dict, load_criterion_raw, load_entries
 
 CAT = "dry_confectionery"
 KS = (3, 5, 10)
 H = 3
 
 
-def run(crit_id: str, countries) -> list[dict]:
+def run(crit_id: str, countries, only=None) -> list[dict]:
     raw = load_criterion_raw(crit_id)
     crit = criterion_from_dict(raw)
     panel = loop.panel_for(CAT, raw, fetch=False, log=lambda *a: None)
@@ -40,11 +41,15 @@ def run(crit_id: str, countries) -> list[dict]:
         if s not in wins:
             continue
         P, y = wins[s]["pct"], wins[s]["y"]
+        if only:  # 부분집합(예: 기진출국)끼리만 순위 비교. 지표 백분위는 전체 국가 기준 그대로
+            keep = [c for c in P.index if c in only]
+            P, y = P.loc[keep], y.loc[keep]
         score = pd.Series(P.to_numpy() @ wins[t]["w"], index=P.index)
         prev = wins[t]["y"].reindex(P.index)  # 직전 3년(t→s) 증가액 = 단순 추세 예측
         n = len(y)
         rec = {"fit": t, "test": f"{s}->{s + H}", "n": n}
-        for k in KS:
+        rec["rank_corr"] = round(float(score.rank().corr(y.rank())), 3)
+        for k in [k for k in KS if k < n]:
             act = set(y.nlargest(k).index)
             rec[f"model_hit{k}"] = len(set(score.nlargest(k).index) & act)
             rec[f"trend_hit{k}"] = len(set(prev.dropna().nlargest(k).index) & act)
@@ -59,29 +64,32 @@ def run(crit_id: str, countries) -> list[dict]:
 
 
 def summary(rows):
-    out = {"pairs": len(rows), "n_avg": round(sum(r["n"] for r in rows) / len(rows), 1)}
-    for k in KS:
+    out = {"pairs": len(rows), "n_avg": round(sum(r["n"] for r in rows) / len(rows), 1),
+           "rank_corr": round(sum(r["rank_corr"] for r in rows) / len(rows), 3)}
+    for k in [k for k in KS if all(f"model_hit{k}" in r for r in rows)]:
         for who in ("model", "trend", "random"):
             out[f"{who}_hit{k}"] = round(sum(r[f"{who}_hit{k}"] for r in rows) / len(rows), 2)
     return out
 
 
 def main():
-    crits = sys.argv[1:] or ["k_export", "k_export_agent"]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    only = {e["iso3"] for e in load_entries()["entries"]} if "--existing" in sys.argv else None
+    crits = args or ["k_export", "k_export_agent"]
     countries = store.countries(fetch=False)
     res = {}
     for c in crits:
-        rows = run(c, countries)
+        rows = run(c, countries, only)
         res[c] = {"summary": summary(rows), "pairs": rows}
         s = res[c]["summary"]
-        print(f"\n== {c}: 표본 밖 {s['pairs']}개 구간, 평균 {s['n_avg']}개국")
-        for k in KS:
+        print(f"\n== {c}{' (기진출국만)' if only else ''}: 표본 밖 {s['pairs']}개 구간, 평균 {s['n_avg']}개국, 순위상관 평균 {s['rank_corr']}")
+        for k in [k for k in KS if f"model_hit{k}" in s]:
             print(f"  TOP{k} 적중(평균): 모델 {s[f'model_hit{k}']} / 단순추세 {s[f'trend_hit{k}']} / 무작위 {s[f'random_hit{k}']}  (최대 {k})")
         for r in rows:
             print(f"  {r['fit']}년 기준 → {r['test']}: 모델 TOP3 {r['model_top3']} (실제 {r['model_top3_actual_rank']}등) | 실제 TOP3 {r['actual_top3']}")
     d = ROOT / "outputs" / "hit_rate"
     d.mkdir(parents=True, exist_ok=True)
-    (d / "hit_rate.json").write_text(json.dumps(res, ensure_ascii=False, indent=1))
+    (d / ("hit_rate_existing.json" if only else "hit_rate.json")).write_text(json.dumps(res, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":
