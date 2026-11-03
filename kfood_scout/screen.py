@@ -28,7 +28,7 @@ LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 
 
 def _cards(root: Path) -> dict:
-    d = root / "outputs" / "agent" / "critic"
+    d = _src(root, "agent", "critic")
     out = {}
     for p in sorted(d.glob("*.json")) if d.exists() else []:
         if len(p.stem) != 3:
@@ -152,15 +152,22 @@ def render(data: dict) -> str:
     return TEMPLATE.read_text().replace("__DATA__", js)
 
 
+def _src(root: Path, *parts: str) -> Path:
+    """실행 결과(outputs/, git 밖)가 있으면 그것을, 없으면 저장소의 스냅샷(results/)을 읽는다."""
+    p = root.joinpath("outputs", *parts)
+    return p if p.exists() else root.joinpath("results", *parts)
+
+
 def main(root: Path = ROOT) -> Path:
-    res = json.loads((root / "outputs" / "three_criteria" / "result.json").read_text())
+    res = json.loads(_src(root, "three_criteria", "result.json").read_text())
     cfg = yaml.safe_load((root / "config" / "screen" / "screen.yaml").read_text())
-    bp = root / "outputs" / "agent" / CAT / "board.md"
+    bp = _src(root, "agent", CAT, "board.md")
     board_red = parse_board(bp.read_text()) if bp.exists() else {}
-    ip = root / "outputs" / "three_criteria" / "business_impact.json"   # scripts/business_impact.py 결과(있을 때만)
+    ip = _src(root, "three_criteria", "business_impact.json")   # scripts/business_impact.py 결과(있을 때만)
     impact = json.loads(ip.read_text()) if ip.exists() else []
     html = render(build_data(res, cfg, _cards(root), board_red, impact))
     out = root / "outputs" / "three_criteria" / "screen.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
     print(f"[screen] {out}")
     return out
