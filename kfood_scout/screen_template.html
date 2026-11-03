@@ -1,0 +1,344 @@
+<title>K-과자 수출국 스크리닝</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 증권사 리서치 노트 + 엑셀 스크리닝 시트. 결론 → 걸러낸 과정 → 비교표 → 국가 1장 → 검증 순서로 위에서 아래로 읽힘 */
+:root{
+  --paper:#F7F8F9; --sheet:#FFFFFF; --ink:#18212B; --muted:#5E6873; --rule:#D9DEE3;
+  --accent:#0D5C73; --accent-ink:#FFFFFF; --heat:13,92,115; --warn:#A6461F; --ok:#2E6B3A;
+  --sans:"IBM Plex Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#12171C; --sheet:#1A2027; --ink:#E4E8EC; --muted:#99A3AD; --rule:#2E3741;
+  --accent:#5FB3CC; --accent-ink:#0E1418; --heat:95,179,204; --warn:#E08A62; --ok:#7FBF8A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#12171C; --sheet:#1A2027; --ink:#E4E8EC; --muted:#99A3AD; --rule:#2E3741;
+  --accent:#5FB3CC; --accent-ink:#0E1418; --heat:95,179,204; --warn:#E08A62; --ok:#7FBF8A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:1080px;margin:0 auto;display:grid;gap:28px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.mock{font-size:12px;color:var(--muted);border:1px dashed var(--rule);padding:8px 12px;background:var(--sheet)}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:10px}
+header.top h1{font-size:22px;margin:0;font-weight:700;letter-spacing:-.01em}
+header.top .meta{font-size:12px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap}
+nav.tabs{display:flex;gap:0;border-bottom:1px solid var(--rule);overflow-x:auto}
+nav.tabs a{padding:8px 14px;color:var(--muted);text-decoration:none;font-size:13px;border-bottom:2px solid transparent;white-space:nowrap}
+nav.tabs a.on{color:var(--ink);border-color:var(--accent);font-weight:600}
+nav.tabs a:hover{color:var(--ink)} nav.tabs a:focus-visible{outline:2px solid var(--accent)}
+h2{font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:600;margin:0 0 10px;text-transform:uppercase}
+.verdict{background:var(--sheet);border:1px solid var(--rule);padding:20px 22px;display:grid;gap:16px}
+.verdict p.lead{font-size:19px;font-weight:600;margin:0;text-wrap:balance;line-height:1.45}
+.picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule)}
+.pick{padding:14px 16px 4px 0;display:grid;gap:6px;min-width:0}
+.pick+.pick{border-left:1px solid var(--rule);padding-left:16px}
+.pick .name{font-size:16px;font-weight:700;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:600;padding:1px 7px;border:1px solid var(--accent);color:var(--accent);white-space:nowrap}
+.tag.fill{background:var(--accent);color:var(--accent-ink)}
+.tag.grey{border-color:var(--muted);color:var(--muted)}
+.prob{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+.bar{height:6px;background:rgba(var(--heat),.14)} .bar i{display:block;height:100%;background:var(--accent)}
+.pick p{margin:0;font-size:13px}
+.funnel{display:flex;flex-wrap:wrap;gap:0;background:var(--sheet);border:1px solid var(--rule)}
+.step{flex:1 1 150px;padding:12px 14px;border-right:1px solid var(--rule);min-width:0}
+.step:last-child{border-right:0}
+.step b{display:block;font-size:20px} .step span{font-size:12px;color:var(--muted)}
+.step.todo b{color:var(--muted)} .step.todo{background:repeating-linear-gradient(135deg,transparent 0 6px,rgba(var(--heat),.05) 6px 12px)}
+.tablebox{overflow-x:auto;background:var(--sheet);border:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}
+th{font-size:11px;font-weight:600;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--ink);white-space:nowrap}
+th.r,td.r{text-align:right}
+td{padding:7px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
+tr.sel td{background:rgba(var(--heat),.06)} tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+tr.out td{color:var(--muted)}
+td.h{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums;width:72px}
+.note{font-size:12px;color:var(--muted);margin:8px 0 0}
+.sheet2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0;background:var(--sheet);border:1px solid var(--rule)}
+.sheet2>div{padding:18px 20px;min-width:0}
+.sheet2>div+div{border-left:1px solid var(--rule)}
+.sheet2 h3{margin:0 0 4px;font-size:18px}
+.ind{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr) 2.6em;gap:4px 10px;align-items:center;font-size:12.5px}
+.ind .g{grid-column:1/-1;font-size:11px;color:var(--muted);font-weight:600;margin-top:10px;letter-spacing:.04em}
+.track{position:relative;height:14px;border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+.track::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--rule)}
+.track::after{content:"";position:absolute;left:50%;top:2px;bottom:2px;border-left:1px dotted var(--muted)}
+.track i{position:absolute;top:2px;width:10px;height:10px;margin-left:-5px;background:var(--accent);border-radius:50%}
+.track i.lo{background:var(--warn)}
+.ind .v{font-family:var(--mono);text-align:right;font-size:12px}
+.cons{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.cons li{display:grid;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--rule)}
+.cons li:last-child{border-bottom:0}
+.cons .k{font-size:11px;font-weight:600;color:var(--warn)}
+.cons .k.pro{color:var(--ok)}
+.cons .src{font-size:11px;color:var(--muted)}
+.check{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;background:var(--sheet);border:1px solid var(--rule)}
+.check>div{padding:14px 16px;min-width:0} .check>div+div{border-left:1px solid var(--rule)}
+.check b{font-size:20px;display:block} .check span{font-size:12px;color:var(--muted)}
+.check p{margin:6px 0 0;font-size:12.5px}
+footer{font-size:11.5px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;display:grid;gap:4px}
+@media (max-width:720px){
+  .picks,.check{grid-template-columns:1fr}
+  .pick+.pick,.check>div+div{border-left:0;border-top:1px solid var(--rule);padding-left:0}
+  .check>div+div{padding-left:16px}
+  .sheet2{grid-template-columns:1fr} .sheet2>div+div{border-left:0;border-top:1px solid var(--rule)}
+}
+</style>
+<style>
+.steps{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;font-size:14px;line-height:1.6}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--mono);font-weight:600;color:var(--accent);border:1px solid var(--accent);height:22px;width:22px;display:grid;place-items:center;font-size:12px;margin-top:2px}
+.steps b{font-weight:600}
+.qa{display:grid;gap:18px}
+.q{display:grid;gap:6px;border-top:1px solid var(--rule);padding-top:14px}
+.q:first-child{border-top:0;padding-top:0}
+.q h2{margin:0}
+.q .a{font-size:17px;font-weight:600;margin:0;line-height:1.5;text-wrap:balance}
+.q ul{margin:0;padding-left:18px;font-size:13.5px;display:grid;gap:4px;line-height:1.6}
+h2.qh{text-transform:none;letter-spacing:0;font-size:13px}
+.ans{font-size:15px;font-weight:600;margin:0 0 10px}
+.sub2{font-size:13px;color:var(--muted);margin:0}
+.picks .cond{margin:0;padding-left:16px;font-size:12.5px;display:grid;gap:3px}
+.stab{font-size:12px;color:var(--muted)}
+.cover td{white-space:normal;vertical-align:top;font-size:13px;line-height:1.6}
+.cover td:first-child{width:110px;font-weight:600}
+.cover .n{font-family:var(--mono);color:var(--muted);font-size:12px}
+.cover tr.gap td{background:rgba(var(--heat),.04)}
+.grp{border-top:1px solid var(--rule);padding-top:14px;margin-top:14px}
+.grp:first-child{border-top:0;margin-top:0;padding-top:0}
+.grp h4{margin:0;font-size:15px;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
+.grp h4 span{font-size:12.5px;font-weight:400;color:var(--muted)}
+.ind2{min-width:640px} .ind2 td{font-size:12.5px} .ind2 td.nm{white-space:normal}
+.mini{display:inline-block;width:70px;height:6px;background:rgba(var(--heat),.14);vertical-align:middle;margin-right:6px}
+.mini i{display:block;height:100%;background:var(--accent)}
+.notice{font-size:13px;padding:12px 14px;border:1px dashed var(--rule);color:var(--muted)}
+.decbox{display:grid;gap:8px;padding:14px 16px;background:rgba(var(--heat),.06);margin-bottom:12px}
+.decbox .go{font-size:15px;font-weight:600}
+.decbox ol{margin:0;padding-left:20px;font-size:13.5px;display:grid;gap:4px}
+.prob2{display:grid;grid-template-columns:70px auto;gap:8px;align-items:center}
+.prob2 .bar{height:6px}
+.sev{font-size:11px;font-weight:600;padding:0 6px;border:1px solid currentColor;margin-right:6px;white-space:nowrap}
+.sev.m{color:var(--warn)} .sev.l{color:var(--muted)} .sev.h{color:#B3261E}
+.links{font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 10px}
+.links a{color:var(--accent);text-decoration:none} .links a:hover{text-decoration:underline}
+.scroll{max-height:340px;overflow:auto}
+details summary{cursor:pointer;font-size:13px;color:var(--accent);margin-top:10px}
+td .w{color:var(--warn);font-size:12px}
+.fun{min-width:0} .fun td{white-space:normal;vertical-align:top;padding:12px 14px}
+.fn{width:64px;font-size:20px;font-weight:600;text-align:right}
+.ft b{display:block;font-size:14px} .ft span{display:block;font-size:13px;color:var(--muted);max-width:66ch;line-height:1.6}
+.fr{width:110px;text-align:right;color:var(--muted);font-size:12px}
+.xc td{white-space:normal;vertical-align:top;font-size:12.5px;line-height:1.55}
+.xc .sub{font-size:11px;color:var(--muted)}
+.mk{display:inline-block;font-size:11px;font-weight:600;padding:0 6px;margin-right:6px;border:1px solid}
+.mk.ok{color:var(--ok)} .mk.part{color:var(--accent)} .mk.no{color:var(--warn)} .mk.na{color:var(--muted)}
+.xc tr.tot td{border-top:1px solid var(--ink);background:rgba(var(--heat),.05)}
+@media (max-width:600px){.fr{display:none}}
+</style>
+<div class="wrap">
+  <header class="top">
+    <h1>K-과자 수출 유망국 스크리닝</h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <nav class="tabs" aria-label="화면">
+    <a href="#verdict" class="on">결론</a><a href="#basis">판단 근거</a><a href="#screen">국가 비교</a><a href="#country">국가 상세</a><a href="#check">검증</a>
+  </nav>
+
+  <section id="verdict" class="verdict qa">
+    <div class="q"><h2 class="qh">어느 나라로 가야 하나</h2><p class="a" id="a1"></p><div class="picks" id="picks" style="margin-top:6px"></div></div>
+    <div class="q"><h2 class="qh">왜 이 세 나라인가</h2><p class="a" id="a2"></p><ul id="b2"></ul></div>
+    <div class="q"><h2 class="qh">얼마나 벌 수 있나</h2><p class="a" id="a4"></p><ul id="b4"></ul></div>
+    <div class="q"><h2 class="qh">믿을 수 있나</h2><p class="a" id="a3"></p><ul id="b3"></ul></div>
+    <div class="q"><h2 class="qh">어떻게 골랐나</h2><ol class="steps" id="how"></ol></div>
+    <div class="q"><h2 class="qh">왜 건식 과자부터인가</h2><p class="sub2" id="whycat" style="color:var(--ink);font-size:13.5px"></p></div>
+  </section>
+
+  <section id="basis">
+    <h2 class="qh">무엇으로 판단했나</h2>
+    <p class="ans" id="ans-basis"></p>
+    <div class="tablebox"><table class="cover"><tbody id="cover"></tbody></table></div>
+    <p class="note">세 기준에 들어간 지표 전부입니다. 아래 "빠진 것"은 데이터를 구하지 못해 점수에 넣지 못한 항목과, 대신 어떻게 반영했는지입니다.</p>
+  </section>
+
+  <section>
+    <h2 class="qh">62개국에서 3개국까지 어떻게 줄였나</h2>
+    <div class="tablebox"><table class="fun"><tbody id="funnel"></tbody></table></div>
+  </section>
+
+  <section id="screen">
+    <h2 id="h-screen"></h2>
+    <div class="tablebox">
+      <table>
+        <thead><tr>
+          <th class="r">순위</th><th>국가</th><th class="r">종합</th>
+          <th class="r">성장성</th><th class="r">트렌드</th><th class="r">수출입</th>
+          <th id="th-stab">순위 안정성</th><th class="r">한국 과자 수출 2024</th><th>경고</th><th>판정</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="note" id="n-screen"></p>
+    <details>
+      <summary id="s-out"></summary>
+      <div class="tablebox scroll" style="margin-top:8px">
+        <table>
+          <thead><tr><th>국가</th><th>빠진 이유</th><th class="r">종합</th><th class="r">성장성</th><th class="r">트렌드</th><th class="r">수출입</th><th class="r">한국 과자 수출 2024</th></tr></thead>
+          <tbody id="outrows"></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section id="country">
+    <h2>국가 상세</h2>
+    <div class="verdict" style="gap:6px">
+      <h3 id="cname" style="margin:0;font-size:20px"></h3>
+      <p class="note" style="margin:0" id="cmeta"></p>
+      <div id="cdec" style="margin-top:8px"></div>
+      <h3 style="font-size:15px;margin:14px 0 2px">세 기준 점수가 어떻게 나왔나</h3>
+      <p class="note" style="margin:0 0 10px" id="cexpl"></p>
+      <div id="cgroups"></div>
+      <div id="cred"></div>
+    </div>
+  </section>
+
+  <section id="check">
+    <h2 class="qh">결론을 뒷받침하는 숫자</h2>
+    <div class="check" id="checkbox"></div>
+    <h3 style="font-size:15px;margin:22px 0 4px">프로그램 밖 근거로 교차 확인</h3>
+    <p class="note" style="margin:0 0 10px">모델이 쓰지 않은 자료로 세 나라를 따로 확인했습니다. 모델 데이터는 2024년까지라 그 뒤 실적, 현지 유통, 경쟁사 움직임을 봅니다. 이 확인은 순위를 바꾸지 않고 진출 조건에 반영합니다.</p>
+    <div class="tablebox"><table class="xc"><thead id="xch"></thead><tbody id="xcb"></tbody></table></div>
+  </section>
+
+  <footer id="src"></footer>
+</div>
+<script>
+const D=__DATA__;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pc=v=>Math.round(v);
+const heat=v=>v==null?"":`background:rgba(var(--heat),${(Math.max(0,v-30)/70*.42).toFixed(2)})`;
+const G=["성장성","트렌드","수출입"];
+const TOP=D.cands.slice(0,3), V=D.val, gw=V.gw, B=V.B, M=D.meta;
+const links=src=>(src||[]).length?`<div class="links">${src.map(s=>s.u?`<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.t)}</a>`:`<span>${esc(s.t)}</span>`).join("")}</div>`:"";
+const vtag=iso=>{const k=D.dec[iso];if(!k)return `<span class="tag grey">검토 전</span>`;return k.verdict=="진출"?`<span class="tag fill">진출</span>`:k.verdict=="배제"?`<span class="tag" style="border-color:#B3261E;color:#B3261E">배제</span>`:`<span class="tag">${esc(k.verdict)}</span>`};
+const f=x=>x==null?"–":x.toFixed(2);
+const E="앙상블(선택 모델)",S="[기준선] 큰 시장 순",T="[기준선] 직전 3년 증가 순";
+const eok=r=>r[0]==r[1]?r[0]+"억 원":`${r[0]}~${r[1]}억 원`;
+const stab=c=>c.hits==null?"–":`${B}번 중 ${c.hits}번`;
+
+$("meta").innerHTML=`<span>${esc(M.category)} · ${esc(M.hs)}</span><span>데이터 2005–2024년</span><span>예측 2024→2027</span>`;
+const ko=TOP.map(c=>c.ko);
+const nG=g=>(D.groups_ind[g]||[]).length;
+const gtxt=c=>G.map(g=>`${g} ${pc(c.g[g])}`).join(" · ");
+const vs=TOP.map(c=>(D.dec[c.iso]||{}).verdict||"검토 전");
+$("a1").textContent=vs.every(v=>v=="진출")?`${ko.join("·")}입니다. 세 나라 모두 진출하되, 나라마다 지켜야 할 진출 조건이 있습니다.`:`${ko.join("·")}입니다. ${TOP.map((c,i)=>`${c.ko}는 ${vs[i]}`).join(", ")}입니다.`;
+$("a2").textContent=`남은 후보 ${D.cands.length}개국 중 세 기준을 합친 종합 점수 1~3위이고, 세 기준 모두 상위권입니다. 데이터를 바꿔 ${B}번 다시 계산했을 때 ${TOP.map(c=>`${c.ko} ${c.hits}번`).join(", ")} TOP3에 들었습니다.`;
+const poolTxt=`채점한 ${V.n_all}개국 기준`;
+$("b2").innerHTML=TOP.map(c=>`<li><b>${esc(c.ko)}</b> · 종합 ${c.score.toFixed(1)}점 (${esc(gtxt(c))}점, ${poolTxt} 0–100). 점수를 가장 많이 올린 지표: ${esc(c.why.join(", "))}</li>`).join("");
+const IM=TOP.map(c=>D.impact[c.iso]).filter(Boolean);
+if(IM.length){const lo=IM.reduce((a,x)=>a+x.lotte_opportunity_eok[0],0),hi=IM.reduce((a,x)=>a+x.lotte_opportunity_eok[1],0);
+ $("a4").textContent=`세 나라를 합쳐 2027년 롯데 연 매출이 ${lo}~${hi}억 원 늘어납니다. 세 나라 모두 현지 공장 없이 수출로 들어가는 시장입니다.`;
+ $("b4").innerHTML=TOP.map(c=>{const x=D.impact[c.iso];if(!x)return "";return `<li><b>${esc(c.ko)}</b> · 롯데 +${eok(x.lotte_opportunity_eok)}/년. 과자 수입시장 ${x.import_market_2024_eok.toLocaleString()}억 원(연 ${x.import_market_growth_pct}% 성장)에서 한국산 비중 ${x.korea_share_pct}%. 점유율 1%p를 더 가져가면 연 ${x.value_of_1pp_share_eok}억 원.</li>`}).join("")+`<li style="color:var(--muted)">${esc(D.impact_note)}</li>`;}
+else{$("a4").closest(".q").hidden=true}
+const xt=iso=>{const t={};((D.xc.rows)||[]).forEach(r=>{const m=(((D.xc.cells||{})[iso]||{})[r.id]||{}).mark||"미확인";t[m]=(t[m]||0)+1});return t};
+$("a3").textContent=`과거에 이 방식으로 골랐다면 "큰 시장부터 고르기"보다 실제 수출 증가를 더 잘 맞혔고, 모델이 보지 않은 2025년 이후 실적과 현지 유통 움직임도 같은 방향입니다.`;
+$("b3").innerHTML=[
+ `<b>과거 검증</b> · 2013–2018년 6개 시점에서 3년 뒤 수출 증가 순위를 맞힌 정도(순위상관) ${f(V.dev[E])}. 큰 시장 순 ${f(V.dev[S])}, 최근 3년 많이 는 순 ${f(V.dev[T])}보다 높음`,
+ `<b>외부 확인</b> · ${TOP.map(c=>{const t=xt(c.iso);return `${esc(c.ko)} 확인 ${t["확인"]||0}·일부 ${t["일부"]||0}${t["반대"]?"·반대 "+t["반대"]:""}`}).join(", ")} (아래 교차 확인 표)`,
+ `<b>한계</b> · 최근 구간(2021→24)만 보면 "최근 3년 많이 는 순"이 더 잘 맞혔습니다(${f(V.sealed[T])} vs ${f(V.sealed[E])}). 과자 소비시장 규모·관세·환율은 무료 데이터가 없어 점수에 넣지 못하고 진출 조건에서 다뤘습니다.`
+].map(x=>`<li>${x}</li>`).join("");
+$("how").innerHTML=[
+ `<b>데이터</b> · ${D.total}개국의 2005–2024년 공식 통계 ${M.n_ind}개 지표 (${M.sources.map(s=>esc(s.name)).join(", ")})`,
+ `<b>기준</b> · 지표를 성장성 ${nG("성장성")}개 · 트렌드 ${nG("트렌드")}개 · 수출입 ${nG("수출입")}개로 묶었습니다. 기준 비중은 사람이 정하지 않고, 과거 ${V.windows}개 시점에서 "3년 뒤 한국 과자 수출이 실제로 많이 늘어난 나라"를 가장 잘 맞힌 값을 썼습니다 (성장성 ${pc(gw["성장성"]*100)} · 트렌드 ${pc(gw["트렌드"]*100)} · 수출입 ${pc(gw["수출입"]*100)}).`,
+ `<b>선정</b> · 롯데 기진출국, 이미 큰 시장, 진입이 불가능한 나라를 빼고, 세 기준 중 하나라도 하위 1/3인 나라를 뺀 ${D.cands.length}개국을 점수 순으로 세웠습니다. 상위 3개가 TOP3입니다. 이 규칙은 결과를 보기 전에 정해 두었습니다.`,
+ `<b>진출 판단</b> · 별도 AI(레드팀)가 최근 기사에서 반론을 찾고, 반론을 진출 조건으로 바꿨습니다. 반론이 감당 불가일 때만 배제합니다.`
+].map(x=>`<li><span>${x}</span></li>`).join("");
+$("picks").innerHTML=TOP.map(c=>{const k=D.dec[c.iso]||{conditions:[]};
+ return `<div class="pick"><div class="name">${c.ko} ${vtag(c.iso)}</div>
+ ${k.how?`<p style="font-size:13px"><b>진출 방식</b> · ${esc(k.how)}</p>`:""}
+ <ol class="cond">${k.conditions.map(t=>`<li>${esc(t)}</li>`).join("")}</ol>
+ ${D.impact[c.iso]?`<div class="stab"><b style="color:var(--ink)">롯데 연 매출 +${eok(D.impact[c.iso].lotte_opportunity_eok)}</b> (2027년)</div>`:""}
+ <div class="stab">2024년 한국 과자 수출 <span class="num">$${c.kor.toFixed(1)}M</span></div></div>`}).join("");
+$("whycat").textContent=M.why_cat;
+
+$("ans-basis").textContent=`공식 통계 ${M.n_ind}개 지표로 세 기준을 쟀고, 데이터를 못 구한 ${D.gaps.length}가지는 숨기지 않고 아래에 적었습니다.`;
+$("cover").innerHTML=G.map(g=>`<tr><td>${g}<div class="n">${nG(g)}개 지표 · 비중 ${pc(gw[g]*100)}%</div></td><td>${(D.groups_ind[g]||[]).map(esc).join(" · ")}</td></tr>`).join("")
+ +D.gaps.map((x,i)=>`<tr class="gap"><td>${i==0?"빠진 것":""}</td><td><b>${esc(x.name)}</b> · ${esc(x.why)}<br><span style="color:var(--muted)">대신 → ${esc(x.instead)}</span></td></tr>`).join("");
+
+const C=D.cnt;
+const steps=[[D.total,"분석 대상","한국이 과자를 수출하는 나라 중 인구 100만 명 이상, 2024년 한국 과자 수출 10만 달러 이상인 나라입니다. 통계가 충분한 곳만 남겼습니다."],
+[-(C["기진출"]||0),"롯데 기진출국 제외","이미 현지 생산이나 인수로 들어가 있는 나라입니다. '새로 들어갈 나라 찾기'와 목적이 달라 뺐습니다."],
+[-(C["큰시장"]||0),"이미 큰 시장 분리",`${D.big5.join("·")}. 한국 과자 수출 상위 5개국은 이미 자리 잡은 시장이라, 신규가 아니라 지키고 키울 시장으로 따로 봅니다.`],
+[-(C["필터"]||0),"진입 불가 국가 제외","국제 제재, 전쟁, 정치 불안(세계은행 지수 −1.5 미만)인 나라는 점수와 상관없이 뺍니다."],
+[-(C["바닥"]||0),"한쪽만 좋은 나라 제외","성장성·트렌드·수출입 중 하나라도 하위 1/3이면 뺍니다. 한 기준만 높은 나라(예: 몽골은 트렌드 최상위지만 성장성 하위)를 거르기 위해서입니다."],
+[D.cands.length,"후보 줄 세우기",`남은 나라를 지표 ${M.n_ind}개 점수로 줄 세웁니다. 데이터 일부를 무작위로 바꿔 ${B}번 다시 계산해, 매번 같은 순위가 나오는지도 셉니다.`],
+[3,"신규 TOP3",TOP.map(c=>`${c.ko}(${stab(c)})`).join(", ")+"."]];
+let left=0;
+$("funnel").innerHTML=steps.map(([n,t,x],j)=>{left=j==0?n:(n<0?left+n:n);return `<tr><td class="fn num">${n<0?"−"+(-n):n}</td><td class="ft"><b>${t}</b><span>${esc(x)}</span></td><td class="fr num">${j==0||n<0?"남은 "+left+"개국":""}</td></tr>`}).join("");
+
+$("h-screen").textContent=`후보 ${D.cands.length}개국 · 순위 순`;
+$("rows").innerHTML=D.cands.map((c,i)=>`<tr data-k="${c.iso}" tabindex="0" style="cursor:pointer">
+<td class="r num">${i+1}</td><td style="${i<3?"font-weight:600":""}">${esc(c.ko)}</td><td class="h" style="font-weight:600">${c.score.toFixed(1)}</td>
+${G.map(g=>`<td class="h" style="${heat(c.g[g])}">${pc(c.g[g])}</td>`).join("")}
+<td><div class="prob2"><div class="bar"><i style="width:${c.p||0}%"></i></div><span class="num" style="font-size:12px">${c.hits==null?"–":c.hits+"/"+B}</span></div></td>
+<td class="r num">$${c.kor.toFixed(1)}M</td><td>${c.warn.length?`<span class="w">${c.warn.length}건</span>`:""}</td><td>${i<3?vtag(c.iso):""}</td></tr>`).join("");
+$("n-screen").textContent=`점수는 모두 0–100점입니다. 지표마다 채점한 ${V.n_all}개국 중 순위를 점수로 바꾸고(1등 100점, 중간 50점), 기준 점수는 지표 점수를 비중대로 더한 값, 종합 점수는 기준 점수를 성장성 ${pc(gw["성장성"]*100)}·트렌드 ${pc(gw["트렌드"]*100)}·수출입 ${pc(gw["수출입"]*100)}% 비중으로 더한 값입니다. 순위 안정성은 데이터 일부를 무작위로 바꿔 ${B}번 다시 계산했을 때 TOP3에 든 횟수입니다. 행을 누르면 아래에 그 나라의 지표가 하나씩 나옵니다.`;
+const outs=D.out.slice().sort((a,b)=>b.kor-a.kor);
+$("s-out").textContent=`빠진 ${outs.length}개국과 이유 보기`;
+$("outrows").innerHTML=outs.map(c=>`<tr><td>${esc(c.ko)}</td><td style="white-space:normal">${esc(c.status.join("; "))}</td><td class="h">${c.score==null?"–":c.score.toFixed(1)}</td>${G.map(g=>`<td class="h" style="${c.g?heat(c.g[g]):""}">${c.g?pc(c.g[g]):"–"}</td>`).join("")}<td class="r num">$${c.kor.toFixed(1)}M</td></tr>`).join("");
+
+function fmt(v,u){if(v==null)return "자료 없음";
+ const money=x=>x>=1e9?"$"+(x/1e9).toFixed(1)+"B":x>=1e6?"$"+(x/1e6).toFixed(1)+"M":x>=1e3?"$"+(x/1e3).toFixed(0)+"K":"$"+x.toFixed(0);
+ switch(u){case "ln(USD)":return money(Math.exp(v));case "USD":return money(v);
+ case "ln(명)":{const p=Math.exp(v);return p>=1e8?(p/1e8).toFixed(1)+"억 명":(p/1e4).toFixed(0)+"만 명"}
+ case "%/년":return v.toFixed(1)+"%/년";case "%":return v.toFixed(1)+"%";case "%p/5년":return (v>=0?"+":"")+v.toFixed(1)+"%p";
+ case "0-100":return v.toFixed(0)+"점";case "점":return (v>=0?"+":"")+v.toFixed(1)+"점";
+ case "명/인":return (v*1000).toFixed(1)+"명/인구 1천 명";case "USD/인":return "$"+v.toFixed(2);
+ default:return v.toFixed(2)}}
+
+function show(iso){
+ const i=D.cands.findIndex(c=>c.iso==iso), c=D.cands[i]; if(!c)return;
+ $("cname").innerHTML=`${esc(c.ko)} ${i<3?vtag(iso):""}`;
+ $("cmeta").textContent=`후보 ${i+1}위 · 종합 ${c.score.toFixed(1)}점 · 순위 안정성 ${stab(c)} TOP3 · 2024년 한국 과자 수출 $${c.kor.toFixed(1)}M`+(c.warn.length?` · 경고: ${c.warn.join(", ")}`:" · 정치·법치·부패 경고 없음");
+ const k=D.dec[iso];
+ $("cdec").innerHTML=k?`<div class="decbox"><div class="go">${esc(k.verdict)}${k.how?" · "+esc(k.how):""}</div><ol>${k.conditions.map(t=>`<li>${esc(t)}</li>`).join("")}</ol><span class="note" style="margin:0">출처 · ${esc(k.source)}</span></div>`:"";
+ const x=D.impact[iso];
+ if(x)$("cdec").innerHTML+=`<div class="decbox" style="background:transparent;border:1px solid var(--rule)"><div class="go">롯데 연 매출 +${eok(x.lotte_opportunity_eok)} (2027년)</div><ul style="margin:0;padding-left:18px;font-size:13px;display:grid;gap:3px"><li>한국 과자 전체 증가 ${eok(x.korea_increase_eok)}/년 중 롯데 몫 29%</li><li>과자 수입시장 ${x.import_market_2024_eok.toLocaleString()}억 원, 연 ${x.import_market_growth_pct}% 성장 · 한국산 비중 ${x.korea_share_pct}% (5년 ${x.korea_share_change_5y_pp>=0?"+":""}${x.korea_share_change_5y_pp}%p)</li><li>점유율 1%p 가치 연 ${x.value_of_1pp_share_eok}억 원</li><li>진입 방식: ${esc(x.entry_mode)} · ${esc(x.entry_reason)}</li></ul></div>`;
+ $("cexpl").textContent=`지표마다 ${V.n_all}개국 중 순위를 0–100점으로 바꾸고(1등 100점), 기준 안 비중을 곱해 더하면 기준 점수, 기준 점수에 기준 비중을 곱해 더하면 종합 점수입니다. 비중은 과거 데이터에서 실제 수출 증가를 잘 맞힌 지표일수록 큽니다.`;
+ const d=D.detail[iso];
+ if(!d){$("cgroups").innerHTML=`<div class="notice">이 나라의 지표별 값이 결과 파일에 없습니다.</div>`}
+ else{const tot=G.map(g=>d[g]).filter(Boolean);
+ $("cgroups").innerHTML=`<p style="font-size:14px;margin:0 0 6px"><b>종합 ${c.score.toFixed(1)}점</b> = ${G.map(g=>d[g]?`${g} ${d[g].score.toFixed(1)}×${pc(d[g].criterion_weight*100)}% (${d[g].points.toFixed(1)})`:"").filter(Boolean).join(" + ")}</p>`+
+ G.map(g=>{const x=d[g];if(!x)return "";const rows=x.indicators.slice().sort((a,b)=>b.weight_in_criterion-a.weight_in_criterion);
+  return `<div class="grp"><h4>${g} ${x.score.toFixed(1)}점 <span>× 기준 비중 ${pc(x.criterion_weight*100)}% = 종합에 ${x.points.toFixed(1)}점 · 남은 후보 중 상위 ${100-x.rank_in_pool_pct}% 이내</span></h4>
+  <div class="tablebox" style="margin-top:8px;border:0"><table class="ind2"><thead><tr><th>지표</th><th class="r">${esc(c.ko)} 실제 값</th><th>점수 (0–100)</th><th class="r">기준 안 비중</th><th class="r">반영 점수</th></tr></thead><tbody>
+  ${rows.map(r=>`<tr style="${r.weight_in_criterion<0.05?"color:var(--muted)":""}"><td class="nm">${esc(r.name)}</td><td class="r num">${r.missing?"자료 없음(50점 처리)":fmt(r.value,r.unit)}</td><td><span class="mini"><i style="width:${r.score}%"></i></span><span class="num" style="font-size:12px">${r.score.toFixed(0)}</span></td><td class="r num">${(r.weight_in_criterion*100).toFixed(0)}%</td><td class="r num">${(r.score*r.weight_in_criterion).toFixed(1)}</td></tr>`).join("")}
+  <tr><td class="nm"><b>합계 = ${g} 점수</b></td><td></td><td></td><td class="r num">100%</td><td class="r num"><b>${x.score.toFixed(1)}</b></td></tr>
+  </tbody></table></div></div>`}).join("")}
+ const r=D.red[iso];
+ $("cred").innerHTML=!r?(i<3?"":`<p class="note">TOP3 밖이라 레드팀 반론 검토는 하지 않았습니다.</p>`):
+ `<details style="margin-top:14px"><summary>판정의 근거가 된 레드팀 반론 ${r.cons.length}개와 기사</summary><p class="note">${esc(r.summary)}</p><ul class="cons" style="margin-top:10px">${r.cons.map(x=>`<li><span><span class="sev ${x.sev=="치명"?"h":x.sev=="중간"?"m":"l"}">${esc(x.sev)}</span><span style="font-size:11px;color:var(--muted)">${esc(x.cat)}</span></span><span>${esc(x.t)}</span>${x.cond?`<span style="font-size:12.5px"><b>대응</b> · ${esc(x.cond)}</span>`:""}${links(x.src)}</li>`).join("")}</ul></details>
+ <details><summary>진출 지지 근거 ${r.pros.length}개</summary><ul class="cons" style="margin-top:10px">${r.pros.map(x=>`<li><span>${esc(x.t)}</span>${links(x.src)}</li>`).join("")}</ul></details>`;
+ document.querySelectorAll("#rows tr").forEach(tr=>tr.classList.toggle("sel",tr.dataset.k==iso));
+}
+$("rows").addEventListener("click",e=>{const tr=e.target.closest("tr");if(tr){show(tr.dataset.k);$("country").scrollIntoView({behavior:"smooth"})}});
+$("rows").addEventListener("keydown",e=>{if(e.key=="Enter"){const tr=e.target.closest("tr");if(tr)show(tr.dataset.k)}});
+show(TOP[0].iso);
+
+$("checkbox").innerHTML=`
+<div><b class="num">${f(V.dev[E])}</b><span>과거 6개 시점 예측 순위상관 (2013–2018)</span><p>"큰 시장부터"(${f(V.dev[S])}), "최근 3년 많이 는 순"(${f(V.dev[T])})보다 실제 수출 증가 순위를 더 잘 맞혔습니다. 모델은 이 시험으로만 골랐습니다.</p></div>
+<div><b class="num">${f(V.sealed[E])}</b><span>미리 떼어 둔 최근 구간 2021→2024</span><p style="color:var(--warn)">이 구간에서는 "최근 3년 많이 는 순"(${f(V.sealed[T])})이 더 잘 맞혔습니다. 코로나 뒤 반등처럼 직전 흐름이 그대로 이어진 시기라, 새 나라 발굴보다 기존 흐름이 강했습니다.</p></div>
+<div><b class="num">${TOP.map(c=>c.hits).join(" / ")}</b><span>${B}번 다시 계산해 TOP3에 남은 횟수</span><p>학습 데이터를 무작위로 바꿔 ${B}번 다시 계산해도 ${TOP.map(c=>c.ko).join("·")}이 TOP3에 남은 횟수입니다.</p></div>`;
+
+const X=D.xc, cls={"확인":"ok","일부":"part","반대":"no","미확인":"na","미실시":"na"};
+$("xch").innerHTML=`<tr><th style="width:17%">확인 항목</th>${TOP.map(c=>`<th>${esc(c.ko)}</th>`).join("")}</tr>`;
+const cell=(iso,id)=>{const x=((X.cells||{})[iso]||{})[id];if(!x)return `<td><span class="mk na">미확인</span></td>`;return `<td><span class="mk ${cls[x.mark]||"na"}">${esc(x.mark)}</span>${esc(x.text)}${links(x.src)}</td>`};
+const tally=iso=>{const t={};(X.rows||[]).forEach(r=>{const m=(((X.cells||{})[iso]||{})[r.id]||{}).mark||"미확인";t[m]=(t[m]||0)+1});return t};
+$("xcb").innerHTML=(X.rows||[]).map(r=>`<tr><td><b>${esc(r.name)}</b><br><span class="sub">${esc(r.sub)}</span></td>${TOP.map(c=>cell(c.iso,r.id)).join("")}</tr>`).join("")
+ +`<tr class="tot"><td><b>합계</b></td>${TOP.map(c=>{const t=tally(c.iso);return `<td>${["확인","일부","반대","미확인"].filter(m=>t[m]).map(m=>`${m} ${t[m]}`).join(" · ")}</td>`}).join("")}</tr>`;
+
+$("src").innerHTML=M.sources.map(s=>`<div>출처 · ${esc(s.name)} (${esc(s.what)})</div>`).join("")+`<div>생성 ${esc(M.generated)} · 검증 규칙 ${esc(M.protocol)}, 사전 필터 ${esc(M.filter)}. 엔진 결과 파일을 읽어 자동으로 만든 화면이며 사람이 숫자를 옮겨 적지 않았습니다.</div>`;
+</script>
