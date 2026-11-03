@@ -39,7 +39,9 @@ def main():
         "final": R["final"].round(2).to_dict(), "mc_top3_pct": R["mc_keep"].round(1).to_dict(), "mc_same3_pct": R["mc_same3"],
         "shock_top3": R["top3_shock"], "shock_npv": R["npv_shock"], "shocks": R["shocks"],
         "scores": {c: {"attractiveness": float(b["attr"][c]), "ability": float(b["abil"][c]), "safety": float(b["safety"][c]),
-                       "attr_groups": b["attrG"].loc[c].round(1).to_dict(), "ability_groups": b["abilG"].loc[c].round(1).to_dict()}
+                       "attr_groups": b["attrG"].loc[c].round(1).to_dict(), "ability_groups": b["abilG"].loc[c].round(1).to_dict(),
+                       "indicator_pct": {**b["attrP"].loc[c].round(1).to_dict(), **b["abilP"].loc[c].round(1).to_dict(),
+                                         **b["safetyP"].loc[c].round(1).to_dict()}}
                    for c in R["s1"]},
         "economics": {c: {k: v for k, v in R["econ"][c].items() if k != "years"} | {"grade": R["grade"][c]} for c in b["s3"]},
         "indicators": T.reindex(R["pool"]).round(4).astype(object).where(T.reindex(R["pool"]).notna(), None).to_dict(orient="index"),
