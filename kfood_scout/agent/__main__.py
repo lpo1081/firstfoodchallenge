@@ -3,6 +3,7 @@
 python -m kfood_scout.agent test   --hyp kculture            # 가설 하나 검증(데이터 없으면 수집)
 python -m kfood_scout.agent loop   --rounds 2 --n 3           # LLM 가설 제안 → 검증 → 기록 반복
 python -m kfood_scout.agent adopt                             # 채택 지표로 새 기준(k_export_agent.yaml) 생성
+python -m kfood_scout.agent sealed                            # 봉인 구간(2021→24)에서 기존 vs 에이전트 기준 성적(비용 0)
 python -m kfood_scout.agent report                            # 판정 기록 요약(outputs/agent/<category>/report.md)
 python -m kfood_scout.agent auto   --budget 1.0               # 자율 실행: 가설→데이터 탐색→검증, 정체·예산 소진 시 스스로 종료
 python -m kfood_scout.agent scout  --hyp auto_xxx             # 그 가설에 없는 데이터만 웹에서 찾아 등록
@@ -19,7 +20,7 @@ from . import scout as sc
 
 def main():
     ap = argparse.ArgumentParser(prog="kfood_scout.agent")
-    ap.add_argument("cmd", choices=["test", "loop", "auto", "scout", "adopt", "report", "cost", "list"])
+    ap.add_argument("cmd", choices=["test", "loop", "auto", "scout", "adopt", "sealed", "report", "cost", "list"])
     ap.add_argument("--hyp")
     ap.add_argument("--category", default="dry_confectionery")
     ap.add_argument("--criterion", default="k_export")
@@ -56,6 +57,8 @@ def main():
         print(cost.summary())
     elif a.cmd == "adopt":
         loop.adopt(a.category, a.criterion, fetch=fetch, **kw)
+    elif a.cmd == "sealed":
+        loop.sealed(a.category, a.criterion, fetch=fetch, **kw)
     elif a.cmd == "report":
         print(loop.report(a.category))
     else:

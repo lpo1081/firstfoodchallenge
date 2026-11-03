@@ -86,7 +86,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
   <header>
     <div class="eyebrow">건식 과자류 · 3개 기준 통합 · 롤링 역산</div>
     <h1>3년 뒤 한국 과자가 뜰 나라를 맞히는 모델</h1>
-    <p class="sub">2012·2015·2018·2021년 시점의 데이터만으로, 그 뒤 3년간 한국 과자 수출이 실제로 늘어난 순서를 가장 잘 맞히는 가중치(프로그램 X)를 시기별로 역산했습니다. X가 바뀌어 온 방향을 한 걸음 연장한 것이 XX입니다.</p>
+    <p class="sub">2012·2015·2018·2021년 시점의 데이터만으로, 그 뒤 3년간 한국 과자 수출이 실제로 늘어난 순서를 가장 잘 맞히는 가중치(프로그램 X)를 시기별로 역산했습니다. XX는 지금 쓰는 가중치로, 기본은 최신 X 그대로입니다(추세 연장은 검증에서 나은 적이 없어 뺐습니다).</p>
     <ul class="findings" id="findings"></ul>
   </header>
 
@@ -156,7 +156,7 @@ $('oos').innerHTML = `<thead><tr><th>X를 찾은 시기</th><th>맞힌 시기</t
     const best = Math.max(o.X_prev, o.equal, o.size_only, o.momentum);
     return `<tr><td>${o.fit}→${o.fit + 3}</td><td>${o.test}→${o.test + 3}</td><td class="num ${o.X_prev === best ? 'good' : ''}">${o.X_prev.toFixed(2)}</td>${f2(o.equal)}${f2(o.size_only)}${f2(o.momentum)}</tr>`;
   }).join('')}</tbody>`;
-$('xxnote').textContent = `추세를 연장한 XX 방식을 같은 방법으로 검증하면(2012~2018년 X로 만든 XX로 ${D.xx_test.test}→${D.xx_test.test + 3} 예측) ${D.xx_test.XX_extrapolated.toFixed(2)}로, 직전 X의 ${D.xx_test.X_prev.toFixed(2)}와 비슷하거나 약간 낮습니다. 그래서 순위는 최신 X와 XX가 함께 꼽는 나라를 추천합니다.`;
+$('xxnote').textContent = D.xx_test ? `합치는 방식별로 마지막 구간(${D.xx_test.test}→${D.xx_test.test + 3})을 맞힌 순위상관: 최신 X ${(D.xx_test.XX_latest ?? D.xx_test.X_prev).toFixed(2)}, 최근 두 X 평균 ${D.xx_test.XX_mean2 != null ? D.xx_test.XX_mean2.toFixed(2) : '–'}, 추세 연장 ${D.xx_test.XX_extrapolated.toFixed(2)}. 지금 쓰는 방식: ${D.combine || 'extrapolate'}.` : '';
 
 const presets = D.windows.map((w) => ({ key: 'X' + w.t, label: `X ${w.t}`, w: w.weights })).concat([{ key: 'XX', label: 'XX (지금)', w: D.XX }]);
 let W = { ...D.XX }, active = 'XX';

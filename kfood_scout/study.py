@@ -22,7 +22,8 @@ from .config import ROOT, criterion_from_dict, load_categories, load_criterion_r
 # ---------- 방법 레지스트리 ----------
 def _rolling(panel, countries, crit, category, params, existing):
     return rolling.run(panel, countries, crit, category, starts=tuple(params.get("starts", (2012, 2015, 2018, 2021))),
-                       forecast_year=params.get("forecast_year", 2024), existing=existing)
+                       forecast_year=params.get("forecast_year", 2024), existing=existing,
+                       combine=params.get("combine"), top_prob_B=params.get("top_prob_B"))
 
 
 METHODS = {"rolling": _rolling}

@@ -1,6 +1,6 @@
 """가설 검증기: '이 지표를 넣으면 3년 뒤 한국 수출 증가를 더 잘 맞히는가'를 표본 밖에서 판정한다.
 
-1) 창을 1년 간격으로 겹쳐 만든다(기본 2012~2021, 각 창 = t 시점 지표 → t~t+h 실제 수출 증가).
+1) 창을 1년 간격으로 겹쳐 만든다(기본 2012~2018 — 2021→24 구간은 봉인, loop.SEAL_FROM 참고, 각 창 = t 시점 지표 → t~t+h 실제 수출 증가).
 2) 창마다 기준 모델(base)과 가설 모델(base+후보 지표)의 가중치를 각각 역산한다(rolling.fit).
 3) 표본 밖 예측력: t 창에서 찾은 가중치로 t+h 창(정답 기간이 겹치지 않는 창)을 맞힌 순위상관.
 4) 부트스트랩: 시험 창의 국가를 다시 뽑아 '가설 모델이 더 낫다'는 결과가 몇 %에서 유지되는지.
@@ -104,7 +104,7 @@ def _decide(summary, rules):
     return "rejected"
 
 
-def evaluate(panel, countries, base_raw: dict, hyp: dict, category: str, starts=tuple(range(2012, 2022)),
+def evaluate(panel, countries, base_raw: dict, hyp: dict, category: str, starts=tuple(range(2012, 2019)),
              n_fit=8000, B=500, seed=0, rules=None, solo=True) -> dict:
     rules = {**DEFAULT_RULES, **(rules or {}), **hyp.get("rules", {})}
     rng = np.random.default_rng(seed)

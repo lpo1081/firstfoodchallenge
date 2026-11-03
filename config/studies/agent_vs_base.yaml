@@ -12,6 +12,8 @@ methods:
   rolling:
     starts: [2012, 2015, 2018, 2021]
     forecast_year: 2024
+    combine: latest      # latest(최신 X) / mean2(최근 두 X 평균) / extrapolate(추세 연장, 옛 방식)
+    top_prob_B: 200      # TOP-k 확률 계산용 재표본 횟수(0이면 안 함)
 data:
   years: [2005, 2024]
 overrides: []

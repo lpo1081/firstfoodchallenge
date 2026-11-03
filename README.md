@@ -73,3 +73,11 @@ python -m kfood_scout.agent report                               # outputs/agent
 - `agent/scout.py` : Claude 가 web_search/web_fetch 로 원천을 찾고 '수집 명세'(주소·형식·열 이름)를 만든다. 내려받기·해석은 고정 코드(load_spec)가 하고, 국가 30개·연도 8개·연도별 고유값 5개 검사를 통과해야 `config/sources/auto_sources.yaml` 에 등록된다. Claude 가 쓴 코드는 실행하지 않는다.
 - `agent/cost.py` : 모든 API 호출의 비용을 `outputs/agent/costs.jsonl` 에 기록. `python -m kfood_scout.agent cost` 로 합계.
 - 값 퇴화 검사: 후보 지표의 고유값이 5개 미만이면 검증에서 빼고 '퇴화'로 표시(구글 트렌드 0/100 사고 재발 방지). 구글 트렌드는 키워드별로 따로 요청하도록 수정. 맥북의 `data/store/external/gtrends_*.csv` 는 지우고 다시 받아야 함.
+
+### 외부 검토 반영 (2026-11-03): 성적 과대평가 방지
+- **봉인 구간**: 2021→24 정답은 가설 선택·adopt 에서 보지 않는다(`agent/loop.py` `SEAL_FROM`, 선택용 창 2012~2018). 성적은 `python -m kfood_scout.agent sealed` 로만 확인. 옛(봉인 전) 검증 결과는 adopt 에서 자동 제외되고, 새 기준 파일에 `selection.last_start` 가 기록된다.
+- **적중률 재계산** `scripts/hit_rate.py`: 정답 abs/log × 국가 전체/미국·중국 제외, 대조군에 '큰 시장 순(한국 수출 규모 순)' 추가, 요약은 전체 7구간·안 겹치는 3구간·봉인 1구간으로 나눔. '무작위 대비 ○배'만으로 발표하지 말 것(미국이 매 구간 1위라 적중 수가 부풀려짐).
+- **XX**: 기본을 추세 연장 → 최신 X(`combine: latest`)로 변경. 세 방식(latest·mean2·extrapolate)의 성적은 `xx_test` 에 함께 남음.
+- **TOP-k 확률**: 마지막 구간 국가를 다시 뽑아 가중치를 `top_prob_B`(기본 200)번 다시 찾고, 각 나라가 TOP3·5·10 에 든 비율을 `forecast_XX[].prob` 에 기록.
+- **정답 기본값 = 증가율(log)**, **체급별 비교**(`tiers: 3`): 한국 수출 규모 3분위(큰·중간·작은 시장)로 나눠 `forecast_XX[].tier`·`tier_rank`, hit_rate 의 `tier:*` 시나리오로 체급 안 순위·적중률을 본다. 모델은 하나(표본 54개국 유지), 비교·발표만 체급별.
+- 맥북 한 번에 실행: `sh scripts/recheck.sh` (비용 0원).

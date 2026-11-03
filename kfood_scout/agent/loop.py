@@ -22,7 +22,11 @@ from . import scout as sc
 from .cost import Budget
 
 HYP_DIR = CONFIG / "hypotheses"
-STARTS = tuple(range(2012, 2022))
+# 봉인(2026-11-03 검토 반영): 마지막 정답 구간(2021→24)은 가설 선택·adopt 에서 절대 보지 않는다.
+# 선택용 창은 2012~2018(정답이 2021년에 끝남). 봉인 구간 성적은 `sealed` 명령/hit_rate.py 로만 확인.
+SEAL_FROM = 2021
+H = 3
+STARTS = tuple(range(2012, SEAL_FROM - H + 1))
 YEARS = list(range(2005, 2025))
 
 
@@ -194,6 +198,9 @@ def adopt(category="dry_confectionery", criterion="k_export", prune_below=0.03, 
         if rec["status"] != "accepted" or hid not in hyps:
             continue
         res = json.loads((out_dir(category) / f"{hid}.json").read_text())
+        if max(res.get("windows") or [9999]) > max(kw.get("starts", STARTS)):
+            log(f"[adopt] {hid}: 봉인 구간까지 본 옛 검증 결과라 제외 → `agent test --hyp {hid}` 로 다시 검증하세요")
+            continue
         solo = res.get("solo") or {}
         for i in hyps[hid]["indicators"]:
             if not solo or (solo.get(i["id"], {}).get("status") in ("accepted", "weak")):
@@ -210,7 +217,9 @@ def adopt(category="dry_confectionery", criterion="k_export", prune_below=0.03, 
     mean_w = np.mean([w["w"] for w in wins.values()], axis=0)
     drop = [i for i, w in zip(ids, mean_w) if w < prune_below]
     final_raw = dict(cand_raw, id=f"{criterion}_agent", name_ko=cand_raw["name_ko"] + " · 에이전트 갱신",
-                     indicators=[i for i in cand_raw["indicators"] if i["id"] not in drop])
+                     indicators=[i for i in cand_raw["indicators"] if i["id"] not in drop],
+                     selection={"last_start": max(starts), "seal_from": SEAL_FROM,
+                                "note": "지표 선택·가지치기에 쓴 마지막 창. last_start+3 < seal_from 이면 봉인 구간은 미사용"})
     pairs, summ, _ = _compare(panel, countries, base_raw, final_raw, category, starts, n_fit, B)
     better = summ is not None and summ["mean_delta"] >= 0
     rep = {"added": [i["id"] for i in add], "dropped": drop, "mean_weights": dict(zip(ids, np.round(mean_w, 3).tolist())),
@@ -222,6 +231,26 @@ def adopt(category="dry_confectionery", criterion="k_export", prune_below=0.03, 
     _log(category, {"hypothesis": "adopt", "status": "written" if better else "kept_base",
                     "reason": f"추가 {rep['added']}, 제거 {drop}, 기존 대비 표본 밖 {summ['mean_delta'] if summ else None}"})
     log(json.dumps(rep, ensure_ascii=False, default=float)[:2000])
+    return rep
+
+
+def sealed(category="dry_confectionery", criterion="k_export", fetch=False, log=print, **kw) -> dict:
+    """봉인 구간 시험: 2018년 창으로 찾은 가중치가 2021→24 수출 증가를 맞혔나(기존 기준 vs 에이전트 기준)."""
+    base_raw = _base(criterion, kw)
+    agent_raw = load_criterion_raw(f"{criterion}_agent")
+    if kw.get("target_kind"):
+        agent_raw["target"] = dict(agent_raw.get("target", {}), kind=kw["target_kind"])
+    last = agent_raw.get("selection", {}).get("last_start", 9999)
+    valid = last <= SEAL_FROM - H  # 선택에 쓴 마지막 창의 정답이 봉인 시작 전에 끝남
+    panel = panel_for(category, ev.augment(base_raw, agent_raw["indicators"]), fetch, log)
+    pairs, summ, _ = _compare(panel, store.countries(fetch), base_raw, agent_raw, category, (SEAL_FROM - H, SEAL_FROM),
+                              kw.get("n_fit", 8000), kw.get("B", 500))
+    rep = {"seal_test": f"{SEAL_FROM}->{SEAL_FROM + H}", "fit": SEAL_FROM - H, "valid": valid, "selection_last_start": last,
+           "target_kind": base_raw["target"].get("kind", "abs"), "pairs": pairs, "summary": summ}
+    if not valid:
+        rep["warning"] = "에이전트 기준이 봉인 구간을 본 상태로 만들어짐 → agent test(기본 창) 재실행 후 adopt 다시"
+    (out_dir(category) / f"sealed__{rep['target_kind']}.json").write_text(json.dumps(rep, ensure_ascii=False, default=float, indent=1))
+    log(json.dumps(rep, ensure_ascii=False, default=float))
     return rep
 
 

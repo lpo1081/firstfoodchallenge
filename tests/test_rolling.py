@@ -35,3 +35,18 @@ def test_rolling_runs_and_finds_signal():
     assert out["out_of_sample"][0]["X_prev"] > out["out_of_sample"][0]["equal"]
     assert abs(sum(out["XX"].values()) - 1) < 0.01
     assert len(out["forecast_XX"]) > 50
+
+
+def test_combine_options_and_top_probability():
+    panel, countries = synthetic()
+    crit = load_criterion("k_export")
+    out = rolling.run(panel, countries, crit, "dry_confectionery", starts=(2010, 2013, 2016, 2019), forecast_year=2022,
+                      combine="latest", top_prob_B=20)
+    assert out["combine"] == "latest"
+    assert out["XX"] == out["X_latest"]  # 기본: 추세 연장 대신 최신 X
+    assert {"XX_latest", "XX_mean2", "XX_extrapolate", "X_prev"} <= set(out["xx_test"])
+    probs = [c["prob"]["top3"] for c in out["forecast_XX"]]
+    assert abs(sum(probs) - 300) < 1e-6  # 재표본마다 정확히 3개국
+    assert all(0 <= p <= 100 for p in probs)
+    assert {c["tier"] for c in out["forecast_XX"]} == {"큰 시장", "중간 시장", "작은 시장"}
+    assert min(c["tier_rank"] for c in out["forecast_XX"] if c["tier"] == "작은 시장") == 1

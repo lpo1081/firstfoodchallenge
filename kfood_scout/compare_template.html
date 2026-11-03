@@ -107,7 +107,7 @@ td.cat { font-size: 12.5px }
 
 <section class="panel">
   <h2>카테고리마다 '뜨는 나라'를 고르는 기준이 어떻게 옮겨갔나</h2>
-  <p class="note">각 막대는 그 시기(기준연도 → 3년 뒤)의 한국 수출 증가를 가장 잘 맞힌 가중치(프로그램 X)를 3개 기준으로 묶은 것입니다. 마지막 줄 XX는 그 추세를 한 칸 연장한 '지금 써야 할' 가중치입니다.</p>
+  <p class="note">각 막대는 그 시기(기준연도 → 3년 뒤)의 한국 수출 증가를 가장 잘 맞힌 가중치(프로그램 X)를 3개 기준으로 묶은 것입니다. 마지막 줄 XX는 지금 쓰는 가중치입니다(기본: 최신 X 그대로. 추세 연장 방식은 검증에서 나은 적이 없어 뺐습니다).</p>
   <div class="legend" id="legend"></div>
   <div class="cards" id="cards"></div>
 </section>
@@ -201,8 +201,8 @@ function rel(s) {
   const lists = ok.map(r => r.forecast_XX.filter(c => !c.existing).slice(0, 5));
   const baseSet = new Set(base && !base.error ? base.forecast_XX.filter(c => !c.existing).slice(0, 10).map(c => c.iso3) : []);
   let h = `<thead><tr><th class="num">순위</th>${ok.map(r => `<th>${esc(label(r))}</th>`).join("")}</tr></thead><tbody>`;
-  for (let i = 0; i < 5; i++) h += `<tr><td class="num">${i + 1}</td>${lists.map((l, j) => { const c = l[i]; if (!c) return "<td>–</td>"; const hi = ok[j] !== base && baseSet.has(c.iso3); return `<td class="cat ${hi ? "hi" : ""}">${esc(c.name)}</td>`; }).join("")}</tr>`;
-  $("tops").innerHTML = h + `</tbody><caption class="note" style="caption-side:bottom;text-align:left;padding:8px 10px">강조 = 과자 TOP10에도 있는 나라</caption>`;
+  for (let i = 0; i < 5; i++) h += `<tr><td class="num">${i + 1}</td>${lists.map((l, j) => { const c = l[i]; if (!c) return "<td>–</td>"; const hi = ok[j] !== base && baseSet.has(c.iso3); const pr = c.prob ? ` <span class="note">TOP3 ${Math.round(c.prob.top3)}%</span>` : ""; return `<td class="cat ${hi ? "hi" : ""}">${esc(c.name)}${pr}</td>`; }).join("")}</tr>`;
+  $("tops").innerHTML = h + `</tbody><caption class="note" style="caption-side:bottom;text-align:left;padding:8px 10px">강조 = 과자 TOP10에도 있는 나라 · TOP3 % = 마지막 구간 국가를 다시 뽑아 가중치를 200번 다시 찾았을 때 그 나라가 전체 TOP3에 든 비율</caption>`;
 })();
 
 const W = {};
