@@ -25,9 +25,25 @@ def fetch_countries() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+# 세계은행 거버넌스 지표(WGI)는 WDI 가 아니라 source=3 에 있다. 코드 이름이 바뀐 적이 있어 두 이름을 차례로 시도.
+WGI = {"PV.EST", "RL.EST", "CC.EST", "RQ.EST", "GE.EST", "VA.EST"}
+
+
 def fetch_series(code: str, start: int = 1985, end: int = 2025) -> pd.DataFrame:
-    js = cached_get_json(f"{API}/country/all/indicator/{code}",
-                         {"format": "json", "per_page": 30000, "date": f"{start}:{end}"})
+    params = {"format": "json", "per_page": 30000, "date": f"{start}:{end}"}
+    if code in WGI:
+        js = None
+        for name in (code, f"GOV_WGI_{code}"):
+            try:
+                js = cached_get_json(f"{API}/country/all/indicator/{name}", dict(params, source=3))
+            except RuntimeError:
+                continue
+            if isinstance(js, list) and len(js) > 1 and js[1]:
+                break
+        if not (isinstance(js, list) and len(js) > 1 and js[1]):
+            js = [{}, []]
+    else:
+        js = cached_get_json(f"{API}/country/all/indicator/{code}", params)
     rows = [{"iso3": r["countryiso3code"], "year": int(r["date"]), "value": r["value"]}
             for r in (js[1] or []) if r["value"] is not None and r["countryiso3code"]]
     df = pd.DataFrame(rows, columns=["iso3", "year", "value"])

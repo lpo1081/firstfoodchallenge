@@ -1,0 +1,41 @@
+# 사전 필터: 점수와 상관없이 최종 후보에서 아예 빼는 나라(exclude)와, 남기되 경고를 붙이는 나라(warn).
+# 규칙은 결과를 보기 전에 고정(2026-11-03). 규칙 추가/삭제는 블록 하나씩.
+id: hard_filter_v1
+frozen: 2026-11-03
+
+rules:
+  # 1) 국제 제재: 대금 결제·물류가 막혀 수출 자체가 어려운 나라
+  - id: sanctions
+    kind: list
+    action: exclude
+    name_ko: 포괄적 국제 제재
+    iso3: [PRK, IRN, SYR, CUB, RUS, BLR]
+    source: >
+      미국 재무부 OFAC 포괄 제재국(북한·이란·시리아·쿠바), 러시아·벨라루스(미·EU·한국 금융·수출 통제, SWIFT 배제).
+      https://ofac.treasury.gov/sanctions-programs-and-country-information
+  # 2) 전쟁·내전: 지표가 아직 반영 못 한 최근 사건까지 사람이 확인한 목록
+  - id: armed_conflict
+    kind: list
+    action: exclude
+    name_ko: 전쟁·내전 진행 중
+    iso3: [UKR, SDN, SSD, YEM, MMR, AFG, PSE, SOM, LBY, HTI]
+    source: >
+      ACLED Conflict Index 2024 '극단(extreme)' 등급 및 UN 인도주의 위기국. 2026-11 기준 사람이 확인.
+      https://acleddata.com/conflict-index/
+  # 3) 정치 불안(세계은행 WGI '정치 안정·폭력 부재', 표준점수, 최근 3년 평균)
+  - id: political_instability
+    kind: wgi
+    series: PV.EST
+    years: 3
+    exclude_below: -1.5     # 하위 약 7%(표준정규 기준). 데이터가 없으면 이 규칙은 건너뛰고 '미확인' 표시
+    warn_below: -1.0
+    name_ko: 정치 불안
+    source: World Bank Worldwide Governance Indicators, https://www.worldbank.org/en/publication/worldwide-governance-indicators
+  # 4) ESG·거버넌스: 부패·법치가 매우 낮으면 경고(계약·통관 리스크). 제외까지는 하지 않는다
+  - id: governance
+    kind: wgi
+    series: [RL.EST, CC.EST]   # 법치, 부패 통제
+    years: 3
+    warn_below: -1.0
+    name_ko: 법치·부패 리스크
+    source: World Bank WGI

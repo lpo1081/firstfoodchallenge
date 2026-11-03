@@ -1,0 +1,3352 @@
+{
+ "protocol": "three_criteria_v1",
+ "filter": "hard_filter_v1",
+ "indicators": [
+  {
+   "id": "import_market_size",
+   "name": "과자 수입시장 규모",
+   "group": "성장성"
+  },
+  {
+   "id": "import_market_cagr",
+   "name": "과자 수입시장 5년 성장률",
+   "group": "성장성"
+  },
+  {
+   "id": "population_size",
+   "name": "인구 규모",
+   "group": "성장성"
+  },
+  {
+   "id": "population_cagr",
+   "name": "인구 5년 증가율",
+   "group": "성장성"
+  },
+  {
+   "id": "hh_consumption_pc_cagr",
+   "name": "1인당 실질 가계소비 성장률",
+   "group": "성장성"
+  },
+  {
+   "id": "gdp_pc_ppp_cagr",
+   "name": "1인당 소득(PPP) 5년 성장률",
+   "group": "성장성"
+  },
+  {
+   "id": "kfood_interest",
+   "name": "한국 음식 검색 관심도",
+   "group": "트렌드"
+  },
+  {
+   "id": "kfood_interest_change",
+   "name": "한국 음식 관심도 3년 변화",
+   "group": "트렌드"
+  },
+  {
+   "id": "kpop_interest",
+   "name": "K-pop 검색 관심도",
+   "group": "트렌드"
+  },
+  {
+   "id": "learn_korean_interest",
+   "name": "한국어 학습 관심도",
+   "group": "트렌드"
+  },
+  {
+   "id": "korea_visitors_pc",
+   "name": "인구 대비 방한 관광객",
+   "group": "트렌드"
+  },
+  {
+   "id": "youth_share",
+   "name": "유소년(0-14세) 비중",
+   "group": "트렌드"
+  },
+  {
+   "id": "urbanization_change",
+   "name": "도시화 진행 속도",
+   "group": "트렌드"
+  },
+  {
+   "id": "internet_change",
+   "name": "인터넷 이용률 5년 변화",
+   "group": "트렌드"
+  },
+  {
+   "id": "import_pc",
+   "name": "1인당 과자 수입액",
+   "group": "트렌드"
+  },
+  {
+   "id": "import_pc_cagr",
+   "name": "1인당 과자 수입 증가율",
+   "group": "트렌드"
+  },
+  {
+   "id": "korea_exports_size",
+   "name": "한국 과자 수출 규모",
+   "group": "수출입"
+  },
+  {
+   "id": "korea_exports_cagr",
+   "name": "한국 과자 수출 5년 성장률",
+   "group": "수출입"
+  },
+  {
+   "id": "korea_exports_change",
+   "name": "한국 과자 수출 직전 3년 증가액",
+   "group": "수출입"
+  },
+  {
+   "id": "korea_share",
+   "name": "수입 중 한국산 비중",
+   "group": "수출입"
+  },
+  {
+   "id": "korea_share_change",
+   "name": "한국산 비중 5년 변화",
+   "group": "수출입"
+  },
+  {
+   "id": "net_import_share",
+   "name": "순수입 비율(재수출 허브 보정)",
+   "group": "수출입"
+  },
+  {
+   "id": "food_import_dependence",
+   "name": "상품수입 중 식품 비중",
+   "group": "수출입"
+  }
+ ],
+ "missing_indicators": [],
+ "windows": {
+  "2010": 44,
+  "2011": 45,
+  "2012": 54,
+  "2013": 60,
+  "2014": 57,
+  "2015": 54,
+  "2016": 50,
+  "2017": 51,
+  "2018": 56,
+  "2019": 54,
+  "2020": 57,
+  "2021": 58
+ },
+ "dev": {
+  "3기준_동일비중": {
+   "rank_corr": 0.147,
+   "rank_corr_ex_usa_chn": 0.161,
+   "top3_hit": 0.167,
+   "top10_hit": 4.167,
+   "per_test": [
+    0.272,
+    -0.12,
+    0.051,
+    0.117,
+    0.23,
+    0.334
+   ],
+   "beats_size_tests": "2/6",
+   "pass": false
+  },
+  "3기준_기준비중학습": {
+   "rank_corr": 0.126,
+   "rank_corr_ex_usa_chn": 0.161,
+   "top3_hit": 0.0,
+   "top10_hit": 3.167,
+   "per_test": [
+    0.311,
+    -0.054,
+    -0.058,
+    0.008,
+    0.162,
+    0.384
+   ],
+   "beats_size_tests": "2/6",
+   "pass": false
+  },
+  "3기준_지표선별+기준비중학습": {
+   "rank_corr": 0.323,
+   "rank_corr_ex_usa_chn": 0.339,
+   "top3_hit": 0.333,
+   "top10_hit": 5.5,
+   "per_test": [
+    0.501,
+    0.136,
+    0.267,
+    0.285,
+    0.268,
+    0.48
+   ],
+   "beats_size_tests": "5/6",
+   "pass": true
+  },
+  "3기준_지표·기준비중 모두학습": {
+   "rank_corr": 0.372,
+   "rank_corr_ex_usa_chn": 0.392,
+   "top3_hit": 1.0,
+   "top10_hit": 5.833,
+   "per_test": [
+    0.517,
+    0.205,
+    0.279,
+    0.328,
+    0.322,
+    0.583
+   ],
+   "beats_size_tests": "6/6",
+   "pass": true
+  },
+  "지표 전체 한 번에 학습(기존 방식)": {
+   "rank_corr": 0.356,
+   "rank_corr_ex_usa_chn": 0.372,
+   "top3_hit": 0.5,
+   "top10_hit": 5.333,
+   "per_test": [
+    0.472,
+    0.129,
+    0.25,
+    0.323,
+    0.373,
+    0.59
+   ],
+   "beats_size_tests": "5/6",
+   "pass": true
+  },
+  "성장성만": {
+   "rank_corr": 0.225,
+   "rank_corr_ex_usa_chn": 0.224,
+   "top3_hit": 0.5,
+   "top10_hit": 4.0,
+   "per_test": [
+    0.356,
+    0.093,
+    0.265,
+    0.302,
+    0.101,
+    0.235
+   ],
+   "beats_size_tests": "4/6",
+   "pass": true
+  },
+  "트렌드만": {
+   "rank_corr": 0.268,
+   "rank_corr_ex_usa_chn": 0.282,
+   "top3_hit": 0.0,
+   "top10_hit": 3.667,
+   "per_test": [
+    0.411,
+    0.105,
+    0.129,
+    0.177,
+    0.307,
+    0.48
+   ],
+   "beats_size_tests": "4/6",
+   "pass": true
+  },
+  "수출입만": {
+   "rank_corr": 0.151,
+   "rank_corr_ex_usa_chn": 0.14,
+   "top3_hit": 1.0,
+   "top10_hit": 5.0,
+   "per_test": [
+    0.296,
+    -0.071,
+    0.135,
+    0.156,
+    0.142,
+    0.248
+   ],
+   "beats_size_tests": "2/6",
+   "pass": false
+  },
+  "성장성+트렌드(수출입 없이)": {
+   "rank_corr": 0.336,
+   "rank_corr_ex_usa_chn": 0.355,
+   "top3_hit": 0.333,
+   "top10_hit": 5.5,
+   "per_test": [
+    0.574,
+    0.135,
+    0.264,
+    0.293,
+    0.268,
+    0.481
+   ],
+   "beats_size_tests": "6/6",
+   "pass": true
+  },
+  "[기준선] 큰 시장 순": {
+   "rank_corr": 0.208,
+   "rank_corr_ex_usa_chn": 0.201,
+   "top3_hit": 1.5,
+   "top10_hit": 5.333,
+   "per_test": [
+    0.504,
+    -0.007,
+    0.117,
+    0.209,
+    0.093,
+    0.33
+   ]
+  },
+  "[기준선] 직전 3년 증가 순": {
+   "rank_corr": 0.293,
+   "rank_corr_ex_usa_chn": 0.291,
+   "top3_hit": 1.333,
+   "top10_hit": 5.667,
+   "per_test": [
+    0.52,
+    0.076,
+    0.337,
+    0.107,
+    0.442,
+    0.279
+   ]
+  },
+  "앙상블(선택 모델)": {
+   "rank_corr": 0.37,
+   "rank_corr_ex_usa_chn": 0.39,
+   "top3_hit": 0.667,
+   "top10_hit": 5.667,
+   "per_test": [
+    0.529,
+    0.169,
+    0.294,
+    0.328,
+    0.332,
+    0.566
+   ]
+  }
+ },
+ "dev_rows": [
+  {
+   "test": 2013,
+   "train": [
+    2010
+   ],
+   "n": 60,
+   "models": {
+    "3기준_동일비중": {
+     "rank_corr": 0.27240900250069466,
+     "rank_corr_ex_usa_chn": 0.2570057522532222,
+     "n": 60,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "PHL",
+      "MYS",
+      "KHM"
+     ],
+     "top3_actual_rank": [
+      6,
+      7,
+      56
+     ]
+    },
+    "3기준_기준비중학습": {
+     "rank_corr": 0.3110864128924702,
+     "rank_corr_ex_usa_chn": 0.3379679473376604,
+     "n": 60,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "MNG",
+      "PHL",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      25,
+      6,
+      7
+     ]
+    },
+    "3기준_지표선별+기준비중학습": {
+     "rank_corr": 0.5011947763267575,
+     "rank_corr_ex_usa_chn": 0.4615029684087484,
+     "n": 60,
+     "top3_hit": 1,
+     "top10_hit": 8,
+     "top3": [
+      "PHL",
+      "MYS",
+      "CHN"
+     ],
+     "top3_actual_rank": [
+      6,
+      7,
+      1
+     ]
+    },
+    "3기준_지표·기준비중 모두학습": {
+     "rank_corr": 0.5172547929980551,
+     "rank_corr_ex_usa_chn": 0.49798517333661446,
+     "n": 60,
+     "top3_hit": 1,
+     "top10_hit": 8,
+     "top3": [
+      "MYS",
+      "MNG",
+      "HKG"
+     ],
+     "top3_actual_rank": [
+      7,
+      25,
+      3
+     ]
+    },
+    "지표 전체 한 번에 학습(기존 방식)": {
+     "rank_corr": 0.47174215059738817,
+     "rank_corr_ex_usa_chn": 0.44766064782060355,
+     "n": 60,
+     "top3_hit": 0,
+     "top10_hit": 7,
+     "top3": [
+      "MYS",
+      "PHL",
+      "MNG"
+     ],
+     "top3_actual_rank": [
+      7,
+      6,
+      25
+     ]
+    },
+    "성장성만": {
+     "rank_corr": 0.3558210614059462,
+     "rank_corr_ex_usa_chn": 0.2923805715340368,
+     "n": 60,
+     "top3_hit": 1,
+     "top10_hit": 3,
+     "top3": [
+      "CHN",
+      "RUS",
+      "BRA"
+     ],
+     "top3_actual_rank": [
+      1,
+      59,
+      28
+     ]
+    },
+    "트렌드만": {
+     "rank_corr": 0.41083634342873027,
+     "rank_corr_ex_usa_chn": 0.40976345012150484,
+     "n": 60,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "PHL",
+      "SGP",
+      "MNG"
+     ],
+     "top3_actual_rank": [
+      6,
+      4,
+      25
+     ]
+    },
+    "수출입만": {
+     "rank_corr": 0.29641567101972777,
+     "rank_corr_ex_usa_chn": 0.24310191024024116,
+     "n": 60,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "JPN",
+      "VNM",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      60,
+      11,
+      7
+     ]
+    },
+    "성장성+트렌드(수출입 없이)": {
+     "rank_corr": 0.5736593498193944,
+     "rank_corr_ex_usa_chn": 0.5448644990617983,
+     "n": 60,
+     "top3_hit": 1,
+     "top10_hit": 8,
+     "top3": [
+      "PHL",
+      "CHN",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      6,
+      1,
+      7
+     ]
+    },
+    "[기준선] 큰 시장 순": {
+     "rank_corr": 0.5043623228674633,
+     "rank_corr_ex_usa_chn": 0.4584884185917746,
+     "n": 60,
+     "top3_hit": 2,
+     "top10_hit": 6,
+     "top3": [
+      "JPN",
+      "CHN",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      60,
+      1,
+      2
+     ]
+    },
+    "[기준선] 직전 3년 증가 순": {
+     "rank_corr": 0.5201689964238548,
+     "rank_corr_ex_usa_chn": 0.47150500601707485,
+     "n": 60,
+     "top3_hit": 2,
+     "top10_hit": 9,
+     "top3": [
+      "CHN",
+      "JPN",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      1,
+      60,
+      2
+     ]
+    }
+   },
+   "random_top3": 0.15
+  },
+  {
+   "test": 2014,
+   "train": [
+    2010,
+    2011
+   ],
+   "n": 57,
+   "models": {
+    "3기준_동일비중": {
+     "rank_corr": -0.12036556909515168,
+     "rank_corr_ex_usa_chn": -0.07965367965367967,
+     "n": 57,
+     "top3_hit": 0,
+     "top10_hit": 3,
+     "top3": [
+      "PHL",
+      "MYS",
+      "KHM"
+     ],
+     "top3_actual_rank": [
+      4,
+      52,
+      47
+     ]
+    },
+    "3기준_기준비중학습": {
+     "rank_corr": -0.05399274047186934,
+     "rank_corr_ex_usa_chn": 0.006709956709956711,
+     "n": 57,
+     "top3_hit": 0,
+     "top10_hit": 2,
+     "top3": [
+      "PHL",
+      "MYS",
+      "BHR"
+     ],
+     "top3_actual_rank": [
+      4,
+      52,
+      36
+     ]
+    },
+    "3기준_지표선별+기준비중학습": {
+     "rank_corr": 0.1356624319419238,
+     "rank_corr_ex_usa_chn": 0.17460317460317462,
+     "n": 57,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "CHN",
+      "MYS",
+      "PHL"
+     ],
+     "top3_actual_rank": [
+      56,
+      52,
+      4
+     ]
+    },
+    "3기준_지표·기준비중 모두학습": {
+     "rank_corr": 0.20501685247601764,
+     "rank_corr_ex_usa_chn": 0.24350649350649356,
+     "n": 57,
+     "top3_hit": 1,
+     "top10_hit": 5,
+     "top3": [
+      "HKG",
+      "CHN",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      2,
+      56,
+      52
+     ]
+    },
+    "지표 전체 한 번에 학습(기존 방식)": {
+     "rank_corr": 0.12911589318122896,
+     "rank_corr_ex_usa_chn": 0.16284271284271284,
+     "n": 57,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "MYS",
+      "CHN",
+      "THA"
+     ],
+     "top3_actual_rank": [
+      52,
+      56,
+      54
+     ]
+    },
+    "성장성만": {
+     "rank_corr": 0.09255898366606172,
+     "rank_corr_ex_usa_chn": 0.10822510822510825,
+     "n": 57,
+     "top3_hit": 1,
+     "top10_hit": 3,
+     "top3": [
+      "CHN",
+      "RUS",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      56,
+      55,
+      1
+     ]
+    },
+    "트렌드만": {
+     "rank_corr": 0.10461498574021261,
+     "rank_corr_ex_usa_chn": 0.12460317460317463,
+     "n": 57,
+     "top3_hit": 0,
+     "top10_hit": 3,
+     "top3": [
+      "PHL",
+      "MYS",
+      "SGP"
+     ],
+     "top3_actual_rank": [
+      4,
+      52,
+      23
+     ]
+    },
+    "수출입만": {
+     "rank_corr": -0.07130587010664018,
+     "rank_corr_ex_usa_chn": -0.0666738828453604,
+     "n": 57,
+     "top3_hit": 1,
+     "top10_hit": 4,
+     "top3": [
+      "JPN",
+      "CHN",
+      "HKG"
+     ],
+     "top3_actual_rank": [
+      57,
+      56,
+      2
+     ]
+    },
+    "성장성+트렌드(수출입 없이)": {
+     "rank_corr": 0.13546798029556653,
+     "rank_corr_ex_usa_chn": 0.1744588744588745,
+     "n": 57,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "CHN",
+      "MYS",
+      "PHL"
+     ],
+     "top3_actual_rank": [
+      56,
+      52,
+      4
+     ]
+    },
+    "[기준선] 큰 시장 순": {
+     "rank_corr": -0.006870624837956962,
+     "rank_corr_ex_usa_chn": -0.0016594516594516599,
+     "n": 57,
+     "top3_hit": 1,
+     "top10_hit": 4,
+     "top3": [
+      "JPN",
+      "CHN",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      57,
+      56,
+      1
+     ]
+    },
+    "[기준선] 직전 3년 증가 순": {
+     "rank_corr": 0.07607592671651786,
+     "rank_corr_ex_usa_chn": 0.09074816485460366,
+     "n": 57,
+     "top3_hit": 1,
+     "top10_hit": 4,
+     "top3": [
+      "CHN",
+      "JPN",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      56,
+      57,
+      1
+     ]
+    }
+   },
+   "random_top3": 0.16
+  },
+  {
+   "test": 2015,
+   "train": [
+    2010,
+    2011,
+    2012
+   ],
+   "n": 54,
+   "models": {
+    "3기준_동일비중": {
+     "rank_corr": 0.050962454736039636,
+     "rank_corr_ex_usa_chn": 0.08938785964313155,
+     "n": 54,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "PHL",
+      "MYS",
+      "CHN"
+     ],
+     "top3_actual_rank": [
+      7,
+      44,
+      54
+     ]
+    },
+    "3기준_기준비중학습": {
+     "rank_corr": -0.057975986277873065,
+     "rank_corr_ex_usa_chn": 0.006061640911807393,
+     "n": 54,
+     "top3_hit": 0,
+     "top10_hit": 3,
+     "top3": [
+      "PHL",
+      "MYS",
+      "NPL"
+     ],
+     "top3_actual_rank": [
+      7,
+      44,
+      30
+     ]
+    },
+    "3기준_지표선별+기준비중학습": {
+     "rank_corr": 0.2667810177244139,
+     "rank_corr_ex_usa_chn": 0.32382822504909076,
+     "n": 54,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "MYS",
+      "PHL"
+     ],
+     "top3_actual_rank": [
+      54,
+      44,
+      7
+     ]
+    },
+    "3기준_지표·기준비중 모두학습": {
+     "rank_corr": 0.2785972936916333,
+     "rank_corr_ex_usa_chn": 0.3221207205668915,
+     "n": 54,
+     "top3_hit": 1,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "HKG",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      54,
+      2,
+      44
+     ]
+    },
+    "지표 전체 한 번에 학습(기존 방식)": {
+     "rank_corr": 0.24962835906232128,
+     "rank_corr_ex_usa_chn": 0.2945445231793733,
+     "n": 54,
+     "top3_hit": 1,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "MYS",
+      "HKG"
+     ],
+     "top3_actual_rank": [
+      54,
+      44,
+      2
+     ]
+    },
+    "성장성만": {
+     "rank_corr": 0.26464646464646463,
+     "rank_corr_ex_usa_chn": 0.3167420814479638,
+     "n": 54,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "CHN",
+      "IND",
+      "TUR"
+     ],
+     "top3_actual_rank": [
+      54,
+      24,
+      43
+     ]
+    },
+    "트렌드만": {
+     "rank_corr": 0.12855264099508024,
+     "rank_corr_ex_usa_chn": 0.17709089501867825,
+     "n": 54,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "SGP",
+      "MYS",
+      "NPL"
+     ],
+     "top3_actual_rank": [
+      49,
+      44,
+      30
+     ]
+    },
+    "수출입만": {
+     "rank_corr": 0.13464470963318803,
+     "rank_corr_ex_usa_chn": 0.1574947713895622,
+     "n": 54,
+     "top3_hit": 2,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "VNM",
+      "HKG"
+     ],
+     "top3_actual_rank": [
+      54,
+      3,
+      2
+     ]
+    },
+    "성장성+트렌드(수출입 없이)": {
+     "rank_corr": 0.26373165618448635,
+     "rank_corr_ex_usa_chn": 0.3265602322206096,
+     "n": 54,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "MYS",
+      "PHL"
+     ],
+     "top3_actual_rank": [
+      54,
+      44,
+      7
+     ]
+    },
+    "[기준선] 큰 시장 순": {
+     "rank_corr": 0.1168286639984753,
+     "rank_corr_ex_usa_chn": 0.13753948604115085,
+     "n": 54,
+     "top3_hit": 1,
+     "top10_hit": 6,
+     "top3": [
+      "CHN",
+      "JPN",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      54,
+      53,
+      1
+     ]
+    },
+    "[기준선] 직전 3년 증가 순": {
+     "rank_corr": 0.336653701904515,
+     "rank_corr_ex_usa_chn": 0.3794861240790307,
+     "n": 54,
+     "top3_hit": 1,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "USA",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      54,
+      1,
+      44
+     ]
+    }
+   },
+   "random_top3": 0.17
+  },
+  {
+   "test": 2016,
+   "train": [
+    2010,
+    2011,
+    2012,
+    2013
+   ],
+   "n": 50,
+   "models": {
+    "3기준_동일비중": {
+     "rank_corr": 0.1173109243697479,
+     "rank_corr_ex_usa_chn": 0.1504559270516717,
+     "n": 50,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "PHL",
+      "MYS",
+      "CHN"
+     ],
+     "top3_actual_rank": [
+      17,
+      7,
+      50
+     ]
+    },
+    "3기준_기준비중학습": {
+     "rank_corr": 0.007539015606242497,
+     "rank_corr_ex_usa_chn": 0.05188884064264003,
+     "n": 50,
+     "top3_hit": 0,
+     "top10_hit": 3,
+     "top3": [
+      "PHL",
+      "MYS",
+      "KHM"
+     ],
+     "top3_actual_rank": [
+      17,
+      7,
+      18
+     ]
+    },
+    "3기준_지표선별+기준비중학습": {
+     "rank_corr": 0.284609843937575,
+     "rank_corr_ex_usa_chn": 0.33575770733825444,
+     "n": 50,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "PHL",
+      "MYS",
+      "CHN"
+     ],
+     "top3_actual_rank": [
+      17,
+      7,
+      50
+     ]
+    },
+    "3기준_지표·기준비중 모두학습": {
+     "rank_corr": 0.32801920768307324,
+     "rank_corr_ex_usa_chn": 0.3809161962657404,
+     "n": 50,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "HKG",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      50,
+      48,
+      7
+     ]
+    },
+    "지표 전체 한 번에 학습(기존 방식)": {
+     "rank_corr": 0.3230252100840336,
+     "rank_corr_ex_usa_chn": 0.36658706035605737,
+     "n": 50,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "PHL",
+      "CHN",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      17,
+      50,
+      7
+     ]
+    },
+    "성장성만": {
+     "rank_corr": 0.3016086434573829,
+     "rank_corr_ex_usa_chn": 0.35106382978723405,
+     "n": 50,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "IND",
+      "PHL"
+     ],
+     "top3_actual_rank": [
+      50,
+      38,
+      17
+     ]
+    },
+    "트렌드만": {
+     "rank_corr": 0.17695502898327356,
+     "rank_corr_ex_usa_chn": 0.1842212392460665,
+     "n": 50,
+     "top3_hit": 0,
+     "top10_hit": 2,
+     "top3": [
+      "MYS",
+      "PHL",
+      "SGP"
+     ],
+     "top3_actual_rank": [
+      7,
+      17,
+      46
+     ]
+    },
+    "수출입만": {
+     "rank_corr": 0.15574498851597565,
+     "rank_corr_ex_usa_chn": 0.18630404861734298,
+     "n": 50,
+     "top3_hit": 1,
+     "top10_hit": 4,
+     "top3": [
+      "CHN",
+      "HKG",
+      "VNM"
+     ],
+     "top3_actual_rank": [
+      50,
+      48,
+      2
+     ]
+    },
+    "성장성+트렌드(수출입 없이)": {
+     "rank_corr": 0.2925810324129652,
+     "rank_corr_ex_usa_chn": 0.34476769431176724,
+     "n": 50,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "PHL",
+      "MYS",
+      "CHN"
+     ],
+     "top3_actual_rank": [
+      17,
+      7,
+      50
+     ]
+    },
+    "[기준선] 큰 시장 순": {
+     "rank_corr": 0.20941176470588235,
+     "rank_corr_ex_usa_chn": 0.23957881024750324,
+     "n": 50,
+     "top3_hit": 2,
+     "top10_hit": 6,
+     "top3": [
+      "CHN",
+      "JPN",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      50,
+      3,
+      1
+     ]
+    },
+    "[기준선] 직전 3년 증가 순": {
+     "rank_corr": 0.10679799454916923,
+     "rank_corr_ex_usa_chn": 0.12338439964314142,
+     "n": 50,
+     "top3_hit": 1,
+     "top10_hit": 4,
+     "top3": [
+      "CHN",
+      "USA",
+      "HKG"
+     ],
+     "top3_actual_rank": [
+      50,
+      1,
+      48
+     ]
+    }
+   },
+   "random_top3": 0.18
+  },
+  {
+   "test": 2017,
+   "train": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014
+   ],
+   "n": 51,
+   "models": {
+    "3기준_동일비중": {
+     "rank_corr": 0.23022624434389138,
+     "rank_corr_ex_usa_chn": 0.27030612244897956,
+     "n": 51,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "PHL",
+      "MYS",
+      "CHN"
+     ],
+     "top3_actual_rank": [
+      37,
+      6,
+      51
+     ]
+    },
+    "3기준_기준비중학습": {
+     "rank_corr": 0.1623529411764706,
+     "rank_corr_ex_usa_chn": 0.21551020408163266,
+     "n": 51,
+     "top3_hit": 0,
+     "top10_hit": 2,
+     "top3": [
+      "PHL",
+      "MYS",
+      "KHM"
+     ],
+     "top3_actual_rank": [
+      37,
+      6,
+      14
+     ]
+    },
+    "3기준_지표선별+기준비중학습": {
+     "rank_corr": 0.2681447963800905,
+     "rank_corr_ex_usa_chn": 0.31102040816326526,
+     "n": 51,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "PHL",
+      "MYS",
+      "CHN"
+     ],
+     "top3_actual_rank": [
+      37,
+      6,
+      51
+     ]
+    },
+    "3기준_지표·기준비중 모두학습": {
+     "rank_corr": 0.3217194570135747,
+     "rank_corr_ex_usa_chn": 0.37030612244897954,
+     "n": 51,
+     "top3_hit": 1,
+     "top10_hit": 6,
+     "top3": [
+      "CHN",
+      "HKG",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      51,
+      50,
+      1
+     ]
+    },
+    "지표 전체 한 번에 학습(기존 방식)": {
+     "rank_corr": 0.3729411764705882,
+     "rank_corr_ex_usa_chn": 0.41551020408163264,
+     "n": 51,
+     "top3_hit": 1,
+     "top10_hit": 5,
+     "top3": [
+      "PHL",
+      "USA",
+      "HKG"
+     ],
+     "top3_actual_rank": [
+      37,
+      1,
+      50
+     ]
+    },
+    "성장성만": {
+     "rank_corr": 0.10077151069345404,
+     "rank_corr_ex_usa_chn": 0.12495216718778075,
+     "n": 51,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "CHN",
+      "IND",
+      "PHL"
+     ],
+     "top3_actual_rank": [
+      51,
+      40,
+      37
+     ]
+    },
+    "트렌드만": {
+     "rank_corr": 0.3065158371040724,
+     "rank_corr_ex_usa_chn": 0.33499999999999996,
+     "n": 51,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "MYS",
+      "PHL",
+      "SGP"
+     ],
+     "top3_actual_rank": [
+      6,
+      37,
+      29
+     ]
+    },
+    "수출입만": {
+     "rank_corr": 0.14244343891402714,
+     "rank_corr_ex_usa_chn": 0.13408163265306122,
+     "n": 51,
+     "top3_hit": 1,
+     "top10_hit": 6,
+     "top3": [
+      "HKG",
+      "PHL",
+      "AUS"
+     ],
+     "top3_actual_rank": [
+      50,
+      37,
+      3
+     ]
+    },
+    "성장성+트렌드(수출입 없이)": {
+     "rank_corr": 0.26805429864253394,
+     "rank_corr_ex_usa_chn": 0.311734693877551,
+     "n": 51,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "PHL",
+      "MYS",
+      "CHN"
+     ],
+     "top3_actual_rank": [
+      37,
+      6,
+      51
+     ]
+    },
+    "[기준선] 큰 시장 순": {
+     "rank_corr": 0.09285067873303166,
+     "rank_corr_ex_usa_chn": 0.11163265306122448,
+     "n": 51,
+     "top3_hit": 1,
+     "top10_hit": 4,
+     "top3": [
+      "CHN",
+      "JPN",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      51,
+      44,
+      1
+     ]
+    },
+    "[기준선] 직전 3년 증가 순": {
+     "rank_corr": 0.44201000454845585,
+     "rank_corr_ex_usa_chn": 0.37856053936746753,
+     "n": 51,
+     "top3_hit": 1,
+     "top10_hit": 6,
+     "top3": [
+      "USA",
+      "HKG",
+      "CAN"
+     ],
+     "top3_actual_rank": [
+      1,
+      50,
+      4
+     ]
+    }
+   },
+   "random_top3": 0.18
+  },
+  {
+   "test": 2018,
+   "train": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015
+   ],
+   "n": 56,
+   "models": {
+    "3기준_동일비중": {
+     "rank_corr": 0.33369788106630216,
+     "rank_corr_ex_usa_chn": 0.27806365542214595,
+     "n": 56,
+     "top3_hit": 1,
+     "top10_hit": 6,
+     "top3": [
+      "PHL",
+      "MNG",
+      "VNM"
+     ],
+     "top3_actual_rank": [
+      8,
+      10,
+      3
+     ]
+    },
+    "3기준_기준비중학습": {
+     "rank_corr": 0.38448393711551604,
+     "rank_corr_ex_usa_chn": 0.3504097579569277,
+     "n": 56,
+     "top3_hit": 0,
+     "top10_hit": 5,
+     "top3": [
+      "PHL",
+      "KHM",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      8,
+      17,
+      15
+     ]
+    },
+    "3기준_지표선별+기준비중학습": {
+     "rank_corr": 0.4799043062200957,
+     "rank_corr_ex_usa_chn": 0.42580522203163707,
+     "n": 56,
+     "top3_hit": 1,
+     "top10_hit": 7,
+     "top3": [
+      "CHN",
+      "PHL",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      2,
+      8,
+      15
+     ]
+    },
+    "3기준_지표·기준비중 모두학습": {
+     "rank_corr": 0.5832535885167465,
+     "rank_corr_ex_usa_chn": 0.5352773013150371,
+     "n": 56,
+     "top3_hit": 2,
+     "top10_hit": 6,
+     "top3": [
+      "CHN",
+      "USA",
+      "HKG"
+     ],
+     "top3_actual_rank": [
+      2,
+      1,
+      51
+     ]
+    },
+    "지표 전체 한 번에 학습(기존 방식)": {
+     "rank_corr": 0.5896787423103214,
+     "rank_corr_ex_usa_chn": 0.5465599390127691,
+     "n": 56,
+     "top3_hit": 1,
+     "top10_hit": 6,
+     "top3": [
+      "USA",
+      "PHL",
+      "HKG"
+     ],
+     "top3_actual_rank": [
+      1,
+      8,
+      51
+     ]
+    },
+    "성장성만": {
+     "rank_corr": 0.23526999316473002,
+     "rank_corr_ex_usa_chn": 0.15326853440060986,
+     "n": 56,
+     "top3_hit": 1,
+     "top10_hit": 5,
+     "top3": [
+      "CHN",
+      "IND",
+      "PHL"
+     ],
+     "top3_actual_rank": [
+      2,
+      38,
+      8
+     ]
+    },
+    "트렌드만": {
+     "rank_corr": 0.4796992481203008,
+     "rank_corr_ex_usa_chn": 0.46399847531923,
+     "n": 56,
+     "top3_hit": 0,
+     "top10_hit": 4,
+     "top3": [
+      "NZL",
+      "SGP",
+      "ARE"
+     ],
+     "top3_actual_rank": [
+      27,
+      6,
+      20
+     ]
+    },
+    "수출입만": {
+     "rank_corr": 0.24784688995215312,
+     "rank_corr_ex_usa_chn": 0.18559176672384217,
+     "n": 56,
+     "top3_hit": 1,
+     "top10_hit": 6,
+     "top3": [
+      "VNM",
+      "HKG",
+      "PHL"
+     ],
+     "top3_actual_rank": [
+      3,
+      51,
+      8
+     ]
+    },
+    "성장성+트렌드(수출입 없이)": {
+     "rank_corr": 0.48133971291866035,
+     "rank_corr_ex_usa_chn": 0.43007432818753566,
+     "n": 56,
+     "top3_hit": 1,
+     "top10_hit": 7,
+     "top3": [
+      "CHN",
+      "PHL",
+      "MYS"
+     ],
+     "top3_actual_rank": [
+      2,
+      8,
+      15
+     ]
+    },
+    "[기준선] 큰 시장 순": {
+     "rank_corr": 0.32966507177033494,
+     "rank_corr_ex_usa_chn": 0.26075852868305693,
+     "n": 56,
+     "top3_hit": 2,
+     "top10_hit": 6,
+     "top3": [
+      "JPN",
+      "CHN",
+      "USA"
+     ],
+     "top3_actual_rank": [
+      56,
+      2,
+      1
+     ]
+    },
+    "[기준선] 직전 3년 증가 순": {
+     "rank_corr": 0.27904060590619323,
+     "rank_corr_ex_usa_chn": 0.30079766853449025,
+     "n": 56,
+     "top3_hit": 2,
+     "top10_hit": 6,
+     "top3": [
+      "USA",
+      "HKG",
+      "VNM"
+     ],
+     "top3_actual_rank": [
+      1,
+      51,
+      3
+     ]
+    }
+   },
+   "random_top3": 0.16
+  }
+ ],
+ "sealed": {
+  "3기준_동일비중": {
+   "rank_corr": 0.366,
+   "rank_corr_ex_usa_chn": 0.378,
+   "top3_hit": 1.0,
+   "top10_hit": 6.0,
+   "per_test": [
+    0.366
+   ]
+  },
+  "3기준_기준비중학습": {
+   "rank_corr": 0.363,
+   "rank_corr_ex_usa_chn": 0.371,
+   "top3_hit": 1.0,
+   "top10_hit": 4.0,
+   "per_test": [
+    0.363
+   ]
+  },
+  "3기준_지표선별+기준비중학습": {
+   "rank_corr": 0.355,
+   "rank_corr_ex_usa_chn": 0.374,
+   "top3_hit": 1.0,
+   "top10_hit": 5.0,
+   "per_test": [
+    0.355
+   ]
+  },
+  "3기준_지표·기준비중 모두학습": {
+   "rank_corr": 0.346,
+   "rank_corr_ex_usa_chn": 0.38,
+   "top3_hit": 1.0,
+   "top10_hit": 7.0,
+   "per_test": [
+    0.346
+   ]
+  },
+  "지표 전체 한 번에 학습(기존 방식)": {
+   "rank_corr": 0.435,
+   "rank_corr_ex_usa_chn": 0.464,
+   "top3_hit": 2.0,
+   "top10_hit": 7.0,
+   "per_test": [
+    0.435
+   ]
+  },
+  "성장성만": {
+   "rank_corr": 0.167,
+   "rank_corr_ex_usa_chn": 0.189,
+   "top3_hit": 0.0,
+   "top10_hit": 4.0,
+   "per_test": [
+    0.167
+   ]
+  },
+  "트렌드만": {
+   "rank_corr": 0.335,
+   "rank_corr_ex_usa_chn": 0.306,
+   "top3_hit": 1.0,
+   "top10_hit": 3.0,
+   "per_test": [
+    0.335
+   ]
+  },
+  "수출입만": {
+   "rank_corr": 0.494,
+   "rank_corr_ex_usa_chn": 0.503,
+   "top3_hit": 2.0,
+   "top10_hit": 7.0,
+   "per_test": [
+    0.494
+   ]
+  },
+  "성장성+트렌드(수출입 없이)": {
+   "rank_corr": 0.327,
+   "rank_corr_ex_usa_chn": 0.34,
+   "top3_hit": 1.0,
+   "top10_hit": 5.0,
+   "per_test": [
+    0.327
+   ]
+  },
+  "[기준선] 큰 시장 순": {
+   "rank_corr": 0.39,
+   "rank_corr_ex_usa_chn": 0.431,
+   "top3_hit": 1.0,
+   "top10_hit": 5.0,
+   "per_test": [
+    0.39
+   ]
+  },
+  "[기준선] 직전 3년 증가 순": {
+   "rank_corr": 0.599,
+   "rank_corr_ex_usa_chn": 0.658,
+   "top3_hit": 1.0,
+   "top10_hit": 9.0,
+   "per_test": [
+    0.599
+   ]
+  },
+  "앙상블(선택 모델)": {
+   "rank_corr": 0.38138161455334035,
+   "rank_corr_ex_usa_chn": 0.4153948724886801,
+   "n": 58,
+   "top3_hit": 2,
+   "top10_hit": 7,
+   "top3": [
+    "USA",
+    "PHL",
+    "CHN"
+   ],
+   "top3_actual_rank": [
+    1,
+    3,
+    56
+   ]
+  }
+ },
+ "picked": [
+  "3기준_지표·기준비중 모두학습",
+  "지표 전체 한 번에 학습(기존 방식)",
+  "성장성+트렌드(수출입 없이)"
+ ],
+ "weights": {
+  "import_market_size": 0.203,
+  "import_market_cagr": 0.024,
+  "population_size": 0.065,
+  "population_cagr": 0.019,
+  "hh_consumption_pc_cagr": 0.06,
+  "gdp_pc_ppp_cagr": 0.067,
+  "kfood_interest": 0.085,
+  "kfood_interest_change": 0.042,
+  "kpop_interest": 0.066,
+  "learn_korean_interest": 0.043,
+  "korea_visitors_pc": 0.105,
+  "youth_share": 0.008,
+  "urbanization_change": 0.015,
+  "internet_change": 0.009,
+  "import_pc": 0.06,
+  "import_pc_cagr": 0.046,
+  "korea_exports_size": 0.023,
+  "korea_exports_cagr": 0.01,
+  "korea_exports_change": 0.016,
+  "korea_share": 0.01,
+  "korea_share_change": 0.009,
+  "net_import_share": 0.008,
+  "food_import_dependence": 0.006
+ },
+ "group_weights": {
+  "성장성": 0.437,
+  "트렌드": 0.48,
+  "수출입": 0.083
+ },
+ "big5": [
+  "United States",
+  "China",
+  "Japan",
+  "Australia",
+  "Canada"
+ ],
+ "top3": [
+  "Philippines",
+  "Malaysia",
+  "Singapore"
+ ],
+ "top3_iso3": [
+  "PHL",
+  "MYS",
+  "SGP"
+ ],
+ "order": [
+  "Philippines",
+  "Malaysia",
+  "Singapore",
+  "Netherlands",
+  "Mongolia",
+  "Indonesia",
+  "United Kingdom",
+  "Thailand",
+  "United Arab Emirates",
+  "Uzbekistan"
+ ],
+ "third_over_fourth_pct": 76.5,
+ "B": 200,
+ "board": [
+  {
+   "iso3": "USA",
+   "name": "United States",
+   "overall_rank": 1.0,
+   "kor_exports_2024_usd": 138657070,
+   "groups_pct_in_pool": null,
+   "status": [
+    "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 1%)",
+    "인구 규모(상위 3%)",
+    "한국 음식 검색 관심도(상위 19%)"
+   ]
+  },
+  {
+   "iso3": "PHL",
+   "name": "Philippines",
+   "overall_rank": 2.0,
+   "kor_exports_2024_usd": 19024379,
+   "groups_pct_in_pool": {
+    "성장성": 96,
+    "트렌드": 94,
+    "수출입": 100,
+    "전체": 100
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 1.01,
+   "top3_prob": 100.0,
+   "reasons": [
+    "한국 음식 검색 관심도(상위 3%)",
+    "K-pop 검색 관심도(상위 1%)",
+    "인구 대비 방한 관광객(상위 24%)"
+   ]
+  },
+  {
+   "iso3": "MYS",
+   "name": "Malaysia",
+   "overall_rank": 5.7,
+   "kor_exports_2024_usd": 10446614,
+   "groups_pct_in_pool": {
+    "성장성": 80,
+    "트렌드": 96,
+    "수출입": 88,
+    "전체": 92
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 2.73,
+   "top3_prob": 83.0,
+   "reasons": [
+    "한국 음식 검색 관심도(상위 2%)",
+    "인구 대비 방한 관광객(상위 15%)",
+    "K-pop 검색 관심도(상위 10%)"
+   ]
+  },
+  {
+   "iso3": "SGP",
+   "name": "Singapore",
+   "overall_rank": 6.7,
+   "kor_exports_2024_usd": 9409678,
+   "groups_pct_in_pool": {
+    "성장성": 66,
+    "트렌드": 98,
+    "수출입": 96,
+    "전체": 94
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 3.45,
+   "top3_prob": 55.5,
+   "reasons": [
+    "인구 대비 방한 관광객(상위 1%)",
+    "한국 음식 검색 관심도(상위 1%)",
+    "K-pop 검색 관심도(상위 5%)"
+   ]
+  },
+  {
+   "iso3": "CAN",
+   "name": "Canada",
+   "overall_rank": 7.0,
+   "kor_exports_2024_usd": 25439257,
+   "groups_pct_in_pool": null,
+   "status": [
+    "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 8%)",
+    "인구 대비 방한 관광객(상위 17%)",
+    "한국 음식 검색 관심도(상위 13%)"
+   ]
+  },
+  {
+   "iso3": "CHN",
+   "name": "China",
+   "overall_rank": 7.3,
+   "kor_exports_2024_usd": 77719946,
+   "groups_pct_in_pool": null,
+   "status": [
+    "롯데 기진출국",
+    "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 17%)",
+    "1인당 소득(PPP) 5년 성장률(상위 3%)",
+    "인구 규모(상위 2%)"
+   ]
+  },
+  {
+   "iso3": "AUS",
+   "name": "Australia",
+   "overall_rank": 9.7,
+   "kor_exports_2024_usd": 26270360,
+   "groups_pct_in_pool": null,
+   "status": [
+    "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 18%)",
+    "인구 대비 방한 관광객(상위 10%)",
+    "한국 음식 검색 관심도(상위 11%)"
+   ]
+  },
+  {
+   "iso3": "MNG",
+   "name": "Mongolia",
+   "overall_rank": 9.7,
+   "kor_exports_2024_usd": 7779034,
+   "groups_pct_in_pool": {
+    "성장성": 34,
+    "트렌드": 100,
+    "수출입": 98,
+    "전체": 98
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 4.84,
+   "top3_prob": 31.0,
+   "reasons": [
+    "인구 대비 방한 관광객(상위 5%)",
+    "K-pop 검색 관심도(상위 6%)",
+    "한국 음식 검색 관심도(상위 19%)"
+   ]
+  },
+  {
+   "iso3": "VNM",
+   "name": "Viet Nam",
+   "overall_rank": 10.3,
+   "kor_exports_2024_usd": 23891287,
+   "groups_pct_in_pool": null,
+   "status": [
+    "롯데 기진출국"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 소득(PPP) 5년 성장률(상위 5%)",
+    "인구 대비 방한 관광객(상위 22%)",
+    "1인당 실질 가계소비 성장률(상위 11%)"
+   ]
+  },
+  {
+   "iso3": "KAZ",
+   "name": "Kazakhstan",
+   "overall_rank": 11.0,
+   "kor_exports_2024_usd": 4029504,
+   "groups_pct_in_pool": null,
+   "status": [
+    "롯데 기진출국"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "K-pop 검색 관심도(상위 11%)",
+    "과자 수입시장 규모(상위 38%)",
+    "인구 대비 방한 관광객(상위 32%)"
+   ]
+  },
+  {
+   "iso3": "NLD",
+   "name": "Netherlands",
+   "overall_rank": 11.0,
+   "kor_exports_2024_usd": 5879686,
+   "groups_pct_in_pool": {
+    "성장성": 90,
+    "트렌드": 82,
+    "수출입": 90,
+    "전체": 96
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 4.81,
+   "top3_prob": 14.5,
+   "reasons": [
+    "과자 수입시장 규모(상위 7%)",
+    "1인당 과자 수입액(상위 2%)",
+    "인구 대비 방한 관광객(상위 29%)"
+   ]
+  },
+  {
+   "iso3": "IDN",
+   "name": "Indonesia",
+   "overall_rank": 12.7,
+   "kor_exports_2024_usd": 5751982,
+   "groups_pct_in_pool": {
+    "성장성": 94,
+    "트렌드": 74,
+    "수출입": 94,
+    "전체": 88
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 6.28,
+   "top3_prob": 8.0,
+   "reasons": [
+    "한국 음식 검색 관심도(상위 5%)",
+    "K-pop 검색 관심도(상위 3%)",
+    "인구 규모(상위 5%)"
+   ]
+  },
+  {
+   "iso3": "GBR",
+   "name": "United Kingdom",
+   "overall_rank": 13.7,
+   "kor_exports_2024_usd": 4950608,
+   "groups_pct_in_pool": {
+    "성장성": 76,
+    "트렌드": 78,
+    "수출입": 84,
+    "전체": 90
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 6.45,
+   "top3_prob": 8.0,
+   "reasons": [
+    "과자 수입시장 규모(상위 2%)",
+    "한국 음식 검색 관심도(상위 29%)",
+    "인구 규모(상위 23%)"
+   ]
+  },
+  {
+   "iso3": "THA",
+   "name": "Thailand",
+   "overall_rank": 14.3,
+   "kor_exports_2024_usd": 7866366,
+   "groups_pct_in_pool": {
+    "성장성": 74,
+    "트렌드": 86,
+    "수출입": 92,
+    "전체": 86
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 7.75,
+   "top3_prob": 0.0,
+   "reasons": [
+    "인구 대비 방한 관광객(상위 20%)",
+    "1인당 실질 가계소비 성장률(상위 15%)",
+    "한국 음식 검색 관심도(상위 27%)"
+   ]
+  },
+  {
+   "iso3": "POL",
+   "name": "Poland",
+   "overall_rank": 16.7,
+   "kor_exports_2024_usd": 190810,
+   "groups_pct_in_pool": {
+    "성장성": 100,
+    "트렌드": 36,
+    "수출입": 14,
+    "전체": 60
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 수출입"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 12%)",
+    "1인당 소득(PPP) 5년 성장률(상위 6%)",
+    "1인당 실질 가계소비 성장률(상위 13%)"
+   ]
+  },
+  {
+   "iso3": "UZB",
+   "name": "Uzbekistan",
+   "overall_rank": 17.7,
+   "kor_exports_2024_usd": 201795,
+   "groups_pct_in_pool": {
+    "성장성": 78,
+    "트렌드": 84,
+    "수출입": 34,
+    "전체": 70
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 11.4,
+   "top3_prob": 0.0,
+   "reasons": [
+    "1인당 실질 가계소비 성장률(상위 2%)",
+    "1인당 소득(PPP) 5년 성장률(상위 8%)",
+    "1인당 과자 수입 증가율(상위 1%)"
+   ]
+  },
+  {
+   "iso3": "IRL",
+   "name": "Ireland",
+   "overall_rank": 18.7,
+   "kor_exports_2024_usd": 286784,
+   "groups_pct_in_pool": {
+    "성장성": 84,
+    "트렌드": 54,
+    "수출입": 40,
+    "전체": 72
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 11.5,
+   "top3_prob": 0.0,
+   "reasons": [
+    "과자 수입시장 규모(상위 28%)",
+    "1인당 소득(PPP) 5년 성장률(상위 1%)",
+    "1인당 과자 수입액(상위 1%)"
+   ]
+  },
+  {
+   "iso3": "BGD",
+   "name": "Bangladesh",
+   "overall_rank": 19.3,
+   "kor_exports_2024_usd": 115310,
+   "groups_pct_in_pool": {
+    "성장성": 98,
+    "트렌드": 52,
+    "수출입": 6,
+    "전체": 62
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 수출입"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 소득(PPP) 5년 성장률(상위 2%)",
+    "1인당 실질 가계소비 성장률(상위 4%)",
+    "인구 규모(상위 10%)"
+   ]
+  },
+  {
+   "iso3": "ARE",
+   "name": "United Arab Emirates",
+   "overall_rank": 19.7,
+   "kor_exports_2024_usd": 4473431,
+   "groups_pct_in_pool": {
+    "성장성": 72,
+    "트렌드": 70,
+    "수출입": 82,
+    "전체": 82
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 9.41,
+   "top3_prob": 0.0,
+   "reasons": [
+    "과자 수입시장 규모(상위 25%)",
+    "1인당 실질 가계소비 성장률(상위 7%)",
+    "한국 음식 검색 관심도(상위 21%)"
+   ]
+  },
+  {
+   "iso3": "FRA",
+   "name": "France",
+   "overall_rank": 20.7,
+   "kor_exports_2024_usd": 1485609,
+   "groups_pct_in_pool": {
+    "성장성": 92,
+    "트렌드": 46,
+    "수출입": 60,
+    "전체": 78
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 12.61,
+   "top3_prob": 0.0,
+   "reasons": [
+    "과자 수입시장 규모(상위 5%)",
+    "인구 규모(상위 24%)",
+    "인구 대비 방한 관광객(상위 37%)"
+   ]
+  },
+  {
+   "iso3": "DEU",
+   "name": "Germany",
+   "overall_rank": 22.0,
+   "kor_exports_2024_usd": 4869978,
+   "groups_pct_in_pool": {
+    "성장성": 82,
+    "트렌드": 38,
+    "수출입": 80,
+    "전체": 84
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 11.75,
+   "top3_prob": 0.0,
+   "reasons": [
+    "과자 수입시장 규모(상위 3%)",
+    "인구 규모(상위 19%)",
+    "1인당 과자 수입액(상위 32%)"
+   ]
+  },
+  {
+   "iso3": "NZL",
+   "name": "New Zealand",
+   "overall_rank": 22.0,
+   "kor_exports_2024_usd": 3684774,
+   "groups_pct_in_pool": {
+    "성장성": 40,
+    "트렌드": 88,
+    "수출입": 62,
+    "전체": 66
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 12.26,
+   "top3_prob": 0.0,
+   "reasons": [
+    "인구 대비 방한 관광객(상위 12%)",
+    "한국 음식 검색 관심도(상위 10%)",
+    "1인당 과자 수입액(상위 25%)"
+   ]
+  },
+  {
+   "iso3": "KHM",
+   "name": "Cambodia",
+   "overall_rank": 22.3,
+   "kor_exports_2024_usd": 1118228,
+   "groups_pct_in_pool": {
+    "성장성": 28,
+    "트렌드": 92,
+    "수출입": 72,
+    "전체": 76
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "한국 음식 검색 관심도(상위 16%)",
+    "K-pop 검색 관심도(상위 8%)",
+    "한국 음식 관심도 3년 변화(상위 2%)"
+   ]
+  },
+  {
+   "iso3": "SWE",
+   "name": "Sweden",
+   "overall_rank": 24.0,
+   "kor_exports_2024_usd": 750462,
+   "groups_pct_in_pool": {
+    "성장성": 60,
+    "트렌드": 76,
+    "수출입": 56,
+    "전체": 74
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 14.37,
+   "top3_prob": 0.0,
+   "reasons": [
+    "과자 수입시장 규모(상위 23%)",
+    "1인당 과자 수입액(상위 12%)",
+    "인구 대비 방한 관광객(상위 44%)"
+   ]
+  },
+  {
+   "iso3": "BEL",
+   "name": "Belgium",
+   "overall_rank": 25.7,
+   "kor_exports_2024_usd": 203433,
+   "groups_pct_in_pool": null,
+   "status": [
+    "롯데 기진출국"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 10%)",
+    "1인당 과자 수입액(상위 3%)",
+    "한국 과자 수출 5년 성장률(상위 10%)"
+   ]
+  },
+  {
+   "iso3": "RUS",
+   "name": "Russian Federation",
+   "overall_rank": 26.0,
+   "kor_exports_2024_usd": 9129334,
+   "groups_pct_in_pool": null,
+   "status": [
+    "롯데 기진출국",
+    "사전 필터: 포괄적 국제 제재"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "인구 규모(상위 11%)",
+    "K-pop 검색 관심도(상위 13%)",
+    "1인당 실질 가계소비 성장률(상위 18%)"
+   ]
+  },
+  {
+   "iso3": "HKG",
+   "name": "Hong Kong SAR, China",
+   "overall_rank": 26.3,
+   "kor_exports_2024_usd": 22327982,
+   "groups_pct_in_pool": {
+    "성장성": 22,
+    "트렌드": 90,
+    "수출입": 86,
+    "전체": 68
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "인구 대비 방한 관광객(상위 2%)",
+    "과자 수입시장 규모(상위 33%)",
+    "1인당 과자 수입액(상위 10%)"
+   ]
+  },
+  {
+   "iso3": "IND",
+   "name": "India",
+   "overall_rank": 27.3,
+   "kor_exports_2024_usd": 943142,
+   "groups_pct_in_pool": null,
+   "status": [
+    "롯데 기진출국"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "인구 규모(상위 1%)",
+    "1인당 소득(PPP) 5년 성장률(상위 10%)",
+    "1인당 실질 가계소비 성장률(상위 9%)"
+   ]
+  },
+  {
+   "iso3": "GTM",
+   "name": "Guatemala",
+   "overall_rank": 28.7,
+   "kor_exports_2024_usd": 465476,
+   "groups_pct_in_pool": {
+    "성장성": 70,
+    "트렌드": 40,
+    "수출입": 68,
+    "전체": 64
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 16.38,
+   "top3_prob": 0.0,
+   "reasons": [
+    "1인당 소득(PPP) 5년 성장률(상위 24%)",
+    "K-pop 검색 관심도(상위 24%)",
+    "1인당 실질 가계소비 성장률(상위 22%)"
+   ]
+  },
+  {
+   "iso3": "MEX",
+   "name": "Mexico",
+   "overall_rank": 29.7,
+   "kor_exports_2024_usd": 2456930,
+   "groups_pct_in_pool": {
+    "성장성": 64,
+    "트렌드": 28,
+    "수출입": 78,
+    "전체": 80
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 35%)",
+    "인구 규모(상위 13%)",
+    "K-pop 검색 관심도(상위 26%)"
+   ]
+  },
+  {
+   "iso3": "JPN",
+   "name": "Japan",
+   "overall_rank": 31.7,
+   "kor_exports_2024_usd": 72695132,
+   "groups_pct_in_pool": null,
+   "status": [
+    "이미 한국 과자 수출 상위 5개국(지키고 키울 시장)"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "인구 대비 방한 관광객(상위 7%)",
+    "과자 수입시장 규모(상위 32%)",
+    "인구 규모(상위 15%)"
+   ]
+  },
+  {
+   "iso3": "CHE",
+   "name": "Switzerland",
+   "overall_rank": 32.3,
+   "kor_exports_2024_usd": 291311,
+   "groups_pct_in_pool": {
+    "성장성": 48,
+    "트렌드": 56,
+    "수출입": 30,
+    "전체": 56
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 수출입"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 30%)",
+    "1인당 과자 수입액(상위 15%)",
+    "인구 대비 방한 관광객(상위 34%)"
+   ]
+  },
+  {
+   "iso3": "CZE",
+   "name": "Czechia",
+   "overall_rank": 32.3,
+   "kor_exports_2024_usd": 163633,
+   "groups_pct_in_pool": {
+    "성장성": 46,
+    "트렌드": 72,
+    "수출입": 8,
+    "전체": 42
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 수출입"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 27%)",
+    "한국 음식 관심도 3년 변화(상위 2%)",
+    "1인당 과자 수입액(상위 20%)"
+   ]
+  },
+  {
+   "iso3": "LTU",
+   "name": "Lithuania",
+   "overall_rank": 33.7,
+   "kor_exports_2024_usd": 166081,
+   "groups_pct_in_pool": {
+    "성장성": 52,
+    "트렌드": 58,
+    "수출입": 10,
+    "전체": 40
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 수출입"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 소득(PPP) 5년 성장률(상위 13%)",
+    "1인당 과자 수입액(상위 13%)",
+    "한국 음식 관심도 3년 변화(상위 9%)"
+   ]
+  },
+  {
+   "iso3": "NPL",
+   "name": "Nepal",
+   "overall_rank": 34.0,
+   "kor_exports_2024_usd": 407685,
+   "groups_pct_in_pool": {
+    "성장성": 42,
+    "트렌드": 62,
+    "수출입": 66,
+    "전체": 54
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 16.59,
+   "top3_prob": 0.0,
+   "reasons": [
+    "한국 음식 검색 관심도(상위 8%)",
+    "1인당 실질 가계소비 성장률(상위 5%)",
+    "1인당 소득(PPP) 5년 성장률(상위 18%)"
+   ]
+  },
+  {
+   "iso3": "SAU",
+   "name": "Saudi Arabia",
+   "overall_rank": 34.7,
+   "kor_exports_2024_usd": 3068768,
+   "groups_pct_in_pool": {
+    "성장성": 86,
+    "트렌드": 16,
+    "수출입": 64,
+    "전체": 52
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 22%)",
+    "인구 5년 증가율(상위 1%)",
+    "1인당 소득(PPP) 5년 성장률(상위 40%)"
+   ]
+  },
+  {
+   "iso3": "CHL",
+   "name": "Chile",
+   "overall_rank": 36.0,
+   "kor_exports_2024_usd": 815345,
+   "groups_pct_in_pool": {
+    "성장성": 56,
+    "트렌드": 42,
+    "수출입": 52,
+    "전체": 50
+   },
+   "status": [],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": 17.41,
+   "top3_prob": 0.0,
+   "reasons": [
+    "K-pop 검색 관심도(상위 22%)",
+    "1인당 과자 수입 증가율(상위 12%)",
+    "과자 수입시장 5년 성장률(상위 8%)"
+   ]
+  },
+  {
+   "iso3": "AUT",
+   "name": "Austria",
+   "overall_rank": 38.3,
+   "kor_exports_2024_usd": 673786,
+   "groups_pct_in_pool": {
+    "성장성": 44,
+    "트렌드": 32,
+    "수출입": 54,
+    "전체": 58
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 20%)",
+    "1인당 과자 수입액(상위 5%)",
+    "한국 과자 수출 직전 3년 증가액(상위 35%)"
+   ]
+  },
+  {
+   "iso3": "ITA",
+   "name": "Italy",
+   "overall_rank": 39.0,
+   "kor_exports_2024_usd": 629388,
+   "groups_pct_in_pool": {
+    "성장성": 88,
+    "트렌드": 8,
+    "수출입": 50,
+    "전체": 48
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 13%)",
+    "인구 규모(상위 27%)",
+    "1인당 소득(PPP) 5년 성장률(상위 39%)"
+   ]
+  },
+  {
+   "iso3": "LVA",
+   "name": "Latvia",
+   "overall_rank": 39.0,
+   "kor_exports_2024_usd": 103092,
+   "groups_pct_in_pool": {
+    "성장성": 36,
+    "트렌드": 80,
+    "수출입": 4,
+    "전체": 26
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 과자 수입액(상위 8%)",
+    "1인당 과자 수입 증가율(상위 10%)",
+    "1인당 소득(PPP) 5년 성장률(상위 31%)"
+   ]
+  },
+  {
+   "iso3": "SVN",
+   "name": "Slovenia",
+   "overall_rank": 40.3,
+   "kor_exports_2024_usd": 206840,
+   "groups_pct_in_pool": {
+    "성장성": 50,
+    "트렌드": 48,
+    "수출입": 16,
+    "전체": 22
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 과자 수입액(상위 7%)",
+    "1인당 소득(PPP) 5년 성장률(상위 23%)",
+    "1인당 실질 가계소비 성장률(상위 25%)"
+   ]
+  },
+  {
+   "iso3": "OMN",
+   "name": "Oman",
+   "overall_rank": 41.3,
+   "kor_exports_2024_usd": 448402,
+   "groups_pct_in_pool": {
+    "성장성": 32,
+    "트렌드": 44,
+    "수출입": 48,
+    "전체": 44
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 실질 가계소비 성장률(상위 31%)",
+    "1인당 과자 수입액(상위 35%)",
+    "인구 5년 증가율(상위 3%)"
+   ]
+  },
+  {
+   "iso3": "DOM",
+   "name": "Dominican Republic",
+   "overall_rank": 43.7,
+   "kor_exports_2024_usd": 143999,
+   "groups_pct_in_pool": {
+    "성장성": 58,
+    "트렌드": 24,
+    "수출입": 18,
+    "전체": 24
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드, 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 소득(PPP) 5년 성장률(상위 11%)",
+    "1인당 실질 가계소비 성장률(상위 27%)",
+    "한국 음식 관심도 3년 변화(상위 22%)"
+   ]
+  },
+  {
+   "iso3": "LAO",
+   "name": "Lao PDR",
+   "overall_rank": 44.0,
+   "kor_exports_2024_usd": 184569,
+   "groups_pct_in_pool": {
+    "성장성": 20,
+    "트렌드": 68,
+    "수출입": 20,
+    "전체": 28
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 과자 수입 증가율(상위 3%)",
+    "한국 음식 관심도 3년 변화(상위 2%)",
+    "과자 수입시장 5년 성장률(상위 3%)"
+   ]
+  },
+  {
+   "iso3": "QAT",
+   "name": "Qatar",
+   "overall_rank": 44.3,
+   "kor_exports_2024_usd": 677892,
+   "groups_pct_in_pool": {
+    "성장성": 18,
+    "트렌드": 66,
+    "수출입": 58,
+    "전체": 34
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "한국 음식 검색 관심도(상위 15%)",
+    "한국어 학습 관심도(상위 16%)",
+    "1인당 과자 수입액(상위 28%)"
+   ]
+  },
+  {
+   "iso3": "ESP",
+   "name": "Spain",
+   "overall_rank": 45.3,
+   "kor_exports_2024_usd": 323834,
+   "groups_pct_in_pool": {
+    "성장성": 68,
+    "트렌드": 10,
+    "수출입": 28,
+    "전체": 36
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드, 수출입"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 15%)",
+    "인구 규모(상위 32%)",
+    "상품수입 중 식품 비중(상위 33%)"
+   ]
+  },
+  {
+   "iso3": "ISR",
+   "name": "Israel",
+   "overall_rank": 45.3,
+   "kor_exports_2024_usd": 204142,
+   "groups_pct_in_pool": {
+    "성장성": 62,
+    "트렌드": 18,
+    "수출입": 38,
+    "전체": 30
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "과자 수입시장 규모(상위 43%)",
+    "1인당 소득(PPP) 5년 성장률(상위 32%)",
+    "인구 5년 증가율(상위 6%)"
+   ]
+  },
+  {
+   "iso3": "KWT",
+   "name": "Kuwait",
+   "overall_rank": 46.3,
+   "kor_exports_2024_usd": 1863422,
+   "groups_pct_in_pool": {
+    "성장성": 12,
+    "트렌드": 50,
+    "수출입": 76,
+    "전체": 46
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 과자 수입액(상위 27%)",
+    "인구 5년 증가율(상위 10%)",
+    "한국 음식 관심도 3년 변화(상위 37%)"
+   ]
+  },
+  {
+   "iso3": "NGA",
+   "name": "Nigeria",
+   "overall_rank": 46.3,
+   "kor_exports_2024_usd": 137186,
+   "groups_pct_in_pool": {
+    "성장성": 30,
+    "트렌드": 26,
+    "수출입": 22,
+    "전체": 38
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "인구 규모(상위 6%)",
+    "1인당 과자 수입 증가율(상위 2%)",
+    "한국 음식 검색 관심도(상위 25%)"
+   ]
+  },
+  {
+   "iso3": "BHR",
+   "name": "Bahrain",
+   "overall_rank": 47.3,
+   "kor_exports_2024_usd": 379282,
+   "groups_pct_in_pool": {
+    "성장성": 16,
+    "트렌드": 60,
+    "수출입": 44,
+    "전체": 14
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 과자 수입액(상위 23%)",
+    "한국어 학습 관심도(상위 22%)",
+    "한국 음식 관심도 3년 변화(상위 22%)"
+   ]
+  },
+  {
+   "iso3": "PER",
+   "name": "Peru",
+   "overall_rank": 51.0,
+   "kor_exports_2024_usd": 969302,
+   "groups_pct_in_pool": {
+    "성장성": 24,
+    "트렌드": 20,
+    "수출입": 74,
+    "전체": 32
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "K-pop 검색 관심도(상위 22%)",
+    "1인당 과자 수입 증가율(상위 27%)",
+    "과자 수입시장 5년 성장률(상위 20%)"
+   ]
+  },
+  {
+   "iso3": "BRA",
+   "name": "Brazil",
+   "overall_rank": 51.7,
+   "kor_exports_2024_usd": 1640174,
+   "groups_pct_in_pool": {
+    "성장성": 54,
+    "트렌드": 4,
+    "수출입": 70,
+    "전체": 18
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "인구 규모(상위 8%)",
+    "K-pop 검색 관심도(상위 35%)",
+    "한국 음식 관심도 3년 변화(상위 37%)"
+   ]
+  },
+  {
+   "iso3": "MMR",
+   "name": "Myanmar",
+   "overall_rank": 52.3,
+   "kor_exports_2024_usd": 300402,
+   "groups_pct_in_pool": null,
+   "status": [
+    "롯데 기진출국",
+    "사전 필터: 전쟁·내전 진행 중"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "한국 음식 검색 관심도(상위 6%)",
+    "K-pop 검색 관심도(상위 2%)",
+    "한국어 학습 관심도(상위 2%)"
+   ]
+  },
+  {
+   "iso3": "UKR",
+   "name": "Ukraine",
+   "overall_rank": 52.7,
+   "kor_exports_2024_usd": 117964,
+   "groups_pct_in_pool": null,
+   "status": [
+    "사전 필터: 전쟁·내전 진행 중"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 과자 수입 증가율(상위 7%)",
+    "K-pop 검색 관심도(상위 29%)",
+    "한국 음식 관심도 3년 변화(상위 22%)"
+   ]
+  },
+  {
+   "iso3": "MUS",
+   "name": "Mauritius",
+   "overall_rank": 54.0,
+   "kor_exports_2024_usd": 109050,
+   "groups_pct_in_pool": {
+    "성장성": 2,
+    "트렌드": 64,
+    "수출입": 12,
+    "전체": 12
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "한국 음식 검색 관심도(상위 31%)",
+    "한국어 학습 관심도(상위 27%)",
+    "1인당 과자 수입액(상위 37%)"
+   ]
+  },
+  {
+   "iso3": "PNG",
+   "name": "Papua New Guinea",
+   "overall_rank": 55.7,
+   "kor_exports_2024_usd": 172878,
+   "groups_pct_in_pool": {
+    "성장성": 4,
+    "트렌드": 34,
+    "수출입": 36,
+    "전체": 20
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "한국 음식 관심도 3년 변화(상위 22%)",
+    "인구 5년 증가율(상위 13%)",
+    "K-pop 검색 관심도(상위 40%)"
+   ]
+  },
+  {
+   "iso3": "PRY",
+   "name": "Paraguay",
+   "overall_rank": 56.3,
+   "kor_exports_2024_usd": 141700,
+   "groups_pct_in_pool": {
+    "성장성": 10,
+    "트렌드": 30,
+    "수출입": 26,
+    "전체": 10
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "한국 음식 관심도 3년 변화(상위 9%)",
+    "K-pop 검색 관심도(상위 31%)",
+    "도시화 진행 속도(상위 2%)"
+   ]
+  },
+  {
+   "iso3": "KEN",
+   "name": "Kenya",
+   "overall_rank": 57.0,
+   "kor_exports_2024_usd": 122713,
+   "groups_pct_in_pool": {
+    "성장성": 38,
+    "트렌드": 12,
+    "수출입": 2,
+    "전체": 4
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 트렌드, 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "1인당 소득(PPP) 5년 성장률(상위 16%)",
+    "인구 규모(상위 29%)",
+    "한국어 학습 관심도(상위 26%)"
+   ]
+  },
+  {
+   "iso3": "JOR",
+   "name": "Jordan",
+   "overall_rank": 57.3,
+   "kor_exports_2024_usd": 175476,
+   "groups_pct_in_pool": {
+    "성장성": 26,
+    "트렌드": 6,
+    "수출입": 32,
+    "전체": 16
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "한국 음식 관심도 3년 변화(상위 22%)",
+    "인구 5년 증가율(상위 19%)",
+    "인터넷 이용률 5년 변화(상위 5%)"
+   ]
+  },
+  {
+   "iso3": "ZAF",
+   "name": "South Africa",
+   "overall_rank": 59.0,
+   "kor_exports_2024_usd": 418906,
+   "groups_pct_in_pool": {
+    "성장성": 14,
+    "트렌드": 14,
+    "수출입": 46,
+    "전체": 8
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "인구 규모(상위 26%)",
+    "한국 음식 검색 관심도(상위 35%)",
+    "한국어 학습 관심도(상위 24%)"
+   ]
+  },
+  {
+   "iso3": "URY",
+   "name": "Uruguay",
+   "overall_rank": 60.0,
+   "kor_exports_2024_usd": 152546,
+   "groups_pct_in_pool": {
+    "성장성": 8,
+    "트렌드": 22,
+    "수출입": 24,
+    "전체": 6
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 수출입, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "한국 음식 관심도 3년 변화(상위 22%)",
+    "한국 과자 수출 5년 성장률(상위 1%)",
+    "순수입 비율(재수출 허브 보정)(상위 10%)"
+   ]
+  },
+  {
+   "iso3": "ARG",
+   "name": "Argentina",
+   "overall_rank": 62.0,
+   "kor_exports_2024_usd": 365178,
+   "groups_pct_in_pool": {
+    "성장성": 6,
+    "트렌드": 2,
+    "수출입": 42,
+    "전체": 2
+   },
+   "status": [
+    "기준 바닥(하위 1/3): 성장성, 트렌드, 전체"
+   ],
+   "warn": [],
+   "unknown": [
+    "정치 불안(PV.EST 미수집)",
+    "법치·부패 리스크(RL.EST 미수집)",
+    "법치·부패 리스크(CC.EST 미수집)"
+   ],
+   "boot_mean_rank": null,
+   "top3_prob": null,
+   "reasons": [
+    "인구 규모(상위 34%)",
+    "한국 과자 수출 직전 3년 증가액(상위 44%)",
+    "유소년(0-14세) 비중(상위 42%)"
+   ]
+  }
+ ]
+}

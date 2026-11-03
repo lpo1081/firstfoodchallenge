@@ -95,3 +95,20 @@ python -m kfood_scout.agent report                               # outputs/agent
 - `scripts/two_axis.py`: 둘 다 상위 1/3 = 수출 우선, 축 2만 = 현지생산·인수 검토, 축 1만 = 수출 유지·확대. 나라마다 각 축 점수를 올린 지표 3개를 이유로 표시 → `outputs/two_axis/two_axis.md`.
 - 한계: UNIDO 4자리 자료는 2023년까지, 일부 개발도상국은 보고가 비어 있을 수 있음.
 - 실행: `sh scripts/recheck.sh` 에 포함(비용 0).
+
+### 3대 기준으로 TOP3 확정 (2026-11-03)
+형님 기준 3개(식품시장 성장성 · 트렌드 · 수출입)로 지표를 다시 묶고, 검증 규칙과 사전 필터를 **결과 보기 전에** 파일로 고정한 뒤 여러 모델을 겨뤄 정확히 3개국을 뽑는다.
+```bash
+sh scripts/three.sh            # 맥북: 세계은행 거버넌스 지표만 새로 받고 계산(비용 0, 약 1~2분)
+.venv/bin/python -m kfood_scout.three --no-fetch   # 저장분만
+```
+| 층 | 파일 | 추가/삭제 방법 |
+|---|---|---|
+| 검증 규칙 | `config/validation/three_criteria_protocol.yaml` | 정답·시험 구간·통과 조건·TOP3 규칙. 바꾸면 `changes` 에 이유와 날짜 |
+| 사전 필터 | `config/filters/hard_filter.yaml` | 규칙 블록 1개 = 필터 1개(`kind: list` 나라 목록, `kind: wgi` 세계은행 거버넌스 지표 기준값) |
+| 지표 | `config/criteria/three_criteria.yaml` | 기준(group)별 지표 줄 추가/삭제. 데이터 없는 지표는 자동 제외 |
+| 모델 후보 | `kfood_scout/three.py` `VARIANTS` | 학습 함수 1개 등록 |
+- 전진 시험: s→s+3 을 맞힐 때 정답이 s년까지 끝난 창만으로 학습. 개발 시험 6개(2013~18)로만 모델을 고르고, 2021→24 는 보고만.
+- 통과 조건: 개발 시험 평균 순위상관이 '큰 시장 순'보다 높고 6개 중 4개 이상에서 이김. 통과 모델 상위 3개 순위 평균(앙상블).
+- TOP3 규칙: 기진출국·필터 탈락·이미 한국 수출 상위 5개국 제외, 세 기준 중 하나라도 후보 안 하위 1/3 이면 제외, 재표본 200회 평균 순위.
+- 결과: `outputs/three_criteria/report.md`, `ranking.json`(레드팀 `agent critic --ranking` 입력).

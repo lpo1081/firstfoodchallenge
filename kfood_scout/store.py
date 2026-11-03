@@ -71,6 +71,9 @@ def wb_series(code: str, years: list[int], fetch: bool = True, log=print) -> pd.
     if not set(years) <= done and fetch:
         log(f"[store] WB {code}")
         new = worldbank.fetch_series(code, min(years), max(years))[["iso3", "year", "value"]]
+        if new.empty:  # 못 받았으면 '받음'으로 기록하지 않음(다음 실행 때 다시 시도)
+            log(f"[store] WB {code}: 값 없음")
+            return df[df.year.isin(years)]
         df = pd.concat([df, new], ignore_index=True)
         done |= set(years)
         _save("worldbank", code, df, done)
@@ -99,7 +102,8 @@ def needs(category: str, categories: dict, criterion: Criterion) -> dict:
     tg = criterion.target
     ext_target = tg.get("source") == "external"
     flows = sorted({i.flow for i in criterion.all_indicators() if i.source == "comtrade"}
-                   | ({tg["series"]} if tg.get("series") and not ext_target else set()))
+                   | ({tg["series"]} if tg.get("series") and not ext_target else set())
+                   | ({"M", "X"} if any(i.transform == "net_import_share" for i in criterion.all_indicators()) else set()))
     wb = sorted({i.series for i in criterion.all_indicators() if i.source == "worldbank"} | {"SP.POP.TOTL"})
     ex = sorted({i.series for i in criterion.all_indicators() if i.source == "external"}
                 | ({tg["series"]} if ext_target else set()))

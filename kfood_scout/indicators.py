@@ -50,6 +50,13 @@ def compute_indicator(panel: pd.DataFrame, ind: Indicator, category: str, as_of:
     if w.empty:
         return pd.Series(dtype=float, name=ind.id)
     t = ind.transform
+    if t == "net_import_share":  # (수입−수출)/수입: 재수출 허브(싱가포르·홍콩 등)는 낮게
+        m = _wide(panel, f"CT:{category}:M")
+        x = _wide(panel, f"CT:{category}:X")
+        m, x = (d[[c for c in d.columns if c <= as_of]] for d in (m, x))
+        a = _avg(m, as_of, ind.window)
+        b = _avg(x, as_of, ind.window).reindex(a.index).fillna(0.0)
+        return ((a - b) / a * 100).where(a > 0).clip(-100, 100).rename(ind.id)
     if t in ("share", "share_diff"):
         val = _share(panel, category, as_of, 3)
         if t == "share_diff":
