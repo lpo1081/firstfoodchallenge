@@ -1,0 +1,120 @@
+# 다른 방법 3가지로 진출국 찾기 (2026-11-03). 기존 3대 기준 모델과 완전히 분리된 모듈.
+# 읽기만 하는 것: data/store/ (기존 저장 데이터), config/entries/lotte_wellfood.yaml, config/filters/hard_filter.yaml, results/three_criteria/ranking.json
+# 쓰는 곳: outputs/alt_methods/ 만. 새로 받는 데이터: data/store/comtrade_JPN_X/(일본 수출), data/store/external/country_centroids.csv(나라 중심 좌표)
+id: alt_methods_v1
+frozen: 2026-11-03
+
+# 분석 품목: config/categories.yaml 의 카테고리(건과 전체 8개 HS 코드). 빼빼로 하나로 좁히지 않는다(형님 결정 11/3).
+category: dry_confectionery
+now_year: 2024
+smooth_years: 2          # 수출·수입 값은 최근 2년 평균으로(한 해 튀는 값 완화)
+
+# 후보에서 빼는 나라: 기존 모델과 같은 규칙
+exclude:
+  lotte_entries: true    # 롯데 기진출국
+  hard_filter: true      # 제재·전쟁·정치 불안(config/filters/hard_filter.yaml)
+  big_n: 5               # 한국 비스킷 수출 상위 5개국(지킬 시장)
+  min_population: 1000000
+
+top_n: 10
+
+methods:
+  # 1) 제2의 베트남 찾기: 한국 비스킷 수출이 '이륙'하기 직전 나라들의 모습과 지금 가장 닮은 나라
+  analog:
+    name_ko: 제2의 베트남 찾기 (유사국 매칭)
+    takeoff:              # 이륙 사례 정의(결과 보기 전에 고정)
+      start_below_musd: 2.0     # 출발 시점 수출 200만 달러 미만
+      after_years: 5
+      end_at_least_musd: 4.0    # 5년 뒤 400만 달러 이상
+      multiple_at_least: 4.0    # 그리고 4배 이상
+      first_year: 2005
+      last_year: 2019
+    features:             # 이륙 직전 모습을 재는 지표. 연도마다 나라들 사이 백분위로 바꿔 비교(시대 차이 제거)
+      - {id: gdp_pc, name_ko: 1인당 소득(PPP), wb: NY.GDP.PCAP.PP.KD}
+      - {id: cons_growth, name_ko: 1인당 가계소비 5년 증가율, wb: NE.CON.PRVT.PC.KD, cagr: 5}
+      - {id: urban, name_ko: 도시화율, wb: SP.URB.TOTL.IN.ZS}
+      - {id: youth, name_ko: 0~14세 비중, wb: SP.POP.0014.TO.ZS}
+      - {id: pop, name_ko: 인구, wb: SP.POP.TOTL}
+      - {id: import_size, name_ko: 비스킷 수입시장 규모, trade: M}
+      - {id: import_growth, name_ko: 비스킷 수입 5년 증가율, trade: M, cagr: 5}
+      - {id: kor_share, name_ko: 수입 중 한국산 비중, trade: KOR_SHARE}
+      - {id: kfood, name_ko: 한국 음식 검색 관심도, ext: gtrends_kfood}
+      - {id: visitors_pc, name_ko: 인구 대비 방한객, ext: kto_visitors, per_capita: true}
+
+  # 2) 수출 갭: 시장 크기·거리·FTA·소득으로 본 '정상 수출액' 대비 실제가 가장 모자란 나라 (국제무역센터 수출 잠재력 방식 계열)
+  gap:
+    name_ko: 수출 갭 (기대치 대비 미실현)
+    model: ppml           # 무역 중력모형 표준 추정법(포아송 의사최우도). 수출 0인 나라도 함께 추정
+    regressors: [log_import_size, log_distance, fta, log_gdp_pc]
+    min_expected_musd: 1.0
+    # 한국 FTA 발효일(산업통상자원부 FTA 강국 KOREA, https://www.fta.go.kr). now_year 이전 발효면 1
+    fta_in_force:
+      CHL: 2004
+      SGP: 2006
+      CHE: 2006
+      NOR: 2006
+      ISL: 2006
+      LIE: 2006
+      BRN: 2007
+      KHM: 2007
+      IDN: 2007
+      LAO: 2007
+      MYS: 2007
+      MMR: 2007
+      PHL: 2007
+      VNM: 2007
+      THA: 2009
+      IND: 2010
+      AUT: 2011
+      BEL: 2011
+      BGR: 2011
+      HRV: 2011
+      CYP: 2011
+      CZE: 2011
+      DNK: 2011
+      EST: 2011
+      FIN: 2011
+      FRA: 2011
+      DEU: 2011
+      GRC: 2011
+      HUN: 2011
+      IRL: 2011
+      ITA: 2011
+      LVA: 2011
+      LTU: 2011
+      LUX: 2011
+      MLT: 2011
+      NLD: 2011
+      POL: 2011
+      PRT: 2011
+      ROU: 2011
+      SVK: 2011
+      SVN: 2011
+      ESP: 2011
+      SWE: 2011
+      GBR: 2011
+      PER: 2011
+      USA: 2012
+      TUR: 2013
+      AUS: 2014
+      CAN: 2015
+      CHN: 2015
+      NZL: 2015
+      COL: 2016
+      NIC: 2019
+      HND: 2019
+      CRI: 2019
+      SLV: 2019
+      PAN: 2021
+      JPN: 2022
+      ISR: 2022
+      # 한-필리핀 FTA(2024-12-31)·한-인도네시아 CEPA(2023)는 한-아세안 FTA로 이미 1
+    centroids_url: https://raw.githubusercontent.com/mledoze/countries/master/countries.json
+
+  # 3) 일본 과자 추적: 일본 건과(포키·킷캣재팬 등 한국 과자의 직접 경쟁)가 최근 5년 가장 많이 늘어난 나라 = 경쟁국이 수요를 증명한 곳
+  follow:
+    name_ko: 일본 과자 추적 (경쟁국 수출 증가국)
+    reporter_m49: 392
+    reporter_iso3: JPN
+    from_year: 2019
+    to_year: 2024

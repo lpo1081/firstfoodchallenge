@@ -1,0 +1,3524 @@
+{
+ "category": "dry_confectionery",
+ "now_year": 2024,
+ "candidates": [
+  "AGO",
+  "ALB",
+  "ARE",
+  "ARG",
+  "ARM",
+  "AUT",
+  "AZE",
+  "BDI",
+  "BEN",
+  "BGD",
+  "BGR",
+  "BHR",
+  "BIH",
+  "BOL",
+  "BRA",
+  "BWA",
+  "CHE",
+  "CHL",
+  "CIV",
+  "COG",
+  "COL",
+  "CRI",
+  "CYP",
+  "CZE",
+  "DEU",
+  "DJI",
+  "DNK",
+  "DOM",
+  "DZA",
+  "ECU",
+  "EGY",
+  "ESP",
+  "EST",
+  "FIN",
+  "FRA",
+  "GAB",
+  "GBR",
+  "GEO",
+  "GHA",
+  "GIN",
+  "GMB",
+  "GNB",
+  "GRC",
+  "GTM",
+  "HKG",
+  "HND",
+  "HRV",
+  "HUN",
+  "IDN",
+  "IRL",
+  "ISR",
+  "ITA",
+  "JAM",
+  "JOR",
+  "KEN",
+  "KGZ",
+  "KHM",
+  "KWT",
+  "LAO",
+  "LBN",
+  "LBR",
+  "LKA",
+  "LSO",
+  "LTU",
+  "LVA",
+  "MAR",
+  "MDA",
+  "MDG",
+  "MEX",
+  "MKD",
+  "MNG",
+  "MOZ",
+  "MRT",
+  "MUS",
+  "MWI",
+  "MYS",
+  "NAM",
+  "NIC",
+  "NLD",
+  "NOR",
+  "NPL",
+  "NZL",
+  "OMN",
+  "PAN",
+  "PER",
+  "PHL",
+  "PNG",
+  "POL",
+  "PRT",
+  "PRY",
+  "QAT",
+  "ROU",
+  "RWA",
+  "SAU",
+  "SEN",
+  "SGP",
+  "SLE",
+  "SLV",
+  "SRB",
+  "SVK",
+  "SVN",
+  "SWE",
+  "SWZ",
+  "TGO",
+  "THA",
+  "TJK",
+  "TLS",
+  "TTO",
+  "TUN",
+  "TUR",
+  "TZA",
+  "UGA",
+  "URY",
+  "UZB",
+  "VEN",
+  "ZAF",
+  "ZMB",
+  "ZWE"
+ ],
+ "excluded": {
+  "AFG": [
+   "전쟁·내전 진행 중",
+   "정치 불안(-2.36)"
+  ],
+  "AUS": [
+   "한국 수출 상위 5개국(지킬 시장)"
+  ],
+  "BEL": [
+   "롯데 기진출국"
+  ],
+  "BFA": [
+   "정치 불안(-1.87)"
+  ],
+  "BLR": [
+   "포괄적 국제 제재"
+  ],
+  "CAF": [
+   "정치 불안(-1.86)"
+  ],
+  "CAN": [
+   "한국 수출 상위 5개국(지킬 시장)"
+  ],
+  "CHN": [
+   "롯데 기진출국",
+   "한국 수출 상위 5개국(지킬 시장)"
+  ],
+  "CMR": [
+   "정치 불안(-1.62)"
+  ],
+  "COD": [
+   "정치 불안(-1.96)"
+  ],
+  "CUB": [
+   "포괄적 국제 제재"
+  ],
+  "ETH": [
+   "정치 불안(-1.85)"
+  ],
+  "HTI": [
+   "전쟁·내전 진행 중"
+  ],
+  "IND": [
+   "롯데 기진출국"
+  ],
+  "IRN": [
+   "포괄적 국제 제재"
+  ],
+  "IRQ": [
+   "정치 불안(-2.17)"
+  ],
+  "JPN": [
+   "한국 수출 상위 5개국(지킬 시장)"
+  ],
+  "KAZ": [
+   "롯데 기진출국"
+  ],
+  "LBY": [
+   "전쟁·내전 진행 중",
+   "정치 불안(-1.97)"
+  ],
+  "MLI": [
+   "정치 불안(-2.50)"
+  ],
+  "MMR": [
+   "롯데 기진출국",
+   "전쟁·내전 진행 중",
+   "정치 불안(-2.17)"
+  ],
+  "NER": [
+   "정치 불안(-1.57)"
+  ],
+  "NGA": [
+   "정치 불안(-1.90)"
+  ],
+  "PAK": [
+   "롯데 기진출국",
+   "정치 불안(-1.91)"
+  ],
+  "PSE": [
+   "전쟁·내전 진행 중",
+   "정치 불안(-1.68)"
+  ],
+  "RUS": [
+   "롯데 기진출국",
+   "포괄적 국제 제재"
+  ],
+  "SDN": [
+   "전쟁·내전 진행 중",
+   "정치 불안(-2.01)"
+  ],
+  "SYR": [
+   "포괄적 국제 제재",
+   "정치 불안(-2.42)"
+  ],
+  "UKR": [
+   "전쟁·내전 진행 중"
+  ],
+  "USA": [
+   "한국 수출 상위 5개국(지킬 시장)"
+  ],
+  "VNM": [
+   "롯데 기진출국"
+  ],
+  "YEM": [
+   "전쟁·내전 진행 중",
+   "정치 불안(-2.63)"
+  ]
+ },
+ "base_ranking": [
+  "PHL",
+  "MYS",
+  "SGP",
+  "NLD",
+  "GBR",
+  "IDN",
+  "THA",
+  "UZB",
+  "ARE",
+  "DEU",
+  "NZL",
+  "SWE",
+  "GTM",
+  "NPL",
+  "CHL",
+  "OMN"
+ ],
+ "methods": {
+  "analog": {
+   "method": "analog",
+   "cases": [
+    {
+     "iso3": "MYS",
+     "year": 2008,
+     "start_musd": 1.13,
+     "end_musd": 5.46
+    },
+    {
+     "iso3": "SGP",
+     "year": 2009,
+     "start_musd": 1.41,
+     "end_musd": 6.73
+    },
+    {
+     "iso3": "THA",
+     "year": 2009,
+     "start_musd": 0.61,
+     "end_musd": 8.48
+    },
+    {
+     "iso3": "VNM",
+     "year": 2005,
+     "start_musd": 0.48,
+     "end_musd": 10.82
+    }
+   ],
+   "case_profile": {
+    "MYS2008": {
+     "gdp_pc": 68.3,
+     "cons_growth": null,
+     "urban": 69.8,
+     "youth": 50.3,
+     "pop": 73.2,
+     "import_size": 65.6,
+     "import_growth": null,
+     "kor_share": 87.0,
+     "kfood": 98.7,
+     "visitors_pc": 87.3
+    },
+    "SGP2009": {
+     "gdp_pc": 99.3,
+     "cons_growth": null,
+     "urban": 99.3,
+     "youth": 6.7,
+     "pop": 26.8,
+     "import_size": 79.1,
+     "import_growth": null,
+     "kor_share": 82.2,
+     "kfood": 98.7,
+     "visitors_pc": 96.4
+    },
+    "THA2009": {
+     "gdp_pc": 56.6,
+     "cons_growth": null,
+     "urban": 28.2,
+     "youth": 31.5,
+     "pop": 87.9,
+     "import_size": 69.8,
+     "import_growth": null,
+     "kor_share": 81.4,
+     "kfood": 90.9,
+     "visitors_pc": 83.6
+    },
+    "VNM2005": {
+     "gdp_pc": 33.1,
+     "cons_growth": null,
+     "urban": 14.1,
+     "youth": 43.0,
+     "pop": 90.6,
+     "import_size": 53.1,
+     "import_growth": null,
+     "kor_share": 89.2,
+     "kfood": 44.6,
+     "visitors_pc": 54.5
+    }
+   },
+   "center": {
+    "gdp_pc": 64.3,
+    "cons_growth": NaN,
+    "urban": 52.9,
+    "youth": 32.9,
+    "pop": 69.6,
+    "import_size": 66.9,
+    "import_growth": NaN,
+    "kor_share": 85.0,
+    "kfood": 83.2,
+    "visitors_pc": 80.5
+   },
+   "features": [
+    {
+     "id": "gdp_pc",
+     "name_ko": "1인당 소득(PPP)"
+    },
+    {
+     "id": "cons_growth",
+     "name_ko": "1인당 가계소비 5년 증가율"
+    },
+    {
+     "id": "urban",
+     "name_ko": "도시화율"
+    },
+    {
+     "id": "youth",
+     "name_ko": "0~14세 비중"
+    },
+    {
+     "id": "pop",
+     "name_ko": "인구"
+    },
+    {
+     "id": "import_size",
+     "name_ko": "비스킷 수입시장 규모"
+    },
+    {
+     "id": "import_growth",
+     "name_ko": "비스킷 수입 5년 증가율"
+    },
+    {
+     "id": "kor_share",
+     "name_ko": "수입 중 한국산 비중"
+    },
+    {
+     "id": "kfood",
+     "name_ko": "한국 음식 검색 관심도"
+    },
+    {
+     "id": "visitors_pc",
+     "name_ko": "인구 대비 방한객"
+    }
+   ],
+   "ranking": [
+    {
+     "iso3": "THA",
+     "score": 91.0,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 57.9,
+      "cons_growth": 80.0,
+      "urban": 45.0,
+      "youth": 12.1,
+      "pop": 87.2,
+      "import_size": 72.7,
+      "import_growth": 47.9,
+      "kor_share": 91.7,
+      "kfood": 79.5,
+      "visitors_pc": 83.6
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "MYS",
+     "score": 90.6,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 68.3,
+      "cons_growth": 70.0,
+      "urban": 71.1,
+      "youth": 41.6,
+      "pop": 71.8,
+      "import_size": 70.2,
+      "import_growth": 68.9,
+      "kor_share": 96.7,
+      "kfood": 99.3,
+      "visitors_pc": 90.9
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "NZL",
+     "score": 84.2,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 82.8,
+      "cons_growth": 39.2,
+      "urban": 81.9,
+      "youth": 32.2,
+      "pop": 22.8,
+      "import_size": 71.1,
+      "import_growth": 28.6,
+      "kor_share": 88.4,
+      "kfood": 98.0,
+      "visitors_pc": 89.1
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "CHL",
+     "score": 84.1,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 66.2,
+      "cons_growth": 50.0,
+      "urban": 89.9,
+      "youth": 27.5,
+      "pop": 59.1,
+      "import_size": 65.3,
+      "import_growth": 75.6,
+      "kor_share": 80.2,
+      "kfood": 68.5,
+      "visitors_pc": 29.1
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "PHL",
+     "score": 83.7,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 35.9,
+      "cons_growth": 61.5,
+      "urban": 34.2,
+      "youth": 57.0,
+      "pop": 91.3,
+      "import_size": 74.4,
+      "import_growth": 74.8,
+      "kor_share": 98.3,
+      "kfood": 98.7,
+      "visitors_pc": 81.8
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "IDN",
+     "score": 83.6,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 46.9,
+      "cons_growth": 63.1,
+      "urban": 39.6,
+      "youth": 49.0,
+      "pop": 98.0,
+      "import_size": 66.9,
+      "import_growth": 67.2,
+      "kor_share": 95.0,
+      "kfood": 95.6,
+      "visitors_pc": 47.3
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "ZAF",
+     "score": 82.4,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 44.1,
+      "cons_growth": 8.5,
+      "urban": 49.7,
+      "youth": 53.7,
+      "pop": 84.6,
+      "import_size": 54.5,
+      "import_growth": 14.3,
+      "kor_share": 72.7,
+      "kfood": 79.5,
+      "visitors_pc": 27.3
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "OMN",
+     "score": 82.1,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 71.7,
+      "cons_growth": 71.5,
+      "urban": 76.5,
+      "youth": 50.3,
+      "pop": 21.5,
+      "import_size": 62.0,
+      "import_growth": 29.4,
+      "kor_share": 76.0,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "GBR",
+     "score": 82.0,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 86.2,
+      "cons_growth": 7.7,
+      "urban": 80.5,
+      "youth": 28.9,
+      "pop": 86.6,
+      "import_size": 99.2,
+      "import_growth": 72.3,
+      "kor_share": 64.5,
+      "kfood": 88.6,
+      "visitors_pc": 65.5
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "ARE",
+     "score": 81.8,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 94.5,
+      "cons_growth": 96.2,
+      "urban": 84.6,
+      "youth": 23.5,
+      "pop": 47.0,
+      "import_size": 90.3,
+      "import_growth": 19.2,
+      "kor_share": 81.3,
+      "kfood": 89.9,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "KWT",
+     "score": 81.5,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 79.3,
+      "cons_growth": 4.6,
+      "urban": 99.0,
+      "youth": 32.9,
+      "pop": 19.5,
+      "import_size": 69.4,
+      "import_growth": 49.6,
+      "kor_share": 84.3,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MAR",
+     "score": 80.7,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 33.8,
+      "cons_growth": 40.8,
+      "urban": 47.7,
+      "youth": 53.0,
+      "pop": 75.2,
+      "import_size": 59.5,
+      "import_growth": 94.1,
+      "kor_share": 33.1,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "UZB",
+     "score": 80.6,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 38.6,
+      "cons_growth": 94.6,
+      "urban": 27.5,
+      "youth": 66.4,
+      "pop": 72.5,
+      "import_size": 56.2,
+      "import_growth": 99.2,
+      "kor_share": 65.3,
+      "kfood": 68.5,
+      "visitors_pc": 58.2
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "NLD",
+     "score": 80.6,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 95.2,
+      "cons_growth": 36.9,
+      "urban": 96.6,
+      "youth": 14.8,
+      "pop": 55.7,
+      "import_size": 96.7,
+      "import_growth": 58.8,
+      "kor_share": 74.4,
+      "kfood": 79.5,
+      "visitors_pc": 76.4
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "CZE",
+     "score": 80.3,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 82.1,
+      "cons_growth": 6.9,
+      "urban": 66.4,
+      "youth": 17.4,
+      "pop": 45.6,
+      "import_size": 86.8,
+      "import_growth": 63.9,
+      "kor_share": 41.3,
+      "kfood": 79.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "FRA",
+     "score": 80.3,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 86.9,
+      "cons_growth": 30.0,
+      "urban": 73.8,
+      "youth": 25.5,
+      "pop": 85.2,
+      "import_size": 97.5,
+      "import_growth": 39.5,
+      "kor_share": 50.4,
+      "kfood": 68.5,
+      "visitors_pc": 69.1
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "SWE",
+     "score": 80.1,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 90.3,
+      "cons_growth": 28.5,
+      "urban": 89.3,
+      "youth": 28.2,
+      "pop": 42.3,
+      "import_size": 89.3,
+      "import_growth": 40.3,
+      "kor_share": 62.8,
+      "kfood": 79.5,
+      "visitors_pc": 63.6
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "LTU",
+     "score": 80.0,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 80.7,
+      "cons_growth": 51.5,
+      "urban": 57.0,
+      "youth": 10.7,
+      "pop": 13.4,
+      "import_size": 66.1,
+      "import_growth": 60.5,
+      "kor_share": 59.5,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "IRL",
+     "score": 79.0,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 99.3,
+      "cons_growth": 54.6,
+      "urban": 51.7,
+      "youth": 34.2,
+      "pop": 24.2,
+      "import_size": 86.0,
+      "import_growth": 36.1,
+      "kor_share": 43.0,
+      "kfood": 85.9,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MNG",
+     "score": 78.9,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 51.7,
+      "cons_growth": 83.1,
+      "urban": 63.8,
+      "youth": 69.8,
+      "pop": 16.8,
+      "import_size": 51.5,
+      "import_growth": 78.5,
+      "kor_share": 97.0,
+      "kfood": 95.6,
+      "visitors_pc": 96.4
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "SAU",
+     "score": 78.3,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 91.7,
+      "cons_growth": 31.5,
+      "urban": 82.6,
+      "youth": 45.0,
+      "pop": 71.1,
+      "import_size": 88.4,
+      "import_growth": 21.0,
+      "kor_share": 82.6,
+      "kfood": 48.7,
+      "visitors_pc": 36.4
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "AZE",
+     "score": 78.1,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 59.3,
+      "cons_growth": null,
+      "urban": 38.9,
+      "youth": 42.3,
+      "pop": 40.9,
+      "import_size": 58.7,
+      "import_growth": 85.7,
+      "kor_share": 31.4,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "CHE",
+     "score": 78.1,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 97.2,
+      "cons_growth": 33.1,
+      "urban": 83.9,
+      "youth": 14.1,
+      "pop": 37.6,
+      "import_size": 84.3,
+      "import_growth": 48.7,
+      "kor_share": 51.2,
+      "kfood": 79.5,
+      "visitors_pc": 74.5
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "MEX",
+     "score": 78.0,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 58.6,
+      "cons_growth": 44.6,
+      "urban": 77.2,
+      "youth": 48.3,
+      "pop": 93.3,
+      "import_size": 83.5,
+      "import_growth": 84.9,
+      "kor_share": 78.5,
+      "kfood": 48.7,
+      "visitors_pc": 30.9
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "DEU",
+     "score": 77.3,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 91.0,
+      "cons_growth": 20.8,
+      "urban": 79.2,
+      "youth": 6.0,
+      "pop": 87.9,
+      "import_size": 98.3,
+      "import_growth": 44.5,
+      "kor_share": 66.1,
+      "kfood": 68.5,
+      "visitors_pc": 61.8
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "PAN",
+     "score": 77.2,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 71.0,
+      "cons_growth": 53.1,
+      "urban": 53.7,
+      "youth": 51.7,
+      "pop": 18.8,
+      "import_size": 47.1,
+      "import_growth": 22.7,
+      "kor_share": 57.0,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "PRY",
+     "score": 76.9,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 49.0,
+      "cons_growth": 53.8,
+      "urban": 59.7,
+      "youth": 59.1,
+      "pop": 32.9,
+      "import_size": 38.8,
+      "import_growth": 43.7,
+      "kor_share": 71.1,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "DOM",
+     "score": 76.9,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 62.1,
+      "cons_growth": 67.7,
+      "urban": 65.8,
+      "youth": 55.0,
+      "pop": 47.7,
+      "import_size": 51.2,
+      "import_growth": 73.1,
+      "kor_share": 63.6,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "GHA",
+     "score": 76.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 29.0,
+      "cons_growth": 85.4,
+      "urban": 37.6,
+      "youth": 73.8,
+      "pop": 69.8,
+      "import_size": 16.5,
+      "import_growth": 6.7,
+      "kor_share": 68.6,
+      "kfood": 79.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "ECU",
+     "score": 76.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 45.5,
+      "cons_growth": 35.4,
+      "urban": 49.0,
+      "youth": 47.7,
+      "pop": 56.4,
+      "import_size": 43.8,
+      "import_growth": 26.9,
+      "kor_share": 67.8,
+      "kfood": 48.7,
+      "visitors_pc": 20.0
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "POL",
+     "score": 76.6,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 78.6,
+      "cons_growth": 76.2,
+      "urban": 42.3,
+      "youth": 12.8,
+      "pop": 73.2,
+      "import_size": 94.2,
+      "import_growth": 95.8,
+      "kor_share": 39.7,
+      "kfood": 48.7,
+      "visitors_pc": 49.1
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "SVN",
+     "score": 76.5,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 84.1,
+      "cons_growth": 63.8,
+      "urban": 35.6,
+      "youth": 11.4,
+      "pop": 6.7,
+      "import_size": 67.8,
+      "import_growth": 68.1,
+      "kor_share": 57.9,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "TTO",
+     "score": 76.1,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 66.9,
+      "cons_growth": null,
+      "urban": 30.9,
+      "youth": 30.9,
+      "pop": 2.7,
+      "import_size": 27.3,
+      "import_growth": 25.2,
+      "kor_share": 56.2,
+      "kfood": 88.6,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "LKA",
+     "score": 76.0,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 44.8,
+      "cons_growth": 23.8,
+      "urban": 2.0,
+      "youth": 43.0,
+      "pop": 61.7,
+      "import_size": 19.0,
+      "import_growth": 73.9,
+      "kor_share": 69.4,
+      "kfood": 94.0,
+      "visitors_pc": 50.9
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "GTM",
+     "score": 75.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 42.1,
+      "cons_growth": 73.1,
+      "urban": 36.2,
+      "youth": 67.8,
+      "pop": 57.0,
+      "import_size": 63.6,
+      "import_growth": 80.7,
+      "kor_share": 71.9,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "KHM",
+     "score": 75.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 28.3,
+      "cons_growth": 22.3,
+      "urban": 20.1,
+      "youth": 63.1,
+      "pop": 55.0,
+      "import_size": 30.6,
+      "import_growth": 52.9,
+      "kor_share": 93.4,
+      "kfood": 94.0,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "LVA",
+     "score": 75.8,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 73.1,
+      "cons_growth": 60.8,
+      "urban": 56.4,
+      "youth": 18.1,
+      "pop": 6.0,
+      "import_size": 55.4,
+      "import_growth": 76.5,
+      "kor_share": 52.1,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "CRI",
+     "score": 75.7,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 64.1,
+      "cons_growth": 66.2,
+      "urban": 75.8,
+      "youth": 36.2,
+      "pop": 20.1,
+      "import_size": 52.1,
+      "import_growth": 69.7,
+      "kor_share": 40.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "AUT",
+     "score": 75.4,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 93.1,
+      "cons_growth": 18.5,
+      "urban": 57.7,
+      "youth": 7.4,
+      "pop": 38.9,
+      "import_size": 91.7,
+      "import_growth": 41.2,
+      "kor_share": 62.0,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "SRB",
+     "score": 75.4,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 63.4,
+      "cons_growth": 88.5,
+      "urban": 46.3,
+      "youth": 8.1,
+      "pop": 31.5,
+      "import_size": 62.8,
+      "import_growth": 95.0,
+      "kor_share": 21.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "JAM",
+     "score": 75.3,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 40.0,
+      "cons_growth": null,
+      "urban": 40.9,
+      "youth": 34.9,
+      "pop": 12.1,
+      "import_size": 32.2,
+      "import_growth": 84.0,
+      "kor_share": 46.3,
+      "kfood": 79.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "HKG",
+     "score": 75.3,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 93.8,
+      "cons_growth": 12.3,
+      "urban": 99.0,
+      "youth": 0.0,
+      "pop": 34.9,
+      "import_size": 81.8,
+      "import_growth": 10.1,
+      "kor_share": 97.5,
+      "kfood": 90.6,
+      "visitors_pc": 100.0
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "BHR",
+     "score": 75.3,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 89.0,
+      "cons_growth": 59.2,
+      "urban": 99.0,
+      "youth": 35.6,
+      "pop": 4.7,
+      "import_size": 42.1,
+      "import_growth": 17.6,
+      "kor_share": 77.7,
+      "kfood": 85.9,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MUS",
+     "score": 75.1,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 64.8,
+      "cons_growth": 11.5,
+      "urban": 17.4,
+      "youth": 13.4,
+      "pop": 1.3,
+      "import_size": 31.4,
+      "import_growth": 57.1,
+      "kor_share": 73.6,
+      "kfood": 79.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "HUN",
+     "score": 75.1,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 75.2,
+      "cons_growth": 83.8,
+      "urban": 61.7,
+      "youth": 8.7,
+      "pop": 39.6,
+      "import_size": 80.2,
+      "import_growth": 71.4,
+      "kor_share": 32.2,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "PER",
+     "score": 74.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 48.3,
+      "cons_growth": 34.6,
+      "urban": 83.2,
+      "youth": 45.6,
+      "pop": 69.1,
+      "import_size": 50.4,
+      "import_growth": 86.6,
+      "kor_share": 85.1,
+      "kfood": 17.4,
+      "visitors_pc": 21.8
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "DNK",
+     "score": 74.8,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 95.9,
+      "cons_growth": 10.0,
+      "urban": 88.6,
+      "youth": 19.5,
+      "pop": 28.2,
+      "import_size": 85.1,
+      "import_growth": 64.7,
+      "kor_share": 36.4,
+      "kfood": 85.9,
+      "visitors_pc": 70.9
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "QAT",
+     "score": 74.8,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 98.6,
+      "cons_growth": null,
+      "urban": 97.3,
+      "youth": 15.4,
+      "pop": 12.8,
+      "import_size": 57.9,
+      "import_growth": 53.8,
+      "kor_share": 79.3,
+      "kfood": 91.9,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "ISR",
+     "score": 74.8,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 80.0,
+      "cons_growth": 37.7,
+      "urban": 92.6,
+      "youth": 55.7,
+      "pop": 40.3,
+      "import_size": 71.9,
+      "import_growth": 34.5,
+      "kor_share": 54.5,
+      "kfood": 48.7,
+      "visitors_pc": 56.4
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "NOR",
+     "score": 74.6,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 97.9,
+      "cons_growth": 43.1,
+      "urban": 81.2,
+      "youth": 24.2,
+      "pop": 25.5,
+      "import_size": 79.3,
+      "import_growth": 45.4,
+      "kor_share": 37.2,
+      "kfood": 68.5,
+      "visitors_pc": 67.3
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "TUN",
+     "score": 74.4,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 43.4,
+      "cons_growth": 14.6,
+      "urban": 61.1,
+      "youth": 46.3,
+      "pop": 50.3,
+      "import_size": 15.7,
+      "import_growth": 18.5,
+      "kor_share": 22.3,
+      "kfood": 79.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "GRC",
+     "score": 74.3,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 72.4,
+      "cons_growth": 76.9,
+      "urban": 74.5,
+      "youth": 4.7,
+      "pop": 41.6,
+      "import_size": 68.6,
+      "import_growth": 70.6,
+      "kor_share": 38.0,
+      "kfood": 48.7,
+      "visitors_pc": 43.6
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "SGP",
+     "score": 74.2,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 100.0,
+      "cons_growth": 49.2,
+      "urban": 99.0,
+      "youth": 1.3,
+      "pop": 28.9,
+      "import_size": 76.9,
+      "import_growth": 21.8,
+      "kor_share": 92.6,
+      "kfood": 100.0,
+      "visitors_pc": 98.2
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "GEO",
+     "score": 74.2,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 60.7,
+      "cons_growth": 96.2,
+      "urban": 43.6,
+      "youth": 39.6,
+      "pop": 17.4,
+      "import_size": 49.6,
+      "import_growth": 92.4,
+      "kor_share": 28.1,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "PRT",
+     "score": 74.0,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 77.2,
+      "cons_growth": 42.3,
+      "urban": 44.3,
+      "youth": 2.7,
+      "pop": 44.3,
+      "import_size": 82.6,
+      "import_growth": 62.2,
+      "kor_share": 30.6,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "ROU",
+     "score": 73.5,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 74.5,
+      "cons_growth": 84.6,
+      "urban": 28.9,
+      "youth": 20.1,
+      "pop": 58.4,
+      "import_size": 87.6,
+      "import_growth": 77.3,
+      "kor_share": 28.9,
+      "kfood": 48.7,
+      "visitors_pc": 38.2
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "BGR",
+     "score": 73.4,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 69.0,
+      "cons_growth": 95.4,
+      "urban": 67.8,
+      "youth": 9.4,
+      "pop": 30.9,
+      "import_size": 73.6,
+      "import_growth": 87.4,
+      "kor_share": 33.9,
+      "kfood": 48.7,
+      "visitors_pc": 41.8
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "BRA",
+     "score": 73.3,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 55.2,
+      "cons_growth": 56.9,
+      "urban": 87.9,
+      "youth": 37.6,
+      "pop": 96.0,
+      "import_size": 60.3,
+      "import_growth": 56.3,
+      "kor_share": 86.8,
+      "kfood": 17.4,
+      "visitors_pc": 16.4
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "FIN",
+     "score": 73.3,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 87.6,
+      "cons_growth": 13.8,
+      "urban": 68.5,
+      "youth": 10.1,
+      "pop": 26.8,
+      "import_size": 76.0,
+      "import_growth": 35.3,
+      "kor_share": 26.4,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "LAO",
+     "score": 72.7,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 32.4,
+      "cons_growth": null,
+      "urban": 18.8,
+      "youth": 63.8,
+      "pop": 35.6,
+      "import_size": 14.2,
+      "import_growth": 97.7,
+      "kor_share": 89.6,
+      "kfood": 85.9,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "CYP",
+     "score": 72.6,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 84.8,
+      "cons_growth": 57.7,
+      "urban": 54.4,
+      "youth": 22.8,
+      "pop": 2.0,
+      "import_size": 39.7,
+      "import_growth": 63.0,
+      "kor_share": 24.0,
+      "kfood": 79.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "SVK",
+     "score": 72.4,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 73.8,
+      "cons_growth": 60.0,
+      "urban": 30.2,
+      "youth": 20.8,
+      "pop": 24.8,
+      "import_size": 78.5,
+      "import_growth": 52.1,
+      "kor_share": 27.3,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MDA",
+     "score": 71.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 50.3,
+      "cons_growth": 75.4,
+      "urban": 21.5,
+      "youth": 38.3,
+      "pop": 9.4,
+      "import_size": 33.9,
+      "import_growth": 89.1,
+      "kor_share": 66.9,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "ARG",
+     "score": 71.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 62.8,
+      "cons_growth": 27.7,
+      "urban": 94.6,
+      "youth": 40.9,
+      "pop": 77.9,
+      "import_size": 33.1,
+      "import_growth": 31.9,
+      "kor_share": 81.8,
+      "kfood": 17.4,
+      "visitors_pc": 18.2
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "ESP",
+     "score": 71.9,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 83.4,
+      "cons_growth": 19.2,
+      "urban": 78.5,
+      "youth": 3.4,
+      "pop": 79.9,
+      "import_size": 92.6,
+      "import_growth": 30.3,
+      "kor_share": 45.5,
+      "kfood": 48.7,
+      "visitors_pc": 40.0
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "NIC",
+     "score": 71.5,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 30.3,
+      "cons_growth": 91.5,
+      "urban": 41.6,
+      "youth": 59.7,
+      "pop": 32.2,
+      "import_size": 41.3,
+      "import_growth": 78.2,
+      "kor_share": 55.4,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "EST",
+     "score": 71.5,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 75.9,
+      "cons_growth": 41.5,
+      "urban": 63.1,
+      "youth": 18.8,
+      "pop": 3.4,
+      "import_size": 48.8,
+      "import_growth": 58.0,
+      "kor_share": 20.7,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "ALB",
+     "score": 71.4,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 57.2,
+      "cons_growth": 86.2,
+      "urban": 38.3,
+      "youth": 26.8,
+      "pop": 8.7,
+      "import_size": 35.5,
+      "import_growth": 96.6,
+      "kor_share": 19.8,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "COL",
+     "score": 71.2,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 53.8,
+      "cons_growth": 77.7,
+      "urban": 73.2,
+      "youth": 38.9,
+      "pop": 81.9,
+      "import_size": 44.6,
+      "import_growth": 11.8,
+      "kor_share": 48.8,
+      "kfood": 17.4,
+      "visitors_pc": 23.6
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "ITA",
+     "score": 71.0,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 85.5,
+      "cons_growth": 36.2,
+      "urban": 59.1,
+      "youth": 2.0,
+      "pop": 83.9,
+      "import_size": 93.4,
+      "import_growth": 37.8,
+      "kor_share": 52.9,
+      "kfood": 17.4,
+      "visitors_pc": 45.5
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "TUR",
+     "score": 70.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 70.3,
+      "cons_growth": 99.2,
+      "urban": 91.3,
+      "youth": 40.3,
+      "pop": 88.6,
+      "import_size": 61.2,
+      "import_growth": 83.2,
+      "kor_share": 42.1,
+      "kfood": 17.4,
+      "visitors_pc": 32.7
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "ARM",
+     "score": 70.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 55.9,
+      "cons_growth": 40.0,
+      "urban": 52.3,
+      "youth": 36.9,
+      "pop": 14.8,
+      "import_size": 40.5,
+      "import_growth": 93.3,
+      "kor_share": 9.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "LBN",
+     "score": 70.6,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 37.9,
+      "cons_growth": 2.3,
+      "urban": 91.9,
+      "youth": 54.4,
+      "pop": 27.5,
+      "import_size": 43.0,
+      "import_growth": 5.9,
+      "kor_share": 47.1,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "URY",
+     "score": 70.5,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 67.6,
+      "cons_growth": null,
+      "urban": 96.0,
+      "youth": 33.6,
+      "pop": 16.1,
+      "import_size": 36.4,
+      "import_growth": 32.8,
+      "kor_share": 75.2,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "SLV",
+     "score": 70.1,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 40.7,
+      "cons_growth": 46.9,
+      "urban": 69.1,
+      "youth": 51.0,
+      "pop": 30.2,
+      "import_size": 45.5,
+      "import_growth": 79.8,
+      "kor_share": 60.3,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "JOR",
+     "score": 69.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 37.2,
+      "cons_growth": null,
+      "urban": 95.3,
+      "youth": 65.8,
+      "pop": 48.3,
+      "import_size": 53.7,
+      "import_growth": 20.2,
+      "kor_share": 70.2,
+      "kfood": 48.7,
+      "visitors_pc": 25.5
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "BOL",
+     "score": 69.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 39.3,
+      "cons_growth": 15.4,
+      "urban": 64.4,
+      "youth": 62.4,
+      "pop": 51.0,
+      "import_size": 29.8,
+      "import_growth": 15.1,
+      "kor_share": 61.2,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "HND",
+     "score": 69.6,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 26.2,
+      "cons_growth": 73.8,
+      "urban": 40.3,
+      "youth": 65.1,
+      "pop": 45.0,
+      "import_size": 46.3,
+      "import_growth": 51.3,
+      "kor_share": 34.7,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "DZA",
+     "score": 69.5,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 47.6,
+      "cons_growth": 20.0,
+      "urban": 70.5,
+      "youth": 64.4,
+      "pop": 79.2,
+      "import_size": 0.0,
+      "import_growth": null,
+      "kor_share": 90.1,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MKD",
+     "score": 68.6,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 61.4,
+      "cons_growth": 80.8,
+      "urban": 47.0,
+      "youth": 26.2,
+      "pop": 5.4,
+      "import_size": 37.2,
+      "import_growth": 54.6,
+      "kor_share": 9.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "KEN",
+     "score": 68.1,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 24.1,
+      "cons_growth": 62.3,
+      "urban": 10.1,
+      "youth": 77.2,
+      "pop": 83.2,
+      "import_size": 19.8,
+      "import_growth": 12.6,
+      "kor_share": 86.0,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "HRV",
+     "score": 67.8,
+     "nearest_case": "SGP2009",
+     "profile": {
+      "gdp_pc": 77.9,
+      "cons_growth": 90.8,
+      "urban": 36.9,
+      "youth": 6.7,
+      "pop": 18.1,
+      "import_size": 75.2,
+      "import_growth": 88.2,
+      "kor_share": 9.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "BIH",
+     "score": 66.4,
+     "nearest_case": "THA2009",
+     "profile": {
+      "gdp_pc": 56.6,
+      "cons_growth": 86.9,
+      "urban": 28.2,
+      "youth": 4.0,
+      "pop": 15.4,
+      "import_size": 57.0,
+      "import_growth": 38.7,
+      "kor_share": 9.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "BGD",
+     "score": 65.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 31.7,
+      "cons_growth": 90.0,
+      "urban": 11.4,
+      "youth": 57.7,
+      "pop": 95.3,
+      "import_size": null,
+      "import_growth": null,
+      "kor_share": null,
+      "kfood": 68.5,
+      "visitors_pc": 14.5
+     },
+     "n_features": 6
+    },
+    {
+     "iso3": "BWA",
+     "score": 65.4,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 53.1,
+      "cons_growth": 55.4,
+      "urban": 55.7,
+      "youth": 69.1,
+      "pop": 10.1,
+      "import_size": 24.8,
+      "import_growth": 9.2,
+      "kor_share": 9.5,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "EGY",
+     "score": 64.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 51.0,
+      "cons_growth": 87.7,
+      "urban": 20.8,
+      "youth": 68.5,
+      "pop": 91.9,
+      "import_size": 28.1,
+      "import_growth": 8.4,
+      "kor_share": 53.7,
+      "kfood": 48.7,
+      "visitors_pc": 7.3
+     },
+     "n_features": 8
+    },
+    {
+     "iso3": "SEN",
+     "score": 64.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 19.3,
+      "cons_growth": 45.4,
+      "urban": 32.9,
+      "youth": 80.5,
+      "pop": 57.7,
+      "import_size": 20.7,
+      "import_growth": 27.7,
+      "kor_share": 43.8,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "KGZ",
+     "score": 64.6,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 29.7,
+      "cons_growth": 100.0,
+      "urban": 12.1,
+      "youth": 70.5,
+      "pop": 33.6,
+      "import_size": 38.0,
+      "import_growth": 47.1,
+      "kor_share": 49.6,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "PNG",
+     "score": 60.5,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 18.6,
+      "cons_growth": null,
+      "urban": 0.0,
+      "youth": 71.8,
+      "pop": 43.0,
+      "import_size": 21.5,
+      "import_growth": 16.8,
+      "kor_share": 83.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "NAM",
+     "score": 59.1,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 35.2,
+      "cons_growth": 81.5,
+      "urban": 26.8,
+      "youth": 77.9,
+      "pop": 14.1,
+      "import_size": 26.4,
+      "import_growth": 24.4,
+      "kor_share": 9.5,
+      "kfood": 68.5,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "ZMB",
+     "score": 58.2,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 14.5,
+      "cons_growth": null,
+      "urban": 25.5,
+      "youth": 91.3,
+      "pop": 60.4,
+      "import_size": 14.0,
+      "import_growth": 10.9,
+      "kor_share": 24.8,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "AGO",
+     "score": 57.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 33.1,
+      "cons_growth": 98.5,
+      "urban": 62.4,
+      "youth": 96.0,
+      "pop": 74.5,
+      "import_size": 22.3,
+      "import_growth": 0.8,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "CIV",
+     "score": 57.3,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 26.9,
+      "cons_growth": 65.4,
+      "urban": 31.5,
+      "youth": 87.2,
+      "pop": 67.8,
+      "import_size": 24.0,
+      "import_growth": 37.0,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "ZWE",
+     "score": 55.5,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 22.1,
+      "cons_growth": 16.9,
+      "urban": 19.5,
+      "youth": 87.9,
+      "pop": 54.4,
+      "import_size": 11.6,
+      "import_growth": 100.0,
+      "kor_share": 9.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "RWA",
+     "score": 54.5,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 13.1,
+      "cons_growth": 10.8,
+      "urban": 7.4,
+      "youth": 78.5,
+      "pop": 52.3,
+      "import_size": 18.2,
+      "import_growth": 42.0,
+      "kor_share": 9.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "UGA",
+     "score": 53.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 9.7,
+      "cons_growth": 25.4,
+      "urban": 8.7,
+      "youth": 95.3,
+      "pop": 80.5,
+      "import_size": 25.6,
+      "import_growth": 66.4,
+      "kor_share": 9.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "TZA",
+     "score": 53.3,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 15.2,
+      "cons_growth": 13.1,
+      "urban": 14.1,
+      "youth": 93.3,
+      "pop": 85.9,
+      "import_size": 14.9,
+      "import_growth": 65.5,
+      "kor_share": 9.5,
+      "kfood": 48.7,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "TJK",
+     "score": 53.1,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 20.0,
+      "cons_growth": 97.7,
+      "urban": 4.7,
+      "youth": 74.5,
+      "pop": 43.6,
+      "import_size": 37.3,
+      "import_growth": 92.3,
+      "kor_share": 11.9,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "COG",
+     "score": 53.0,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 24.8,
+      "cons_growth": 50.8,
+      "urban": 50.3,
+      "youth": 84.6,
+      "pop": 29.5,
+      "import_size": 13.2,
+      "import_growth": 7.6,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MOZ",
+     "score": 52.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 1.4,
+      "cons_growth": 47.7,
+      "urban": 14.8,
+      "youth": 96.6,
+      "pop": 70.5,
+      "import_size": 23.1,
+      "import_growth": 50.4,
+      "kor_share": 29.8,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MDG",
+     "score": 52.1,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 4.1,
+      "cons_growth": 26.9,
+      "urban": 10.7,
+      "youth": 82.6,
+      "pop": 68.5,
+      "import_size": 12.4,
+      "import_growth": 16.0,
+      "kor_share": 23.1,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "DJI",
+     "score": 51.5,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 27.6,
+      "cons_growth": 96.9,
+      "urban": 67.1,
+      "youth": 61.1,
+      "pop": 0.0,
+      "import_size": 14.9,
+      "import_growth": null,
+      "kor_share": 11.9,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "GAB",
+     "score": 51.3,
+     "nearest_case": "MYS2008",
+     "profile": {
+      "gdp_pc": 54.5,
+      "cons_growth": 3.8,
+      "urban": 93.3,
+      "youth": 75.2,
+      "pop": 10.7,
+      "import_size": 16.4,
+      "import_growth": 14.6,
+      "kor_share": 11.9,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "GMB",
+     "score": 50.7,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 11.7,
+      "cons_growth": 33.8,
+      "urban": 51.0,
+      "youth": 83.9,
+      "pop": 11.4,
+      "import_size": 0.8,
+      "import_growth": 5.0,
+      "kor_share": 35.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "BEN",
+     "score": 50.1,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 16.6,
+      "cons_growth": 69.2,
+      "urban": 29.5,
+      "youth": 91.9,
+      "pop": 53.0,
+      "import_size": 5.8,
+      "import_growth": 33.6,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "TLS",
+     "score": 49.9,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 15.9,
+      "cons_growth": 58.5,
+      "urban": 6.7,
+      "youth": 72.5,
+      "pop": 4.0,
+      "import_size": 11.2,
+      "import_growth": 64.6,
+      "kor_share": 55.2,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MRT",
+     "score": 48.7,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 25.5,
+      "cons_growth": 16.2,
+      "urban": 43.0,
+      "youth": 94.0,
+      "pop": 20.8,
+      "import_size": 7.4,
+      "import_growth": 90.8,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "TGO",
+     "score": 47.3,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 13.8,
+      "cons_growth": 75.0,
+      "urban": 22.8,
+      "youth": 86.6,
+      "pop": 36.2,
+      "import_size": 6.6,
+      "import_growth": 89.9,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "SWZ",
+     "score": 46.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 36.6,
+      "cons_growth": 46.2,
+      "urban": 5.4,
+      "youth": 71.1,
+      "pop": 0.7,
+      "import_size": 15.7,
+      "import_growth": 13.8,
+      "kor_share": 11.9,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "MWI",
+     "score": 46.5,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 2.8,
+      "cons_growth": null,
+      "urban": 0.7,
+      "youth": 85.9,
+      "pop": 61.1,
+      "import_size": 9.1,
+      "import_growth": 3.4,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "LBR",
+     "score": 46.3,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 3.4,
+      "cons_growth": null,
+      "urban": 34.9,
+      "youth": 83.2,
+      "pop": 26.2,
+      "import_size": 5.0,
+      "import_growth": 97.5,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "LSO",
+     "score": 44.8,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 7.6,
+      "cons_growth": 29.2,
+      "urban": 22.1,
+      "youth": 73.2,
+      "pop": 8.1,
+      "import_size": 10.7,
+      "import_growth": 13.4,
+      "kor_share": 9.5,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    },
+    {
+     "iso3": "BDI",
+     "score": 43.0,
+     "nearest_case": "VNM2005",
+     "profile": {
+      "gdp_pc": 0.0,
+      "cons_growth": 9.2,
+      "urban": 3.4,
+      "youth": 97.3,
+      "pop": 51.7,
+      "import_size": 3.0,
+      "import_growth": 76.9,
+      "kor_share": 11.9,
+      "kfood": 17.4,
+      "visitors_pc": null
+     },
+     "n_features": 7
+    }
+   ]
+  },
+  "gap": {
+   "method": "gap",
+   "coef": {
+    "const": 5.345,
+    "log_import_size": 1.522,
+    "log_distance": -1.775,
+    "fta": -0.165,
+    "log_gdp_pc": -0.585
+   },
+   "fit_r2": 0.735,
+   "n_countries": 135,
+   "ranking": [
+    {
+     "iso3": "GBR",
+     "expected_musd": 39.15,
+     "actual_musd": 4.95,
+     "gap_musd": 34.2,
+     "actual_vs_expected_pct": 13.0,
+     "fta": 1,
+     "distance_km": 8724,
+     "import_size_musd": 8456.4
+    },
+    {
+     "iso3": "DEU",
+     "expected_musd": 31.46,
+     "actual_musd": 4.87,
+     "gap_musd": 26.59,
+     "actual_vs_expected_pct": 15.0,
+     "fta": 1,
+     "distance_km": 8465,
+     "import_size_musd": 7533.2
+    },
+    {
+     "iso3": "FRA",
+     "expected_musd": 20.39,
+     "actual_musd": 1.49,
+     "gap_musd": 18.9,
+     "actual_vs_expected_pct": 7.0,
+     "fta": 1,
+     "distance_km": 9222,
+     "import_size_musd": 5903.9
+    },
+    {
+     "iso3": "POL",
+     "expected_musd": 7.23,
+     "actual_musd": 0.19,
+     "gap_musd": 7.04,
+     "actual_vs_expected_pct": 3.0,
+     "fta": 1,
+     "distance_km": 7811,
+     "import_size_musd": 2271.7
+    },
+    {
+     "iso3": "NLD",
+     "expected_musd": 12.66,
+     "actual_musd": 5.88,
+     "gap_musd": 6.78,
+     "actual_vs_expected_pct": 46.0,
+     "fta": 1,
+     "distance_km": 8506,
+     "import_size_musd": 4348.7
+    },
+    {
+     "iso3": "ITA",
+     "expected_musd": 4.99,
+     "actual_musd": 0.63,
+     "gap_musd": 4.36,
+     "actual_vs_expected_pct": 13.0,
+     "fta": 1,
+     "distance_km": 8876,
+     "import_size_musd": 2214.1
+    },
+    {
+     "iso3": "ROU",
+     "expected_musd": 3.47,
+     "actual_musd": 0.04,
+     "gap_musd": 3.43,
+     "actual_vs_expected_pct": 1.0,
+     "fta": 1,
+     "distance_km": 7903,
+     "import_size_musd": 1369.1
+    },
+    {
+     "iso3": "ESP",
+     "expected_musd": 3.64,
+     "actual_musd": 0.32,
+     "gap_musd": 3.32,
+     "actual_vs_expected_pct": 9.0,
+     "fta": 1,
+     "distance_km": 10048,
+     "import_size_musd": 1999.3
+    },
+    {
+     "iso3": "AUT",
+     "expected_musd": 3.59,
+     "actual_musd": 0.67,
+     "gap_musd": 2.92,
+     "actual_vs_expected_pct": 19.0,
+     "fta": 1,
+     "distance_km": 8510,
+     "import_size_musd": 1837.5
+    },
+    {
+     "iso3": "CZE",
+     "expected_musd": 2.97,
+     "actual_musd": 0.16,
+     "gap_musd": 2.8,
+     "actual_vs_expected_pct": 6.0,
+     "fta": 1,
+     "distance_km": 8214,
+     "import_size_musd": 1386.1
+    },
+    {
+     "iso3": "SWE",
+     "expected_musd": 3.3,
+     "actual_musd": 0.75,
+     "gap_musd": 2.55,
+     "actual_vs_expected_pct": 23.0,
+     "fta": 1,
+     "distance_km": 7392,
+     "import_size_musd": 1454.1
+    },
+    {
+     "iso3": "DNK",
+     "expected_musd": 1.97,
+     "actual_musd": 0.05,
+     "gap_musd": 1.93,
+     "actual_vs_expected_pct": 2.0,
+     "fta": 1,
+     "distance_km": 8037,
+     "import_size_musd": 1193.8
+    },
+    {
+     "iso3": "HUN",
+     "expected_musd": 1.6,
+     "actual_musd": 0.05,
+     "gap_musd": 1.55,
+     "actual_vs_expected_pct": 3.0,
+     "fta": 1,
+     "distance_km": 8146,
+     "import_size_musd": 858.1
+    },
+    {
+     "iso3": "SVK",
+     "expected_musd": 1.49,
+     "actual_musd": 0.03,
+     "gap_musd": 1.47,
+     "actual_vs_expected_pct": 2.0,
+     "fta": 1,
+     "distance_km": 8063,
+     "import_size_musd": 801.8
+    },
+    {
+     "iso3": "UZB",
+     "expected_musd": 1.59,
+     "actual_musd": 0.2,
+     "gap_musd": 1.39,
+     "actual_vs_expected_pct": 13.0,
+     "fta": 0,
+     "distance_km": 5315,
+     "import_size_musd": 277.3
+    },
+    {
+     "iso3": "FIN",
+     "expected_musd": 1.39,
+     "actual_musd": 0.03,
+     "gap_musd": 1.37,
+     "actual_vs_expected_pct": 2.0,
+     "fta": 1,
+     "distance_km": 6805,
+     "import_size_musd": 719.6
+    },
+    {
+     "iso3": "PRT",
+     "expected_musd": 1.4,
+     "actual_musd": 0.04,
+     "gap_musd": 1.36,
+     "actual_vs_expected_pct": 3.0,
+     "fta": 1,
+     "distance_km": 10291,
+     "import_size_musd": 1044.4
+    },
+    {
+     "iso3": "CHE",
+     "expected_musd": 1.48,
+     "actual_musd": 0.29,
+     "gap_musd": 1.19,
+     "actual_vs_expected_pct": 20.0,
+     "fta": 1,
+     "distance_km": 8829,
+     "import_size_musd": 1191.7
+    },
+    {
+     "iso3": "IRL",
+     "expected_musd": 1.41,
+     "actual_musd": 0.29,
+     "gap_musd": 1.12,
+     "actual_vs_expected_pct": 20.0,
+     "fta": 1,
+     "distance_km": 9050,
+     "import_size_musd": 1353.3
+    },
+    {
+     "iso3": "BGR",
+     "expected_musd": 1.1,
+     "actual_musd": 0.03,
+     "gap_musd": 1.07,
+     "actual_vs_expected_pct": 3.0,
+     "fta": 1,
+     "distance_km": 8096,
+     "import_size_musd": 615.0
+    },
+    {
+     "iso3": "NOR",
+     "expected_musd": 1.08,
+     "actual_musd": 0.05,
+     "gap_musd": 1.03,
+     "actual_vs_expected_pct": 5.0,
+     "fta": 1,
+     "distance_km": 7596,
+     "import_size_musd": 847.2
+    },
+    {
+     "iso3": "SAU",
+     "expected_musd": 3.46,
+     "actual_musd": 3.07,
+     "gap_musd": 0.39,
+     "actual_vs_expected_pct": 89.0,
+     "fta": 0,
+     "distance_km": 7676,
+     "import_size_musd": 1428.9
+    },
+    {
+     "iso3": "MEX",
+     "expected_musd": 1.96,
+     "actual_musd": 2.46,
+     "gap_musd": -0.5,
+     "actual_vs_expected_pct": 126.0,
+     "fta": 0,
+     "distance_km": 11556,
+     "import_size_musd": 1038.0
+    },
+    {
+     "iso3": "ARE",
+     "expected_musd": 3.95,
+     "actual_musd": 4.47,
+     "gap_musd": -0.52,
+     "actual_vs_expected_pct": 113.0,
+     "fta": 0,
+     "distance_km": 6963,
+     "import_size_musd": 1430.7
+    },
+    {
+     "iso3": "HKG",
+     "expected_musd": 21.35,
+     "actual_musd": 22.33,
+     "gap_musd": -0.98,
+     "actual_vs_expected_pct": 105.0,
+     "fta": 0,
+     "distance_km": 2096,
+     "import_size_musd": 1038.7
+    },
+    {
+     "iso3": "THA",
+     "expected_musd": 5.75,
+     "actual_musd": 7.87,
+     "gap_musd": -2.12,
+     "actual_vs_expected_pct": 137.0,
+     "fta": 1,
+     "distance_km": 3652,
+     "import_size_musd": 608.9
+    },
+    {
+     "iso3": "PHL",
+     "expected_musd": 15.73,
+     "actual_musd": 19.02,
+     "gap_musd": -3.29,
+     "actual_vs_expected_pct": 121.0,
+     "fta": 1,
+     "distance_km": 2776,
+     "import_size_musd": 638.2
+    },
+    {
+     "iso3": "IDN",
+     "expected_musd": 2.31,
+     "actual_musd": 5.75,
+     "gap_musd": -3.44,
+     "actual_vs_expected_pct": 248.0,
+     "fta": 1,
+     "distance_km": 4788,
+     "import_size_musd": 389.6
+    },
+    {
+     "iso3": "MNG",
+     "expected_musd": 3.55,
+     "actual_musd": 7.78,
+     "gap_musd": -4.23,
+     "actual_vs_expected_pct": 219.0,
+     "fta": 0,
+     "distance_km": 2040,
+     "import_size_musd": 181.0
+    },
+    {
+     "iso3": "SGP",
+     "expected_musd": 1.71,
+     "actual_musd": 9.41,
+     "gap_musd": -7.7,
+     "actual_vs_expected_pct": 550.0,
+     "fta": 1,
+     "distance_km": 4672,
+     "import_size_musd": 740.5
+    },
+    {
+     "iso3": "MYS",
+     "expected_musd": 2.69,
+     "actual_musd": 10.45,
+     "gap_musd": -7.76,
+     "actual_vs_expected_pct": 388.0,
+     "fta": 1,
+     "distance_km": 4170,
+     "import_size_musd": 510.7
+    }
+   ]
+  },
+  "follow": {
+   "method": "follow",
+   "window": "2018~2019 평균 → 2023~2024 평균",
+   "ranking": [
+    {
+     "iso3": "NLD",
+     "jp_increase_musd": 6.71,
+     "jp_now_musd": 8.81,
+     "jp_growth_pct": 319,
+     "kor_now_musd": 5.88,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "THA",
+     "jp_increase_musd": 6.31,
+     "jp_now_musd": 16.83,
+     "jp_growth_pct": 60,
+     "kor_now_musd": 7.87,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "MYS",
+     "jp_increase_musd": 5.57,
+     "jp_now_musd": 9.57,
+     "jp_growth_pct": 140,
+     "kor_now_musd": 10.45,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "ARE",
+     "jp_increase_musd": 2.65,
+     "jp_now_musd": 4.32,
+     "jp_growth_pct": 159,
+     "kor_now_musd": 4.47,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "IDN",
+     "jp_increase_musd": 2.16,
+     "jp_now_musd": 4.86,
+     "jp_growth_pct": 80,
+     "kor_now_musd": 5.75,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "SGP",
+     "jp_increase_musd": 2.09,
+     "jp_now_musd": 30.58,
+     "jp_growth_pct": 7,
+     "kor_now_musd": 9.41,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "PHL",
+     "jp_increase_musd": 1.73,
+     "jp_now_musd": 8.2,
+     "jp_growth_pct": 27,
+     "kor_now_musd": 19.02,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "MNG",
+     "jp_increase_musd": 1.53,
+     "jp_now_musd": 1.72,
+     "jp_growth_pct": 765,
+     "kor_now_musd": 7.78,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "BRA",
+     "jp_increase_musd": 0.86,
+     "jp_now_musd": 2.85,
+     "jp_growth_pct": 43,
+     "kor_now_musd": 1.64,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "GBR",
+     "jp_increase_musd": 0.82,
+     "jp_now_musd": 1.8,
+     "jp_growth_pct": 84,
+     "kor_now_musd": 4.95,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "ESP",
+     "jp_increase_musd": 0.31,
+     "jp_now_musd": 0.43,
+     "jp_growth_pct": 255,
+     "kor_now_musd": 0.32,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "DNK",
+     "jp_increase_musd": 0.28,
+     "jp_now_musd": 0.3,
+     "jp_growth_pct": 1384,
+     "kor_now_musd": 0.05,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "CHL",
+     "jp_increase_musd": 0.28,
+     "jp_now_musd": 0.31,
+     "jp_growth_pct": 949,
+     "kor_now_musd": 0.82,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "FRA",
+     "jp_increase_musd": 0.27,
+     "jp_now_musd": 1.08,
+     "jp_growth_pct": 34,
+     "kor_now_musd": 1.49,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "PRT",
+     "jp_increase_musd": 0.24,
+     "jp_now_musd": 0.51,
+     "jp_growth_pct": 88,
+     "kor_now_musd": 0.04,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "LKA",
+     "jp_increase_musd": 0.24,
+     "jp_now_musd": 0.24,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.01,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "LTU",
+     "jp_increase_musd": 0.23,
+     "jp_now_musd": 0.25,
+     "jp_growth_pct": 1087,
+     "kor_now_musd": 0.17,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "SAU",
+     "jp_increase_musd": 0.23,
+     "jp_now_musd": 6.52,
+     "jp_growth_pct": 4,
+     "kor_now_musd": 3.07,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "SWE",
+     "jp_increase_musd": 0.21,
+     "jp_now_musd": 0.26,
+     "jp_growth_pct": 361,
+     "kor_now_musd": 0.75,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "LAO",
+     "jp_increase_musd": 0.17,
+     "jp_now_musd": 0.18,
+     "jp_growth_pct": 1166,
+     "kor_now_musd": 0.18,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "NZL",
+     "jp_increase_musd": 0.15,
+     "jp_now_musd": 1.0,
+     "jp_growth_pct": 18,
+     "kor_now_musd": 3.68,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "POL",
+     "jp_increase_musd": 0.15,
+     "jp_now_musd": 0.19,
+     "jp_growth_pct": 331,
+     "kor_now_musd": 0.19,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "CHE",
+     "jp_increase_musd": 0.1,
+     "jp_now_musd": 0.37,
+     "jp_growth_pct": 36,
+     "kor_now_musd": 0.29,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "JOR",
+     "jp_increase_musd": 0.09,
+     "jp_now_musd": 0.26,
+     "jp_growth_pct": 50,
+     "kor_now_musd": 0.18,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "PER",
+     "jp_increase_musd": 0.07,
+     "jp_now_musd": 0.08,
+     "jp_growth_pct": 819,
+     "kor_now_musd": 0.97,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "ISR",
+     "jp_increase_musd": 0.06,
+     "jp_now_musd": 0.07,
+     "jp_growth_pct": 2743,
+     "kor_now_musd": 0.2,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "CRI",
+     "jp_increase_musd": 0.06,
+     "jp_now_musd": 0.06,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.05,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "GTM",
+     "jp_increase_musd": 0.04,
+     "jp_now_musd": 0.04,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.47,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "CYP",
+     "jp_increase_musd": 0.04,
+     "jp_now_musd": 0.04,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.0,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "OMN",
+     "jp_increase_musd": 0.04,
+     "jp_now_musd": 0.46,
+     "jp_growth_pct": 9,
+     "kor_now_musd": 0.45,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "ZAF",
+     "jp_increase_musd": 0.03,
+     "jp_now_musd": 0.03,
+     "jp_growth_pct": 1417,
+     "kor_now_musd": 0.42,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "COL",
+     "jp_increase_musd": 0.03,
+     "jp_now_musd": 0.03,
+     "jp_growth_pct": 1207,
+     "kor_now_musd": 0.04,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "BGR",
+     "jp_increase_musd": 0.03,
+     "jp_now_musd": 0.37,
+     "jp_growth_pct": 8,
+     "kor_now_musd": 0.03,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "MDA",
+     "jp_increase_musd": 0.02,
+     "jp_now_musd": 0.02,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.07,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "BGD",
+     "jp_increase_musd": 0.02,
+     "jp_now_musd": 0.02,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.12,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "ITA",
+     "jp_increase_musd": 0.02,
+     "jp_now_musd": 0.25,
+     "jp_growth_pct": 9,
+     "kor_now_musd": 0.63,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "BHR",
+     "jp_increase_musd": 0.02,
+     "jp_now_musd": 0.19,
+     "jp_growth_pct": 9,
+     "kor_now_musd": 0.38,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "KWT",
+     "jp_increase_musd": 0.01,
+     "jp_now_musd": 0.12,
+     "jp_growth_pct": 11,
+     "kor_now_musd": 1.86,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "GEO",
+     "jp_increase_musd": 0.01,
+     "jp_now_musd": 0.01,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.0,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "AZE",
+     "jp_increase_musd": 0.01,
+     "jp_now_musd": 0.01,
+     "jp_growth_pct": 500,
+     "kor_now_musd": 0.01,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "QAT",
+     "jp_increase_musd": 0.01,
+     "jp_now_musd": 0.07,
+     "jp_growth_pct": 16,
+     "kor_now_musd": 0.68,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "LBN",
+     "jp_increase_musd": 0.01,
+     "jp_now_musd": 0.02,
+     "jp_growth_pct": 66,
+     "kor_now_musd": 0.02,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "ARG",
+     "jp_increase_musd": 0.01,
+     "jp_now_musd": 0.08,
+     "jp_growth_pct": 11,
+     "kor_now_musd": 0.37,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "GRC",
+     "jp_increase_musd": 0.01,
+     "jp_now_musd": 0.01,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.04,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "MRT",
+     "jp_increase_musd": 0.0,
+     "jp_now_musd": 0.0,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.0,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "NPL",
+     "jp_increase_musd": 0.0,
+     "jp_now_musd": 0.0,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.41,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "DJI",
+     "jp_increase_musd": 0.0,
+     "jp_now_musd": 0.0,
+     "jp_growth_pct": 135,
+     "kor_now_musd": 0.0,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "HUN",
+     "jp_increase_musd": 0.0,
+     "jp_now_musd": 0.0,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.05,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "GHA",
+     "jp_increase_musd": 0.0,
+     "jp_now_musd": 0.0,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.02,
+     "kor_below_japan": false
+    },
+    {
+     "iso3": "EST",
+     "jp_increase_musd": 0.0,
+     "jp_now_musd": 0.0,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.0,
+     "kor_below_japan": true
+    },
+    {
+     "iso3": "IRL",
+     "jp_increase_musd": 0.0,
+     "jp_now_musd": 0.0,
+     "jp_growth_pct": null,
+     "kor_now_musd": 0.29,
+     "kor_below_japan": false
+    }
+   ]
+  }
+ },
+ "consensus": [
+  {
+   "iso3": "GBR",
+   "n_top": 4,
+   "n_top3": 1,
+   "methods_top": [
+    "base",
+    "analog",
+    "gap",
+    "follow"
+   ],
+   "ranks": {
+    "base": 5,
+    "analog": 9,
+    "gap": 1,
+    "follow": 10
+   },
+   "avg_rank": 6.2
+  },
+  {
+   "iso3": "MYS",
+   "n_top": 3,
+   "n_top3": 3,
+   "methods_top": [
+    "base",
+    "analog",
+    "follow"
+   ],
+   "ranks": {
+    "base": 2,
+    "analog": 2,
+    "gap": 31,
+    "follow": 3
+   },
+   "avg_rank": 9.5
+  },
+  {
+   "iso3": "THA",
+   "n_top": 3,
+   "n_top3": 2,
+   "methods_top": [
+    "base",
+    "analog",
+    "follow"
+   ],
+   "ranks": {
+    "base": 7,
+    "analog": 1,
+    "gap": 26,
+    "follow": 2
+   },
+   "avg_rank": 9.0
+  },
+  {
+   "iso3": "NLD",
+   "n_top": 3,
+   "n_top3": 1,
+   "methods_top": [
+    "base",
+    "gap",
+    "follow"
+   ],
+   "ranks": {
+    "base": 4,
+    "analog": 14,
+    "gap": 5,
+    "follow": 1
+   },
+   "avg_rank": 6.0
+  },
+  {
+   "iso3": "PHL",
+   "n_top": 3,
+   "n_top3": 1,
+   "methods_top": [
+    "base",
+    "analog",
+    "follow"
+   ],
+   "ranks": {
+    "base": 1,
+    "analog": 5,
+    "gap": 27,
+    "follow": 7
+   },
+   "avg_rank": 10.0
+  },
+  {
+   "iso3": "IDN",
+   "n_top": 3,
+   "n_top3": 0,
+   "methods_top": [
+    "base",
+    "analog",
+    "follow"
+   ],
+   "ranks": {
+    "base": 6,
+    "analog": 6,
+    "gap": 28,
+    "follow": 5
+   },
+   "avg_rank": 11.2
+  },
+  {
+   "iso3": "ARE",
+   "n_top": 3,
+   "n_top3": 0,
+   "methods_top": [
+    "base",
+    "analog",
+    "follow"
+   ],
+   "ranks": {
+    "base": 9,
+    "analog": 10,
+    "gap": 24,
+    "follow": 4
+   },
+   "avg_rank": 11.8
+  },
+  {
+   "iso3": "DEU",
+   "n_top": 2,
+   "n_top3": 1,
+   "methods_top": [
+    "base",
+    "gap"
+   ],
+   "ranks": {
+    "base": 10,
+    "analog": 25,
+    "gap": 2,
+    "follow": null
+   },
+   "avg_rank": 12.3
+  },
+  {
+   "iso3": "SGP",
+   "n_top": 2,
+   "n_top3": 1,
+   "methods_top": [
+    "base",
+    "follow"
+   ],
+   "ranks": {
+    "base": 3,
+    "analog": 53,
+    "gap": 30,
+    "follow": 6
+   },
+   "avg_rank": 23.0
+  },
+  {
+   "iso3": "FRA",
+   "n_top": 1,
+   "n_top3": 1,
+   "methods_top": [
+    "gap"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 16,
+    "gap": 3,
+    "follow": 14
+   },
+   "avg_rank": 11.0
+  },
+  {
+   "iso3": "NZL",
+   "n_top": 1,
+   "n_top3": 1,
+   "methods_top": [
+    "analog"
+   ],
+   "ranks": {
+    "base": 11,
+    "analog": 3,
+    "gap": null,
+    "follow": 21
+   },
+   "avg_rank": 11.7
+  },
+  {
+   "iso3": "CHL",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "analog"
+   ],
+   "ranks": {
+    "base": 15,
+    "analog": 4,
+    "gap": null,
+    "follow": 13
+   },
+   "avg_rank": 10.7
+  },
+  {
+   "iso3": "UZB",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "base"
+   ],
+   "ranks": {
+    "base": 8,
+    "analog": 13,
+    "gap": 15,
+    "follow": null
+   },
+   "avg_rank": 12.0
+  },
+  {
+   "iso3": "CZE",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "gap"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 15,
+    "gap": 10,
+    "follow": null
+   },
+   "avg_rank": 12.5
+  },
+  {
+   "iso3": "OMN",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "analog"
+   ],
+   "ranks": {
+    "base": 16,
+    "analog": 8,
+    "gap": null,
+    "follow": 30
+   },
+   "avg_rank": 18.0
+  },
+  {
+   "iso3": "MNG",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "follow"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 20,
+    "gap": 29,
+    "follow": 8
+   },
+   "avg_rank": 19.0
+  },
+  {
+   "iso3": "POL",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "gap"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 31,
+    "gap": 4,
+    "follow": 22
+   },
+   "avg_rank": 19.0
+  },
+  {
+   "iso3": "ZAF",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "analog"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 7,
+    "gap": null,
+    "follow": 31
+   },
+   "avg_rank": 19.0
+  },
+  {
+   "iso3": "AUT",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "gap"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 39,
+    "gap": 9,
+    "follow": null
+   },
+   "avg_rank": 24.0
+  },
+  {
+   "iso3": "ESP",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "gap"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 65,
+    "gap": 8,
+    "follow": 11
+   },
+   "avg_rank": 28.0
+  },
+  {
+   "iso3": "ROU",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "gap"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 56,
+    "gap": 7,
+    "follow": null
+   },
+   "avg_rank": 31.5
+  },
+  {
+   "iso3": "BRA",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "follow"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 58,
+    "gap": null,
+    "follow": 9
+   },
+   "avg_rank": 33.5
+  },
+  {
+   "iso3": "ITA",
+   "n_top": 1,
+   "n_top3": 0,
+   "methods_top": [
+    "gap"
+   ],
+   "ranks": {
+    "base": null,
+    "analog": 70,
+    "gap": 6,
+    "follow": 36
+   },
+   "avg_rank": 37.3
+  }
+ ]
+}
