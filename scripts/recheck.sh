@@ -9,7 +9,7 @@ for h in config/hypotheses/*.yaml; do
   echo "=== test $id $(date)"; $PY -m kfood_scout.agent test --hyp "$id" --no-fetch
 done
 echo "=== adopt $(date)";  $PY -m kfood_scout.agent adopt --no-fetch
-echo "=== sealed abs $(date)"; $PY -m kfood_scout.agent sealed --no-fetch
+echo "=== sealed abs $(date)"; $PY -m kfood_scout.agent sealed --no-fetch --target-kind abs
 echo "=== sealed log $(date)"; $PY -m kfood_scout.agent sealed --no-fetch --target-kind log
 echo "=== hit_rate $(date)"; $PY scripts/hit_rate.py
 echo "=== study $(date)"; $PY -m kfood_scout study --study agent_vs_base --no-fetch
