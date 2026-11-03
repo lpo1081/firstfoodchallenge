@@ -54,8 +54,38 @@ def test_combine_options_and_top_probability():
 
 def test_local_market_axis_uses_total_imports_as_target():
     panel, countries = synthetic()
+    imp = panel[panel.series == "CT:dry_confectionery:M"].copy()
+    imp["series"], imp["value"] = "EX:unido_snack_consumption", imp["value"] * 3  # 합성 실소비 = 수입의 3배
+    panel = pd.concat([panel, imp], ignore_index=True)
     crit = load_criterion("local_market")
     out = rolling.run(panel, countries, crit, "dry_confectionery", starts=(2010, 2013, 2016, 2019), forecast_year=2022, top_prob_B=0)
     c = out["forecast_XX"][0]
     assert c["target_base_usd"] != c["kor_exports_usd"]  # 정답·체급 기준이 한국 수출이 아니라 전체 수입
     assert "korea_exports_size" not in out["XX"]
+    assert abs(c["target_base_usd"] / 3 - panel[(panel.series == "CT:dry_confectionery:M") & (panel.iso3 == c["iso3"])
+                                               & (panel.year.isin([2021, 2022]))].value.mean()) < 1  # 정답 = 외부 원천(실소비)
+
+
+def test_fetch_unido_parses_response(monkeypatch):
+    import requests
+    from kfood_scout.sources import external
+
+    class R:
+        def __init__(self, js, code=200):
+            self._js, self.status_code, self.text = js, code, ""
+
+        def json(self):
+            return self._js
+
+    meta = {"id": 153, "countries": [{"iso3": "PHL", "c": "608"}, {"iso3": "IND", "c": "356"}]}
+    data = {"608": [{"p": "2020", "a": "1071", "v": 10.0, "c": "608"}, {"p": "2020", "a": "1073", "v": 5.0, "c": "608"},
+                    {"p": "2021", "a": "1071", "v": 12.0, "c": "608"}],
+            "356": [{"p": "2020", "a": "1079", "v": 99.0, "c": "356"}]}
+    sent = []
+    monkeypatch.setattr(requests, "get", lambda *a, **k: R(meta))
+    monkeypatch.setattr(requests, "post", lambda url, json, timeout: (sent.append(json), R({"data": data[json["countryCode"]]}))[1])
+    monkeypatch.setattr(external.time, "sleep", lambda s: None)
+    df = external.fetch("unido_snack_consumption", [2020, 2021], log=lambda *a: None)
+    assert sent[0]["variableCode"] == "107" and sent[0]["activityCodes"] == ["1071", "1073"]
+    got = {(r.iso3, r.year): r.value for r in df.itertuples()}
+    assert got == {("PHL", 2020): 15.0, ("PHL", 2021): 12.0}  # 1071+1073 합산, 다른 활동코드(1079)는 제외

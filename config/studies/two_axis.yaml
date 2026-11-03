@@ -16,4 +16,6 @@ methods:
     top_prob_B: 200
 data:
   years: [2005, 2024]
-overrides: []
+overrides:
+  - when: {criterion: local_market}
+    set: {method.starts: [2011, 2014, 2017, 2020]}   # UNIDO 실소비가 2023년까지

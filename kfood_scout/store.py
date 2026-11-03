@@ -96,10 +96,13 @@ def external_series(name: str, years: list[int], fetch: bool = True, log=print) 
 def needs(category: str, categories: dict, criterion: Criterion) -> dict:
     """이 카테고리×기준 조합에 필요한 원천 목록."""
     hs = [str(h) for h in categories[category]["hs_codes"]]
+    tg = criterion.target
+    ext_target = tg.get("source") == "external"
     flows = sorted({i.flow for i in criterion.all_indicators() if i.source == "comtrade"}
-                   | ({criterion.target["series"]} if criterion.target.get("series") else set()))
+                   | ({tg["series"]} if tg.get("series") and not ext_target else set()))
     wb = sorted({i.series for i in criterion.all_indicators() if i.source == "worldbank"} | {"SP.POP.TOTL"})
-    ex = sorted({i.series for i in criterion.all_indicators() if i.source == "external"})
+    ex = sorted({i.series for i in criterion.all_indicators() if i.source == "external"}
+                | ({tg["series"]} if ext_target else set()))
     return {"hs": hs, "flows": flows, "wb": wb, "ex": ex}
 
 

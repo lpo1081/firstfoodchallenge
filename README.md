@@ -84,7 +84,7 @@ python -m kfood_scout.agent report                               # outputs/agent
 
 ### 두 축: 수출 유망도 × 현지 시장 성장성 (2026-11-03)
 - 축 1 `k_export_agent`: 한국 과자 **수출** 증가를 맞히는 모델(수출로 공략할 나라).
-- 축 2 `config/criteria/local_market.yaml`: 원산지 무관 그 나라 과자 **전체 수입** 증가를 맞히는 모델(시장 자체가 커질 나라). 한국 특화 지표는 빼고, 한국 수출이 없는 나라도 후보에 포함.
+- 축 2 `config/criteria/local_market.yaml`: 그 나라 과자류 **실소비**(UNIDO IDSB: 현지 생산+수입−수출, ISIC 1071·1073) 증가를 맞히는 모델. 1차(전체 수입 증가)는 '큰 시장 순'보다 못하고 인도를 놓쳐 교체. 수집: `scripts/fetch_unido.py`(무료 API, `sources/external.py` kind=unido).
 - `scripts/two_axis.py`: 둘 다 상위 1/3 = 수출 우선, 축 2만 = 현지생산·인수 검토, 축 1만 = 수출 유지·확대. 나라마다 각 축 점수를 올린 지표 3개를 이유로 표시 → `outputs/two_axis/two_axis.md`.
-- 한계: 현지 생산량 데이터가 없어 수입 증가를 시장 성장의 대리값으로 씀(수입 비중이 낮은 나라는 과소평가 가능).
+- 한계: UNIDO 4자리 자료는 2023년까지, 일부 개발도상국은 보고가 비어 있을 수 있음.
 - 실행: `sh scripts/recheck.sh` 에 포함(비용 0).
