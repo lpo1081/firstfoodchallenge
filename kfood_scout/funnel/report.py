@@ -137,7 +137,7 @@ def to_md(R, T, cty, proto, checklist) -> str:
     for c in top:
         extra = []
         if not R["grade"][c].startswith("확인"):
-            extra.append("확인 못 한 비용 항목(" + ("FTA 관세율·운임" if "일부" in R["grade"][c] else "관세·운임·등록·국가위험") + ")을 실제 견적으로 교체")
+            extra.append("아직 확인 못 한 비용 항목: " + (("FTA 원산지 기준(수입 밀가루를 써도 0% 세율이 적용되는지)" if "원산지" in R["grade"][c] else "FTA 관세율·운임") if "일부" in R["grade"][c] else "관세·운임·등록·국가위험"))
         if R["C"]["countries"][c].get("halal_required"):
             extra.append("할랄 인증 가능 품목·기간 확인")
         if c in R["conditional"]:
@@ -167,7 +167,7 @@ def to_md(R, T, cty, proto, checklist) -> str:
                  "그래서 이 두 단계는 탈락이 아니라 순위(편익÷비용, 안전도)와 확실도로만 작동했습니다. 실제로 승부를 가르는 비용은 입점비·마케팅·유통 마진이고, 이건 사람이 확인할 항목으로 넘겼습니다.")
     nrule = sum(1 for c in b["s3"] if not R["grade"][c].startswith("확인"))
     L.append(f"- 비용 단계에 들어간 {len(b['s3'])}개국 중 {nrule}개국은 비용 항목 전부 또는 일부를 공개 자료로 확인하지 못해 규칙값(관세 FTA 5%·비FTA 10%, 지역별 운임, OIC 회원국 할랄, 국가위험은 정치안정 지수로 추정)을 썼습니다.")
-    L.append("- 결과를 본 뒤 바꾼 것은 규칙이 아니라 사실값 하나뿐입니다: 최종 후보 쪽 나라의 비용 항목(호주 관세·등록, 6개국 국가위험 프리미엄)을 공개 자료로 확인해 규칙값을 교체했습니다(config/funnel/costs_extra.yaml).")
+    L.append("- 결과를 본 뒤 바꾼 것은 규칙이 아니라 사실값 하나뿐입니다: 최종 후보 쪽 나라의 비용 항목(호주 관세·운임·등록, 6개국 국가위험 프리미엄)을 공개 자료로 확인해 규칙값을 교체했습니다(config/funnel/costs_extra.yaml).")
     L.append("- 대만은 UN 무역통계에 수입국으로 나오지 않아 대상에 없습니다(한국 비스킷 수출 4위 규모).")
     L.append("- 시장 규모는 '수입 과자 시장'입니다. 현지 생산 과자까지 합친 전체 시장(유로모니터 등 유료)은 상세 검토에서 봅니다.")
     defend = [c for c, rs in R["reasons"].items() if any("지키는" in r for r in rs)]

@@ -123,7 +123,7 @@ def cost_table(T, cty, proto, isos):
         ov = extra.get(c)
         if ov:
             known[c].update(ov)
-            grade[c] = "일부 확인(costs_extra.yaml)" + (", 관세는 규칙" if "tariff_korea" not in ov else "")
+            grade[c] = "일부 확인(costs_extra.yaml)" + (", 관세는 규칙" if "tariff_korea" not in ov else ", 원산지 기준 미확인")
     return P, C, grade, {"crp_slope": float(slope), "crp_intercept": float(icpt)}
 
 

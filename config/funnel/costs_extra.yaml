@@ -4,7 +4,10 @@
 countries:
   AUS:
     tariff_mfn: 0.05        # 확인: HS 1905.31 일반세율 5% (treayo.com/en/hs/australia/19053100)
-                            # 한-호주 FTA(2014.12 발효) 비스킷 세율은 확인 못함 → 규칙 min(MFN, 5%) = 5% (FTA 혜택 0으로 보수적)
+    tariff_korea: 0.0       # 확인(세율): 한-호주 FTA(2014-12-12 발효), 호주는 발효 시 또는 최장 8년에 걸쳐 한국산 관세 철폐
+                            #   (호주 의회 조약위원회 NIA 24항, https://www.aph.gov.au/-/media/Committees/Joint/Treaties/13May2014/Korea-NIA.pdf)
+                            #   원산지 미확인: 1905 품목별 원산지 기준(수입 밀가루 사용 시 FTA 세율 적용 여부)은 사람 확인
+    kcci_route: 4916        # 확인: KCCI 오세아니아 항로 2026-10-26 주간(costs.yaml 과 같은 기사, https://fnnews.com/news/202610271639139084)
     extra_language: false   # 영어 라벨
     registration_per_sku: 0.0    # 일반 식품 사전 제품등록 없음(FSANZ 기준 준수, 수입식품검사제도로 위험 기반 검사)
     halal_required: false
