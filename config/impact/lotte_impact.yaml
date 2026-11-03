@@ -1,0 +1,18 @@
+# 비즈니스 임팩트: TOP3 나라마다 (1) 롯데 기회 규모(원), (2) 진입 방식 을 붙인다.
+# 숫자를 바꾸면 결과가 바로 바뀐다(모듈식). 실행: python scripts/business_impact.py
+ranking: outputs/three_criteria/ranking.json        # TOP3 출처(앞 3개국 사용)
+panel: outputs/dry_confectionery__k_export/rolling_dashboard.json   # 2024년 지표 원값
+years_ahead: 3            # 몇 년 뒤 기회를 볼지
+krw_per_usd: 1400         # 환율(원/달러)
+
+# 롯데 몫: 제과 3사(롯데·오리온·크라운해태) 해외 매출 합계 중 롯데 비중
+# 2023년 롯데웰푸드 글로벌 매출 8,005억 / 3사 합산 2조 7,262억 = 29%
+# 출처: CEO스코어데일리 2024-10-22 https://ceoscoredaily.com/page/view/2024102215431840006
+lotte_share_of_korea: 0.29
+
+# 진입 방식 규칙(롯데 과거 진출에서 가져옴)
+# 인구가 크고(5천만+) 1인당 과자 수입이 적으면(2달러 미만) = 수입으로는 시장이 안 열림 → 현지생산·인수형
+# (현재 수치로 확인: 중국 1.3·인도 0.1·미얀마 0.7달러 → 롯데 실제로 현지생산·인수. 베트남·카자흐스탄은 규칙과 다름)
+entry_rule:
+  local_min_population: 50000000
+  local_max_import_per_capita_usd: 2.0
