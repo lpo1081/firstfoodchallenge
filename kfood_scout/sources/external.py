@@ -19,6 +19,11 @@ SOURCES: dict[str, dict] = {
     "kto_visitors": {"kind": "kto", "file": "kto_visitors.csv",
                      "desc": "국적별 방한 외래관광객 수(한국관광공사 관광지식정보시스템 입국관광통계, 2005~)",
                      "how": "know.tour.go.kr/stat/entryTourStatDis19Re.do 국적별·연간 조회를 fetch_kto_visitors 가 자동 수집"},
+    # 세계은행 WDI 의 GitHub 미러(raw.githubusercontent.com, 클라우드에서도 접속됨). 지표 코드 소문자.
+    "wdi_fx": {"kind": "wdi_mirror", "code": "pa.nus.fcrf", "desc": "공식 환율(현지통화/USD, 연평균), WDI PA.NUS.FCRF"},
+    "wdi_inflation": {"kind": "wdi_mirror", "code": "fp.cpi.totl.zg", "desc": "소비자물가 상승률(%), WDI FP.CPI.TOTL.ZG"},
+    # 한국 FTA 발효 연도(config/sources/korea_fta.yaml) → 발효 후 경과 연수(0~10)
+    "korea_fta_years": {"kind": "korea_fta", "desc": "한국과의 FTA 발효 후 경과 연수(0~10년), 산업통상자원부·Wikipedia 발효일"},
     "kf_hallyu_members": {"kind": "file", "file": "kf_hallyu_members.csv",
                           "desc": "국가별 한류 동호회 회원 수(외교부·한국국제교류재단 「지구촌 한류현황」 책자, 비정기 PDF) — 선택",
                           "how": "책자 PDF의 국가별 표 → iso3,year,value CSV (자동화 대상 아님)"},
@@ -54,7 +59,7 @@ load_auto_sources()
 def catalog() -> list[dict]:
     out = []
     for name, s in SOURCES.items():
-        ready = s["kind"] in ("gtrends", "kto", "unido") or (RAW / s["file"]).exists()
+        ready = s["kind"] in ("gtrends", "kto", "unido", "wdi_mirror", "korea_fta") or (RAW / s.get("file", "")).is_file()
         out.append({"series": name, "desc": s["desc"], "kind": s["kind"], "ready": ready, "how": s.get("how", ""),
                     **({"found_by_agent": True, "notes": s.get("notes", "")} if name not in _BUILTIN else {})})
     return out
@@ -201,6 +206,38 @@ def fetch_unido(spec: dict, years: list[int], log=print) -> pd.DataFrame:
     return df.groupby(["iso3", "year"], as_index=False)["value"].sum()
 
 
+WDI_MIRROR = "https://raw.githubusercontent.com/datasets/world-development-indicators/master/indicators/{code}/data.csv"
+
+
+def fetch_wdi_mirror(code: str, years: list[int], log=print) -> pd.DataFrame:
+    """세계은행 WDI 한 지표(GitHub 미러 CSV: Country Name, Country Code, Year, Value)."""
+    import io
+
+    import requests
+
+    log(f"[external] WDI 미러 {code}")
+    r = requests.get(WDI_MIRROR.format(code=code), timeout=60)
+    r.raise_for_status()
+    d = pd.read_csv(io.StringIO(r.text)).rename(columns={"Country Code": "iso3", "Year": "year", "Value": "value"})
+    d = d[d.year.isin(years)][["iso3", "year", "value"]].dropna()
+    return d.astype({"iso3": str, "year": int, "value": float})
+
+
+def korea_fta_years(years: list[int], cap: int = 10) -> pd.DataFrame:
+    import yaml
+
+    cfg = yaml.safe_load((Path(__file__).resolve().parents[2] / "config" / "sources" / "korea_fta.yaml").read_text())
+    start = {}
+    for g in cfg["groups"].values():
+        for c in g["iso3"]:
+            start[c] = min(start.get(c, 9999), g["year"])
+    cpath = Path(__file__).resolve().parents[2] / "data" / "store" / "countries.csv"
+    allc = set(pd.read_csv(cpath).iso3) if cpath.exists() else set()
+    rows = [(c, y, float(min(cap, max(0, y - start[c] + 1)) if c in start else 0.0))
+            for c in sorted(allc | set(start)) for y in years]
+    return pd.DataFrame(rows, columns=["iso3", "year", "value"])
+
+
 def fetch(name: str, years: list[int], log=print) -> pd.DataFrame | None:
     if name not in SOURCES:
         raise KeyError(f"외부 원천 '{name}' 미등록 (sources/external.SOURCES 에 추가)")
@@ -218,6 +255,10 @@ def fetch(name: str, years: list[int], log=print) -> pd.DataFrame | None:
     if spec["kind"] == "unido":
         log(f"[external] UNIDO {name}: {len(years)}개 연도, 국가별 호출")
         return fetch_unido(spec, years, log)
+    if spec["kind"] == "wdi_mirror":
+        return fetch_wdi_mirror(spec["code"], years, log)
+    if spec["kind"] == "korea_fta":
+        return korea_fta_years(years)
     if spec["kind"] == "file":
         df = _file(spec, years)
         if df is None:

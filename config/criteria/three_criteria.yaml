@@ -1,9 +1,8 @@
-# 형님 3대 기준(식품시장 성장성 · 트렌드 · 수출입)으로 나눈 지표 묶음. 2026-11-03.
-# 기준마다 지표를 4~8개로 늘려 '한 지표 운'에 기대지 않게 했다.
-# 지표 줄을 넣고 빼는 것만으로 모델이 바뀐다. 데이터가 아직 없는 지표는 자동으로 빠진다(결과에 '미수집' 표시).
-# 실질 GDP 성장률·가계소비 총액은 맥북 수집이 필요하고 기존 소득·소비 성장률과 겹쳐 v1 에서는 뺐다(맥북 재실행 때 결과가 바뀌지 않도록).
+# 형님 3대 기준(식품시장 성장성 · 트렌드 · 수출입) × 기준마다 지표 5개. v2(2026-11-03).
+# 지표마다 "이 나라에 대해 무엇을 묻는가"(question) 하나씩. 같은 질문을 두 번 묻는 지표는 두지 않았다.
+# v1(지표 23개, 기준마다 6·10·7개)은 three_criteria_v1.yaml 에 남겨 둠.
 id: three_criteria
-name_ko: 3대 기준(성장성·트렌드·수출입) 통합
+name_ko: 3대 기준(성장성·트렌드·수출입) 5×3
 universe:
   min_population: 1000000
   exclude_iso3: [KOR]
@@ -13,29 +12,21 @@ min_window_n: 15
 target: {series: KOR_X, horizon: 3, kind: abs}
 groups: [성장성, 트렌드, 수출입]
 indicators:
-  # --- 1. 식품시장 성장성: 시장이 크고, 커지고 있나 ---
-  - {id: import_market_size, group: 성장성, name_ko: 과자 수입시장 규모, source: comtrade, flow: M, transform: level_log, window: 3, unit: ln(USD)}
-  - {id: import_market_cagr, group: 성장성, name_ko: 과자 수입시장 5년 성장률, source: comtrade, flow: M, transform: cagr, window: 5, smooth: 3, unit: "%/년"}
-  - {id: population_size, group: 성장성, name_ko: 인구 규모, source: worldbank, series: SP.POP.TOTL, transform: level_log, unit: ln(명)}
-  - {id: population_cagr, group: 성장성, name_ko: 인구 5년 증가율, source: worldbank, series: SP.POP.TOTL, transform: cagr, window: 5, unit: "%/년"}
-  - {id: hh_consumption_pc_cagr, group: 성장성, name_ko: 1인당 실질 가계소비 성장률, source: worldbank, series: NE.CON.PRVT.PC.KD, transform: cagr, window: 5, smooth: 3, unit: "%/년"}
-  - {id: gdp_pc_ppp_cagr, group: 성장성, name_ko: 1인당 소득(PPP) 5년 성장률, source: worldbank, series: NY.GDP.PCAP.PP.KD, transform: cagr, window: 5, smooth: 3, unit: "%/년"}
-  # --- 2. 트렌드: 소비 습관이 과자·한국 쪽으로 움직이나 ---
-  - {id: kfood_interest, group: 트렌드, name_ko: 한국 음식 검색 관심도, source: external, series: gtrends_kfood, transform: level, window: 3, unit: 0-100}
-  - {id: kfood_interest_change, group: 트렌드, name_ko: 한국 음식 관심도 3년 변화, source: external, series: gtrends_kfood, transform: diff, window: 3, unit: 점}
-  - {id: kpop_interest, group: 트렌드, name_ko: K-pop 검색 관심도, source: external, series: gtrends_kpop, transform: level, window: 3, unit: 0-100}
-  - {id: learn_korean_interest, group: 트렌드, name_ko: 한국어 학습 관심도, source: external, series: gtrends_learnkorean, transform: level, window: 3, unit: 0-100}
-  - {id: korea_visitors_pc, group: 트렌드, name_ko: 인구 대비 방한 관광객, source: external, series: kto_visitors, transform: per_capita, window: 3, unit: 명/인}
-  - {id: youth_share, group: 트렌드, name_ko: 유소년(0-14세) 비중, source: worldbank, series: SP.POP.0014.TO.ZS, transform: level, unit: "%"}
-  - {id: urbanization_change, group: 트렌드, name_ko: 도시화 진행 속도, source: worldbank, series: SP.URB.TOTL.IN.ZS, transform: diff, window: 5, unit: "%p/5년"}
-  - {id: internet_change, group: 트렌드, name_ko: 인터넷 이용률 5년 변화, source: worldbank, series: IT.NET.USER.ZS, transform: diff, window: 5, unit: "%p/5년"}
-  - {id: import_pc, group: 트렌드, name_ko: 1인당 과자 수입액, source: comtrade, flow: M, transform: per_capita, window: 3, unit: USD/인}
-  - {id: import_pc_cagr, group: 트렌드, name_ko: 1인당 과자 수입 증가율, source: comtrade, flow: M, transform: per_capita_cagr, window: 5, smooth: 3, unit: "%/년"}
-  # --- 3. 수출입: 한국 과자가 이미 들어가고, 늘고, 수입에 기대는 시장인가 ---
-  - {id: korea_exports_size, group: 수출입, name_ko: 한국 과자 수출 규모, source: comtrade, flow: KOR_X, transform: level_log, window: 3, unit: ln(USD)}
-  - {id: korea_exports_cagr, group: 수출입, name_ko: 한국 과자 수출 5년 성장률, source: comtrade, flow: KOR_X, transform: cagr, window: 5, smooth: 3, unit: "%/년"}
-  - {id: korea_exports_change, group: 수출입, name_ko: 한국 과자 수출 직전 3년 증가액, source: comtrade, flow: KOR_X, transform: diff, window: 3, smooth: 2, unit: USD}
-  - {id: korea_share, group: 수출입, name_ko: 수입 중 한국산 비중, source: comtrade, flow: KOR_X, transform: share, window: 3, unit: "%"}
-  - {id: korea_share_change, group: 수출입, name_ko: 한국산 비중 5년 변화, source: comtrade, flow: KOR_X, transform: share_diff, window: 5, unit: "%p/5년"}
-  - {id: net_import_share, group: 수출입, name_ko: 순수입 비율(재수출 허브 보정), source: comtrade, flow: M, transform: net_import_share, window: 3, unit: "%"}
-  - {id: food_import_dependence, group: 수출입, name_ko: 상품수입 중 식품 비중, source: worldbank, series: TM.VAL.FOOD.ZS.UN, transform: level, window: 3, unit: "%"}
+  # --- 1. 식품시장 성장성: 시장이 크고, 빨리 커지는가 ---
+  - {id: import_market_size, group: 성장성, name_ko: 과자 수입시장 규모, question: 지금 수입 과자를 얼마나 사는가, source: comtrade, flow: M, transform: level_log, window: 3, unit: ln(USD)}
+  - {id: import_market_cagr, group: 성장성, name_ko: 과자 수입시장 성장률, question: 수입 과자 시장이 얼마나 빨리 크는가, source: comtrade, flow: M, transform: cagr, window: 5, smooth: 3, unit: "%/년"}
+  - {id: hh_consumption_total, group: 성장성, name_ko: 가계 소비시장 규모, question: 사람들이 쓰는 돈의 총량이 얼마나 큰가, source: derived, series: hh_consumption_total, transform: level_log, window: 1, unit: ln(USD)}
+  - {id: hh_consumption_pc_cagr, group: 성장성, name_ko: 1인당 소비 성장률, question: 한 사람이 쓰는 돈이 얼마나 빨리 느는가, source: worldbank, series: NE.CON.PRVT.PC.KD, transform: cagr, window: 5, smooth: 3, unit: "%/년"}
+  - {id: population_cagr, group: 성장성, name_ko: 인구 증가율, question: 먹을 사람이 늘고 있는가, source: worldbank, series: SP.POP.TOTL, transform: cagr, window: 5, unit: "%/년"}
+  # --- 2. 트렌드: 한국 것을 좋아하고, 소비가 현대화되고 있는가 ---
+  - {id: kfood_interest, group: 트렌드, name_ko: 한국 음식 검색 관심도, question: 한국 음식에 관심이 많은가, source: external, series: gtrends_kfood, transform: level, window: 3, unit: 0-100}
+  - {id: kpop_interest, group: 트렌드, name_ko: K-pop 검색 관심도, question: 한류가 퍼져 있는가, source: external, series: gtrends_kpop, transform: level, window: 3, unit: 0-100}
+  - {id: learn_korean_interest, group: 트렌드, name_ko: 한국어 학습 관심도, question: 한국에 깊게 관심 있는 사람이 많은가, source: external, series: gtrends_learnkorean, transform: level, window: 3, unit: 0-100}
+  - {id: korea_visitors_pc, group: 트렌드, name_ko: 인구 대비 방한 관광객, question: 한국을 직접 경험한 사람이 많은가, source: external, series: kto_visitors, transform: per_capita, window: 3, unit: 명/인}
+  - {id: urbanization_change, group: 트렌드, name_ko: 도시화 진행 속도, question: 편의점·마트에서 사는 생활로 바뀌고 있는가, source: worldbank, series: SP.URB.TOTL.IN.ZS, transform: diff, window: 5, unit: "%p/5년"}
+  # --- 3. 수출입: 한국 과자가 들어가기 쉽고, 이미 팔리고 있는가 ---
+  - {id: korea_exports_size, group: 수출입, name_ko: 한국 과자 수출 규모, question: 한국 과자가 이미 얼마나 팔리는가, source: comtrade, flow: KOR_X, transform: level_log, window: 3, unit: ln(USD)}
+  - {id: korea_exports_change, group: 수출입, name_ko: 한국 과자 수출 최근 3년 증가액, question: 한국 과자 판매가 지금 늘고 있는가, source: comtrade, flow: KOR_X, transform: diff, window: 3, smooth: 2, unit: USD}
+  - {id: korea_share, group: 수출입, name_ko: 수입 과자 중 한국산 비중, question: 수입 과자 중 한국산이 자리를 잡았는가, source: comtrade, flow: KOR_X, transform: share, window: 3, unit: "%"}
+  - {id: korea_fta_years, group: 수출입, name_ko: 한국과 FTA 발효 경과 연수, question: 한국 과자 관세가 낮아졌는가, source: external, series: korea_fta_years, transform: level, window: 1, unit: 년}
+  - {id: krw_rer_change, group: 수출입, name_ko: 원화 대비 현지 통화 가치 변화, question: 환율 때문에 한국 과자가 싸졌는가, source: derived, series: krw_rer, transform: cagr, window: 3, unit: "%/년"}
