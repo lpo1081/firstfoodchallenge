@@ -1,8 +1,8 @@
 # 축 2: 현지 시장 성장성 (2026-11-03, 형님: 현지생산·인수 진출도 판단해야 함)
-# 정답 = 3년 뒤 그 나라 과자 '전체 수입'(원산지 무관) 증가액. 축 1(k_export, 한국 수출 증가)과 같은 롤링 역산.
+# 정답 = 3년 뒤 그 나라 과자류 '실소비'(현지 생산 + 수입 − 수출, UNIDO IDSB, ISIC 1071 베이커리·1073 과자) 증가액.
+#   1차 시도(정답 = 전체 수입 증가)는 '지금 큰 시장 순'보다 못 맞히고 인도 같은 현지생산형 시장을 놓쳐 교체.
 # 한국 특화 지표(한국 수출 규모·성장률·비중)는 빼고, 시장 자체 지표 + 한류 관심(현지 K-브랜드 수요)만 둔다.
-# 한계: 현지 생산량 데이터가 없어 '수입 증가'를 시장 성장의 대리값으로 쓴다(수입 비중 낮은 인도 등은 과소평가 가능).
-# min_target_base_usd: 기준연도 과자 수입 100만 달러 미만 국가는 증가액이 노이즈라 제외.
+# UNIDO 자료가 2023년까지라 롤링 창은 2011·2014·2017·2020(two_axis study 의 overrides).
 id: local_market
 name_ko: 현지 시장 성장성 (원산지 무관, 현지생산·인수 판단용)
 universe:
@@ -10,17 +10,38 @@ universe:
   exclude_iso3:
   - KOR
   min_indicator_coverage: 7
-  min_target_base_usd: 1000000
 benchmarks:
-  momentum: import_market_cagr
-  size_only: import_market_size
+  momentum: local_consumption_cagr
+  size_only: local_consumption_size
 tiers: 3
 min_window_n: 15
 target:
-  series: M
+  source: external
+  series: unido_snack_consumption
   horizon: 3
   kind: abs
 indicators:
+- id: local_consumption_size
+  group: 성장성
+  name_ko: 현지 과자 실소비 규모
+  source: external
+  series: unido_snack_consumption
+  transform: level_log
+  window: 3
+  direction: 1
+  weight: 0.1
+  unit: ln(USD)
+- id: local_consumption_cagr
+  group: 성장성
+  name_ko: 현지 과자 실소비 성장률
+  source: external
+  series: unido_snack_consumption
+  transform: cagr
+  window: 5
+  smooth: 3
+  direction: 1
+  weight: 0.1
+  unit: '%/년'
 - id: import_market_size
   group: 성장성
   name_ko: 수입시장 규모

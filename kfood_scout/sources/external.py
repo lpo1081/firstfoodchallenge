@@ -22,6 +22,14 @@ SOURCES: dict[str, dict] = {
     "kf_hallyu_members": {"kind": "file", "file": "kf_hallyu_members.csv",
                           "desc": "국가별 한류 동호회 회원 수(외교부·한국국제교류재단 「지구촌 한류현황」 책자, 비정기 PDF) — 선택",
                           "how": "책자 PDF의 국가별 표 → iso3,year,value CSV (자동화 대상 아님)"},
+    # UNIDO IDSB(ISIC Rev.4 4자리): 나라별 현지 생산·수입·수출·실소비(=생산+수입−수출), 2005~, 무료 API.
+    # 1071 베이커리(비스킷 포함) + 1073 코코아·초콜릿·설탕 과자. 현지생산형 시장(인도 등)도 잡는 '현지 시장 크기'.
+    "unido_snack_consumption": {"kind": "unido", "dataset": "IDSB", "revision": 4, "variable": "107",
+                                "activities": ["1071", "1073"],
+                                "desc": "UNIDO IDSB 과자류(1071+1073) 실소비(생산+수입−수출, USD)"},
+    "unido_snack_output": {"kind": "unido", "dataset": "IDSB", "revision": 4, "variable": "100",
+                           "activities": ["1071", "1073"],
+                           "desc": "UNIDO IDSB 과자류(1071+1073) 현지 생산액(USD)"},
 }
 
 
@@ -46,7 +54,7 @@ load_auto_sources()
 def catalog() -> list[dict]:
     out = []
     for name, s in SOURCES.items():
-        ready = s["kind"] in ("gtrends", "kto") or (RAW / s["file"]).exists()
+        ready = s["kind"] in ("gtrends", "kto", "unido") or (RAW / s["file"]).exists()
         out.append({"series": name, "desc": s["desc"], "kind": s["kind"], "ready": ready, "how": s.get("how", ""),
                     **({"found_by_agent": True, "notes": s.get("notes", "")} if name not in _BUILTIN else {})})
     return out
@@ -160,6 +168,39 @@ def fetch_kto_visitors(years: list[int], log=print) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=["iso3", "year", "value"])
 
 
+UNIDO = "https://stat.unido.org/portal/dataset"
+
+
+def fetch_unido(spec: dict, years: list[int], log=print) -> pd.DataFrame:
+    """UNIDO 통계 포털 API(무료, 키 없음). 나라마다 POST 1회(getData: datasetId·countryCode·variableCode·activityCodes·periods).
+    응답 data[] = {p: 연도, a: 활동코드, v: 값, c: 국가코드}. 활동코드들을 합산해 iso3·year·value 로 돌려준다."""
+    import requests
+
+    meta = requests.get(f"{UNIDO}/getDataset/{spec['dataset']}/{spec['revision']}", timeout=60).json()
+    rows = []
+    for k, ctry in enumerate(meta["countries"]):
+        body = {"datasetId": meta["id"], "countryCode": ctry["c"], "variableCode": spec["variable"],
+                "activityCodes": spec["activities"], "periods": [str(y) for y in years], "fullPrecision": True}
+        for attempt in range(3):
+            try:
+                r = requests.post(f"{UNIDO}/getData", json=body, timeout=60)
+                if r.status_code == 200:
+                    for d in r.json().get("data") or []:
+                        if d.get("v") is not None and d.get("a") in spec["activities"]:
+                            rows.append((ctry["iso3"], int(d["p"]), float(d["v"])))
+                    break
+                log(f"[unido] {ctry['iso3']} HTTP {r.status_code}: {r.text[:120]}")
+                break
+            except requests.RequestException as e:
+                log(f"[unido] {ctry['iso3']} 재시도 {attempt + 1}: {e}")
+                time.sleep(2 * (attempt + 1))
+        if k % 20 == 0:
+            log(f"[unido] {k}/{len(meta['countries'])}개국")
+        time.sleep(0.2)
+    df = pd.DataFrame(rows, columns=["iso3", "year", "value"])
+    return df.groupby(["iso3", "year"], as_index=False)["value"].sum()
+
+
 def fetch(name: str, years: list[int], log=print) -> pd.DataFrame | None:
     if name not in SOURCES:
         raise KeyError(f"외부 원천 '{name}' 미등록 (sources/external.SOURCES 에 추가)")
@@ -174,6 +215,9 @@ def fetch(name: str, years: list[int], log=print) -> pd.DataFrame | None:
         except NotImplementedError as e:
             log(f"[external] {name}: {e}")
             return None
+    if spec["kind"] == "unido":
+        log(f"[external] UNIDO {name}: {len(years)}개 연도, 국가별 호출")
+        return fetch_unido(spec, years, log)
     if spec["kind"] == "file":
         df = _file(spec, years)
         if df is None:

@@ -14,7 +14,8 @@ echo "=== sealed log $(date)"; $PY -m kfood_scout.agent sealed --no-fetch --targ
 echo "=== hit_rate $(date)"; $PY scripts/hit_rate.py
 echo "=== study $(date)"; $PY -m kfood_scout study --study agent_vs_base --no-fetch
 echo "=== END $(date)"
-# 두 축(수출 유망도 × 현지 시장 성장성)
+# 두 축(수출 유망도 × 현지 시장 성장성). 현지 축 정답 = UNIDO 과자류 실소비(처음 한 번만 수집, 이후 저장분 사용)
+echo "=== fetch UNIDO $(date)"; $PY scripts/fetch_unido.py
 echo "=== two_axis $(date)"; $PY -m kfood_scout study --study two_axis --no-fetch && $PY scripts/two_axis.py
 echo "=== hit_rate local_market $(date)"; $PY scripts/hit_rate.py local_market
 echo "=== END2 $(date)"

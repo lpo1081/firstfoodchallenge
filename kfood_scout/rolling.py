@@ -29,9 +29,17 @@ def spearman_many(S: np.ndarray, y: np.ndarray) -> np.ndarray:
     return (rs * ry).sum(0) / np.sqrt((rs ** 2).sum(0) * (ry ** 2).sum(0))
 
 
+def target_key(crit, category) -> str:
+    """정답 시리즈의 패널 이름. 기본은 Comtrade 흐름(KOR_X, M), source: external 이면 외부 원천(예: UNIDO 실소비)."""
+    tg = crit.target
+    if tg.get("source") == "external":
+        return f"EX:{tg['series']}"
+    return f"CT:{category}:{tg.get('series', 'KOR_X')}"
+
+
 def target(panel, category, crit, t):
     tg = crit.target
-    w = _wide(panel, f"CT:{category}:{tg.get('series', 'KOR_X')}")
+    w = _wide(panel, target_key(crit, category))
     h = tg.get("horizon", 3)
     start, end = _avg(w, t, 2), _avg(w, t + h, 2)
     if tg.get("kind", "abs") == "log":
@@ -178,11 +186,11 @@ def run(panel, countries, crit, category, starts=(2012, 2015, 2018, 2021), forec
     u = crit.universe
     pop = _wide(panel, "WB:SP.POP.TOTL")
     popn = pop.ffill(axis=1).iloc[:, -1]
-    def latest(series):
-        w = _wide(panel, f"CT:{category}:{series}")
+    def latest(key):
+        w = _wide(panel, key)
         return _avg(w[[c for c in w.columns if c <= forecast_year]], forecast_year, 2) if len(w.columns) else pd.Series(dtype=float)
-    korn = latest("KOR_X")                                   # 표시용: 한국 수출
-    tbase = latest(crit.target.get("series", "KOR_X"))      # 거르기·체급용: 정답 시리즈(예: M = 전체 수입)
+    korn = latest(f"CT:{category}:KOR_X")                                   # 표시용: 한국 수출
+    tbase = latest(target_key(crit, category))      # 거르기·체급용: 정답 시리즈(예: M = 전체 수입)
     ok = raw_now.index.intersection(countries.iso3).difference(u.get("exclude_iso3", []))
     ok = [c for c in ok if popn.get(c, 0) >= u.get("min_population", 0) and tbase.get(c, 0) >= _min_base(u)]
     raw_now = raw_now.loc[ok]
