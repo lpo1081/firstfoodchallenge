@@ -39,6 +39,9 @@ indicator_notes:
   korea_share_change: {q: 한국산 비중이 늘고 있나, src: UN Comtrade}
   net_import_share: {q: 들여와서 실제로 먹는 나라인가(재수출 거점 걸러냄), src: UN Comtrade}
   food_import_dependence: {q: 식품을 수입에 기대는 나라인가, src: 세계은행}
+  hh_consumption_total: {q: 사람들이 쓰는 돈의 총량이 얼마나 큰가, src: 세계은행}
+  korea_fta_years: {q: 한국 과자 관세가 낮아졌는가, src: 산업통상자원부 FTA 발효일}
+  krw_rer_change: {q: 환율 때문에 한국 과자가 싸졌는가, src: 세계은행 환율·물가}
 
 data_sources:
   - {name: UN Comtrade, what: "한국→각국 과자 수출, 각국 과자 수입 (2005–2024)"}

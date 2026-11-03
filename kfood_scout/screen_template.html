@@ -100,7 +100,7 @@ footer{font-size:11.5px;color:var(--muted);border-top:1px solid var(--rule);padd
 .prow .how{font-size:13px;font-weight:600;margin-bottom:4px}
 .total{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;padding-top:12px;font-size:14px}
 .total b{font-size:18px;font-variant-numeric:tabular-nums}
-.str{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border:1px solid var(--rule);background:var(--sheet)}
+.str{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--rule);background:var(--sheet)}
 .str>div{padding:16px 16px 18px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:grid;gap:6px;align-content:start;min-width:0}
 .str .big{font-size:20px;font-weight:700;line-height:1.25;color:var(--accent);font-variant-numeric:tabular-nums;word-break:keep-all}
 .str .t{font-size:14px;font-weight:600}
@@ -153,7 +153,7 @@ h2.qh{text-transform:none;letter-spacing:0;font-size:13px}
 @media (max-width:760px){
   .prow{grid-template-columns:36px minmax(0,1fr)} .prow>.c3,.prow>.c4{grid-column:2}
   .ev{grid-template-columns:1fr} .ev>div+div{border-left:0;border-top:1px solid var(--rule)}
-  .fr{display:none}
+  .fr{display:none} .str{grid-template-columns:minmax(0,1fr)}
   .str{grid-template-columns:1fr} .str>div+div{border-left:0;border-top:1px solid var(--rule)}
   .kv{grid-template-columns:auto minmax(0,1fr)}
 }
@@ -244,12 +244,18 @@ const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 const pc=v=>Math.round(v);
 const heat=v=>v==null?"":`background:rgba(var(--heat),${(Math.max(0,v-30)/70*.42).toFixed(2)})`;
 const G=["성장성","트렌드","수출입"];
-const TOP=D.cands.slice(0,3), V=D.val, gw=V.gw, B=V.B, M=D.meta;
+const TOP0=D.cands.slice(0,3), V=D.val, gw=V.gw, B=V.B, M=D.meta;
 const links=src=>(src||[]).length?`<div class="links">${src.map(s=>s.u?`<a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.t)}</a>`:`<span>${esc(s.t)}</span>`).join("")}</div>`:"";
 const vtag=iso=>{const k=D.dec[iso];if(!k)return "";return k.verdict=="배제"?`<span class="tag" style="border-color:#B3261E;color:#B3261E">배제</span>`:k.verdict=="진출"?`<span class="tag fill">진출</span>`:`<span class="tag">${esc(k.verdict)}</span>`};
 const eok=r=>r[0]==r[1]?r[0]+"억 원":`${r[0]}~${r[1]}억 원`;
 const stab=c=>c.hits==null?"–":`${B}번 중 ${c.hits}번`;
 const E="앙상블(선택 모델)",S="[기준선] 큰 시장 순",T="[기준선] 직전 3년 증가 순";
+const IM=D.impact||{};
+const mid=r=>(r[0]+r[1])/2;
+const REV=x=>x.entry_target_eok||x.lotte_opportunity_eok;
+const RA=(D.robust||{}).recent_actual||{};
+const TOP=TOP0.every(c=>IM[c.iso])?TOP0.slice().sort((a,b)=>mid(REV(IM[b.iso]))-mid(REV(IM[a.iso]))||b.score-a.score):TOP0;
+const srank=iso=>TOP0.findIndex(c=>c.iso==iso)+1;
 const ko=TOP.map(c=>c.ko);
 const nG=g=>D.indicators.filter(i=>i.group==g).length;
 
@@ -257,15 +263,14 @@ $("meta").innerHTML=`<span>${esc(M.category)} · ${esc(M.hs)}</span><span>데이
 
 // 1. 결론: 진출 우선순위
 $("ans1").textContent=`${ko[0]}부터 진출하고, ${ko[1]}·${ko[2]} 순으로 넓힙니다.`;
-const IM=D.impact||{};
-const mid=r=>(r[0]+r[1])/2;
-const REV=x=>x.entry_target_eok||x.lotte_opportunity_eok;
-const lines=TOP.map((c,i)=>{const x=IM[c.iso];const r=[];
- r.push(`전망 점수 ${i+1}위(${c.score.toFixed(1)}점)`);
- if(x){const best=TOP.every(o=>!IM[o.iso]||mid(REV(IM[o.iso]))<=mid(REV(x)));
-   r.push(best?`롯데 매출 기회 가장 큼`:`롯데 매출 기회 연 ${eok(REV(x))}`);}
- r.push(`한국 과자 이미 연 $${c.kor.toFixed(1)}M 판매 중`);
+const revRank=iso=>TOP.findIndex(c=>c.iso==iso)+1;
+const lines=TOP.map((c,i)=>{const x=IM[c.iso];const ra=RA[c.iso];const r=[];
+ if(x)r.push(`롯데 매출 기회 ${revRank(c.iso)}위(연 ${eok(REV(x))})`);
+ if(ra)r.push(`최근 3년 한국 과자 수출 증가 후보 ${ra.n}개국 중 ${ra.rank_in_candidates}위(+$${(ra.increase_usd/1e6).toFixed(1)}M)`);
+ r.push(`전망 점수 ${srank(c.iso)}위(${c.score.toFixed(1)}점)`);
  return r.join(", ")});
+const gap=(TOP0[0].score-TOP0[2].score).toFixed(1);
+if(TOP.some((c,i)=>c.iso!=TOP0[i].iso))$("ans1").insertAdjacentHTML("afterend",`<p class="why1" style="margin:6px 0 0;color:var(--muted)">세 나라는 전망 점수로 골랐습니다. 세 나라 점수 차가 ${gap}점뿐이라, 진출 순서는 롯데 매출 기회가 큰 순으로 정했습니다.</p>`);
 $("prio").innerHTML=TOP.map((c,i)=>{const k=D.dec[c.iso]||{conditions:[]};const x=IM[c.iso];
  return `<div class="prow"><div class="no">${i+1}</div>
  <div><h3>${esc(c.ko)} ${vtag(c.iso)}</h3><p class="why1">${esc(lines[i])}.</p></div>
@@ -281,8 +286,9 @@ const ratio=(V.dev[E]&&V.dev[S])?(V.dev[E]/V.dev[S]):null;
 $("eng-lead").textContent=`사람의 감이 아니라 ${D.total}개국의 공식 통계와 과거 실제 수출 결과로 고르고, AI가 그 결론을 다시 공격해 진출 조건까지 만든 결과입니다.`;
 $("str").innerHTML=[
  [`${D.total}개국 × 20년`,`공식 통계 ${M.n_ind}개 지표를 자동으로`,`UN Comtrade, 세계은행, 구글 트렌드, 한국관광공사 자료를 프로그램이 직접 모아 채점합니다. 사람이 옮겨 적은 숫자가 없고, 다시 돌리는 데 비용이 들지 않습니다.`],
- [`비중 ${pc(gw["성장성"]*100)} : ${pc(gw["트렌드"]*100)} : ${pc(gw["수출입"]*100)}`,`성장성 : 트렌드 : 수출입, 과거 결과가 정했습니다`,`2010~2021년 매년 "그해 지표로 3년 뒤 한국 과자 수출이 크게 는 나라를 가장 잘 맞히는 비중"을 찾았습니다. 그래서 한국 음식 관심, 방한객 같은 트렌드 지표의 비중이 큽니다.`],
+ [`비중 ${pc(gw["성장성"]*100)} : ${pc(gw["트렌드"]*100)} : ${pc(gw["수출입"]*100)}`,`성장성 : 트렌드 : 수출입, 과거 결과가 정했습니다`,`2010~2021년 매년 "그해 지표로 3년 뒤 한국 과자 수출이 크게 는 나라를 가장 잘 맞히는 비중"을 찾았습니다. 사람이 중요하다고 짐작한 비중이 아니라, 실제로 결과를 잘 맞힌 비중입니다.`],
  [`과거 ${V.n_dev}개 시점 검증`,`과거로 돌아가 맞혀 봤습니다`,`2013~2018년 각 시점의 데이터만 넣고 돌려서 "3년 뒤 실제로 한국 과자 수출이 크게 는 나라"를 얼마나 맞히는지 확인하고, 가장 잘 맞힌 방식을 골랐습니다. 이 규칙은 결과를 보기 전에 정해 두었습니다.`],
+...(D.robust&&D.robust.n_tests?[[`${D.robust.n_tests}번 중 ${D.robust.same_top3}번 같은 결과`,`조건을 바꿔도 같은 세 나라`,`지표를 하나씩 빼거나, 기준 비중을 바꾸거나, 계산 방식을 하나만 쓰는 등 ${D.robust.n_tests}가지 방식으로 다시 골라도 ${D.robust.same_top3}번은 같은 세 나라가 나왔습니다. 특정 지표 하나에 기댄 결론이 아닙니다.`]]:[]),
  [`반론 ${Object.values(D.red).reduce((a,r)=>a+r.cons.length,0)}건 → 조건`,`AI가 결론을 다시 공격합니다`,`별도 AI가 최근 기사에서 "이 나라에 가면 안 되는 이유"를 찾고, 출처가 확인된 반론만 남겨 진출 조건으로 바꿨습니다. 관세, 할랄, 수입 금지 품목이 여기서 나왔습니다.`],
  [`품목 교체 = 설정 1줄`,`과자 밖으로 그대로 확장`,`품목은 HS 코드 목록으로 정해져 있어, 코드만 바꾸면 빙과·HMR·유지 등도 같은 방식으로 채점합니다. 롯데 상위 5개 카테고리는 이미 같은 방식으로 비교해 봤습니다.`]
 ].map(([b,t,p])=>`<div><div class="big">${esc(b)}</div><div class="t">${esc(t)}</div><p>${esc(p)}</p></div>`).join("");
@@ -293,7 +299,7 @@ const wIn=(g,id)=>{const ids=D.indicators.filter(i=>i.group==g).map(i=>i.id);con
 $("crit").innerHTML=G.map(g=>{const inds=D.indicators.filter(i=>i.group==g).sort((a,b)=>wIn(g,b.id)-wIn(g,a.id));
  return `<details><summary><span class="nm">${g}</span><span class="qq">${esc(D.crit_text[g]||"")} · 지표 ${inds.length}개</span><span class="wt"><b>${pc(gw[g]*100)}%</b><span>종합 점수 비중</span></span></summary>
  <div class="inner"><div class="tablebox" style="border:0"><table><thead><tr><th>지표</th><th>무엇을 보나</th><th>자료</th><th>기준 안 비중</th></tr></thead><tbody>
- ${inds.map(i=>{const n=D.notes[i.id]||{};const w=wIn(g,i.id);return `<tr><td>${esc(i.name)}</td><td>${esc(n.q||"")}</td><td style="color:var(--muted)">${esc(n.src||"")}</td><td><span class="wbar"><i style="width:${Math.min(100,w*200)}%"></i></span><span class="num" style="font-size:12px">${pc(w*100)}%</span></td></tr>`}).join("")}
+ ${inds.map(i=>{const n=Object.assign({},D.notes[i.id]||{},i.question?{q:i.question}:{});const w=wIn(g,i.id);return `<tr><td>${esc(i.name)}</td><td>${esc(n.q||"")}</td><td style="color:var(--muted)">${esc(n.src||"")}</td><td><span class="wbar"><i style="width:${Math.min(100,w*200)}%"></i></span><span class="num" style="font-size:12px">${pc(w*100)}%</span></td></tr>`}).join("")}
  </tbody></table></div></div></details>`}).join("");
 $("crit-note").textContent=`비중은 사람이 정하지 않았습니다. 과거 12개 시점에서 실제 수출 증가를 잘 맞힌 지표는 비중이 커지고, 맞히지 못한 지표는 0에 가까워집니다. 그래서 같은 기준 안에서도 지표마다 비중이 다릅니다.`;
 

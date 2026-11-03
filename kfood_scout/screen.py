@@ -142,7 +142,7 @@ def build_data(res: dict, cfg: dict, cards: dict, board_red: dict, impact: list 
         "dec": dec, "red": red, "impact": {x["iso3"]: x for x in (impact or [])}, "impact_note": cfg.get("impact_note", ""), "gaps": cfg.get("gaps", []), "groups_ind": gi,
         "xc": cfg.get("crosscheck", {}), "evidence": cfg.get("evidence", {}),
         "crit_text": cfg.get("criteria_text", {}), "notes": cfg.get("indicator_notes", {}),
-        "indicators": res["indicators"], "weights": res.get("weights", {}),
+        "indicators": res["indicators"], "weights": res.get("weights", {}), "robust": res.get("robustness", {}),
         "val": {"dev": {k: pick(dev, k) for k in (E, S, T)}, "n_dev": len(res.get("dev_rows", [])), "sealed": {k: pick(sealed, k) for k in (E, S, T)},
                 "B": B, "gw": res.get("group_weights", {}), "windows": len(res.get("windows", {})),
                 "n_all": res.get("n_scored") or len(res["board"])},
