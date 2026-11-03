@@ -1,0 +1,25 @@
+# 비판 에이전트 설정. 후보 국가·검색 범위·판정 규칙을 여기서만 바꾼다(코드 수정 없이).
+# 후보는 순위 파일(--ranking)이나 --countries 로 덮어쓸 수 있다. 아래는 2026-11-03 발표 후보.
+candidates:
+  - {iso3: PHL, name_ko: 필리핀, name_en: Philippines}
+  - {iso3: IDN, name_ko: 인도네시아, name_en: Indonesia}
+  - {iso3: SGP, name_ko: 싱가포르, name_en: Singapore}
+  - {iso3: MNG, name_ko: 몽골, name_en: Mongolia}
+  - {iso3: MEX, name_ko: 멕시코, name_en: Mexico}
+  - {iso3: USA, name_ko: 미국, name_en: United States}
+  - {iso3: THA, name_ko: 태국, name_en: Thailand}
+  - {iso3: VNM, name_ko: 베트남, name_en: Vietnam}
+
+product: 한국산 건식 과자류(비스킷·초콜릿·껌·캔디, 빙과 제외)
+lookback_years: 2        # 이보다 오래된 기사는 근거로 인정하지 않음
+max_searches: 4          # 국가당 웹 검색 횟수 상한(비용 상한)
+cache_days: 30           # 이 기간 안에 본 나라는 다시 검색하지 않음(무료 재실행)
+
+# 반론 분야. 하나 추가/삭제하면 프롬프트·장부에 그대로 반영된다.
+categories: [정치·치안, 규제·통관·인증, 관세·무역협정, 경제·환율, 종교·문화, 경쟁·유통, 소비자·트렌드, ESG·평판]
+
+# 판정 규칙(코드가 적용, LLM 은 판정하지 않음)
+rules:
+  fatal_min_domains: 2   # '치명' 은 서로 다른 출처(도메인) 2곳 이상이 받쳐야 인정, 아니면 '중간' 으로 낮춤
+  exclude_if_fatal: 1    # 치명 반론이 이만큼 있으면 '배제 권고'
+  caution_if_medium: 2   # 중간 반론이 이만큼 있으면 '주의'

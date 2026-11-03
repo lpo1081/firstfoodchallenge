@@ -73,7 +73,7 @@ def misses(panel, countries, base_raw, category, t, k=8) -> list[dict]:
     return out
 
 
-def build_prompt(base_raw, ledger: list[dict], miss: list[dict], n: int = 3) -> str:
+def build_prompt(base_raw, ledger: list[dict], miss: list[dict], n: int = 3, seeds: list[dict] | None = None) -> str:
     ind = [{k: i.get(k) for k in ("id", "name_ko", "group", "source", "series", "flow", "transform")} for i in base_raw["indicators"]]
     hist = [{k: r.get(k) for k in ("hypothesis", "statement", "status", "reason")} for r in ledger[-20:]]
     return "\n\n".join([
@@ -81,6 +81,11 @@ def build_prompt(base_raw, ledger: list[dict], miss: list[dict], n: int = 3) -> 
         "지난 검증 기록(최근 20건):\n" + json.dumps(hist, ensure_ascii=False),
         "최근 창에서 모델이 놓친 나라(실제 순위 vs 모델 순위, 지표 백분위):\n" + json.dumps(miss, ensure_ascii=False),
         "외부 데이터 목록:\n" + json.dumps(external.catalog(), ensure_ascii=False),
+    ] + ([
+        "비판 에이전트(레드팀)가 기사에서 찾은, 숫자로 측정 가능해 보이는 반론(가설 후보):\n" + json.dumps(seeds, ensure_ascii=False)
+        + "\n이 중 여러 나라에 공통으로 적용될 수 있는 것은 지표 가설로 바꿔 시험해 볼 가치가 있다(direction 은 보통 -1). "
+          "가설 id 는 critic_ 으로 시작하게 하라."
+    ] if seeds else []) + [
         f"다음에 시험할 가설을 최대 {n}개 내라.",
     ])
 
@@ -128,7 +133,9 @@ def clean(h: dict) -> dict:
 def propose(panel, countries, base_raw, category, ledger, t=None, n=3, llm=None) -> tuple[list[dict], list[dict], str]:
     """반환: (검증 가능한 가설, 걸러진 가설과 이유, 프롬프트). llm 은 테스트용 대체 함수."""
     t = t or max(base_raw.get("_starts", [2018]))
-    prompt = build_prompt(base_raw, ledger, misses(panel, countries, base_raw, category, t), n)
+    from .critic import load_seeds  # 레드팀 반론 → 가설 씨앗(없으면 빈 목록)
+
+    prompt = build_prompt(base_raw, ledger, misses(panel, countries, base_raw, category, t), n, load_seeds())
     js = (llm or call_llm)(prompt)
     ok, dropped = [], []
     for h in js.get("hypotheses", []):
