@@ -1,0 +1,48 @@
+# 진출 비용 반영 우선순위: 계산 규칙 (결과를 보기 전에 커밋해 고정)
+# 질문: "시장성 있는 나라에 실제로 들어가면 드는 비용까지 따지면, 진짜 1순위는 어디인가?"
+# 기존 모델·결과는 건드리지 않는다. 이 모듈은 기존 결과(패널 원값)를 읽기만 한다.
+
+candidates: [PHL, MYS, SGP, ARE, GBR]   # TOP3 + 4위(UAE, v2) + 다음 시장(영국)
+top3: [PHL, MYS, SGP]                   # "순서가 바뀌는가"는 이 3국 안에서 판정
+
+# 1) 편익 = 진출 목표 매출 (PR #14 비즈니스 임팩트와 같은 공식, 같은 원천 데이터)
+#    3년 뒤 수입시장 x 1%p(점유율 목표) + 가만히 있어도 느는 롯데 몫(두 경우의 가운데)
+benefit:
+  panel: results/dry_confectionery__k_export/rolling_dashboard.json
+  years_ahead: 3
+  krw_per_usd: 1400
+  lotte_share_of_korea: 0.29
+  share_gain_pp: 1.0
+  point: mid              # 범위의 가운데 값 사용 (low/high 는 민감도에서)
+
+# 2) 매출이 들어오는 모양: 3년에 걸쳐 목표 도달, 이후 유지. 5년만 본다.
+horizon_years: 5
+ramp: [0.33, 0.67, 1.0, 1.0, 1.0]
+# 준비 기간(등록·인증) 동안은 매출 0 → 첫해 매출이 그만큼 줄어든다(개월/12).
+
+# 3) 이익 = 매출 x (매출총이익률 - 관세 - 운임·보험·통관) - 매년 고정비
+#    관세는 롯데가 흡수한다고 본다(경쟁 제품과 진열 가격을 맞추기 위해 = 보수적 가정).
+#    수입시장 금액은 CIF(운임 포함) 기준이므로 롯데 수출 매출 = CIF / (1 + 운임률).
+gross_margin: 0.28
+launch_promo_rate: 0.10   # 첫 2년 매출의 10%를 입점·판촉에 씀 (모든 나라 공통)
+
+# 4) 위험: 할인율 = 기본 할인율 + 국가위험 프리미엄(Damodaran CRP, 공개)
+base_discount_rate: 0.08
+
+# 5) 판정 규칙
+primary_metric: npv5          # 위험 반영 5년 순이익(억원)이 큰 나라가 1순위
+also_report: [bc_ratio, payback_years]
+#   bc_ratio = 5년 편익 현재가치(매출총이익) / 5년 비용 현재가치(관세+운임+판촉+인증·등록+고정비)
+#   payback_years = 누적 순이익(할인 전)이 0을 넘는 시점
+tie_rule: "npv5 차이가 5% 이내면 bc_ratio 큰 나라"
+
+# 6) 민감도: 아래 조건을 하나씩 바꿔 1순위가 유지되는 횟수를 센다(결과 보고 바꾸지 않음)
+sensitivity:
+  gross_margin: [0.20, 0.35]
+  launch_promo_rate: [0.0, 0.20]
+  freight_mult: [0.5, 2.0]
+  crp_mult: [0.0, 2.0]
+  benefit_point: [low, high]
+  tariff_case: [fta_zero, mfn]     # 확인 못한 관세: 0%로 / 최고(MFN)로
+  base_discount_rate: [0.05, 0.12]
+  halal_skus_only: [0.6]           # 할랄 필요국(MYS, ARE)에서 할랄 가능 품목만 팔면 매출 60%
