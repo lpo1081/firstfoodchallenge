@@ -1,0 +1,19 @@
+# 두 축 비교: 축 1 수출 유망도(k_export_agent) × 축 2 현지 시장 성장성(local_market).
+# 결과는 scripts/two_axis.py 로 사분면(수출 우선 / 현지생산·인수 / 수출 유지 / 관망) 분류.
+id: two_axis
+name_ko: 수출 유망도 × 현지 시장 성장성
+entries: lotte_wellfood
+axes:
+  category: [dry_confectionery]
+  criterion: [k_export_agent, local_market]
+  method: [rolling]
+baseline: {category: dry_confectionery, criterion: k_export_agent, method: rolling}
+methods:
+  rolling:
+    starts: [2012, 2015, 2018, 2021]
+    forecast_year: 2024
+    combine: latest
+    top_prob_B: 200
+data:
+  years: [2005, 2024]
+overrides: []
