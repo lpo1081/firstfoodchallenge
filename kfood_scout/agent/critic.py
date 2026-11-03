@@ -3,7 +3,7 @@
 흐름(국가마다):
   Claude 가 최근 기사·규제·정치 뉴스를 웹 검색(web_search, 횟수 상한) → submit_critique 로 반론 카드 제출
   → 아래의 고정 코드가 판정: 실제 검색 결과에 나온 주소만 근거로 인정, 오래된 기사 제외,
-     '치명' 은 서로 다른 출처 2곳 이상일 때만 인정, 반론 개수로 유지/주의/배제 권고 결정(LLM 은 판정하지 않음)
+     '치명' 은 서로 다른 출처 2곳 이상일 때만 인정, 반론별 대응 조건으로 진출/조건부 진출/배제 결정(LLM 은 판정하지 않음)
   → 숫자로 바꿀 수 있는 반론은 '가설 씨앗'으로 저장 → 다음 `agent auto/loop` 때 가설 담당이 받아 통계로 검증
 
 설정은 config/critic.yaml(후보·분야·규칙). 결과는 outputs/agent/critic/<ISO3>.json(캐시) 과 board.md(장부).
@@ -83,6 +83,9 @@ def system_prompt(cfg: dict) -> str:
 - 통계 모델은 이미 인구·소득·수입시장 규모·한류 관심도·한국 수출 추세를 반영했다. 그 숫자가 놓치는 것을 찾아라.
 - 반론이 숫자로 측정 가능하면(국가×연도 공개 데이터가 있을 법하면) quantifiable=true 로 하고 indicator_idea 에 어떤 지표·원천인지 적는다.
 - 공정하게: 반론을 반박하는 사실(진출을 지지하는 근거)도 support 에 따로 적는다.
+- 반론마다 condition 에 "그래도 진출한다면 무엇을 해야 하는가"를 실행 가능한 한 문장으로 적는다(품목·채널·인증·가격·시점 등 구체적으로).
+  그 조건을 지켜도 감당이 안 되면(수입 금지, 전쟁 등) mitigable=false.
+- go_line 에는 "진출한다/하지 않는다"로 시작하는 실무자용 결론 한 문장을 쓴다.
 - 검색은 국가당 {cfg['max_searches']}회 안에서 끝내고 submit_critique 를 한 번 호출해 마친다. 한국어로 간결하게."""
 
 
@@ -105,14 +108,18 @@ def tools(cfg: dict) -> list[dict]:
                  "severity": {"type": "string", "enum": SEV},
                  "evidence": EVID,
                  "quantifiable": {"type": "boolean"},
-                 "indicator_idea": {"type": "string", "description": "측정 지표·원천 아이디어, 없으면 빈 문자열"}},
-                 "required": ["claim", "category", "severity", "evidence", "quantifiable", "indicator_idea"],
+                 "indicator_idea": {"type": "string", "description": "측정 지표·원천 아이디어, 없으면 빈 문자열"},
+                 "condition": {"type": "string", "description": "그래도 진출한다면 해야 할 일(실행 조건·전술) 한 문장"},
+                 "mitigable": {"type": "boolean", "description": "condition 을 지키면 감당 가능한가"}},
+                 "required": ["claim", "category", "severity", "evidence", "quantifiable", "indicator_idea",
+                              "condition", "mitigable"],
                  "additionalProperties": False}},
              "support": {"type": "array", "items": {"type": "object", "properties": {
                  "claim": {"type": "string"}, "evidence": EVID},
                  "required": ["claim", "evidence"], "additionalProperties": False}},
-             "summary": {"type": "string", "description": "레드팀 총평 2문장"}},
-             "required": ["objections", "support", "summary"], "additionalProperties": False}},
+             "summary": {"type": "string", "description": "레드팀 총평 2문장"},
+             "go_line": {"type": "string", "description": "'진출한다' 또는 '진출하지 않는다'로 시작하는 결론 한 문장"}},
+             "required": ["objections", "support", "summary", "go_line"], "additionalProperties": False}},
     ]
 
 
@@ -203,16 +210,30 @@ def judge(card: dict, seen: dict, cfg: dict, today: dt.date) -> dict:
         evs, _ = _check_evidence(s.get("evidence", []), seen, cutoff)
         if evs:
             support.append(dict(s, evidence=evs))
+    out = {**{k: v for k, v in card.items() if k not in ("objections", "support")},
+           "objections": kept, "dropped": dropped, "support": support, "searched_urls": len(seen)}
+    return decide(out, rules)
+
+
+VERDICTS = ["진출", "조건부 진출", "배제"]
+
+
+def decide(card: dict, rules: dict) -> dict:
+    """반론 목록 → 진출 결정. 감당 불가한 치명 반론이 있으면 배제, 조건이 필요한 반론이 있으면 조건부 진출(조건 = 그 반론들의
+    condition, 심각한 것부터 max_conditions 개), 아니면 진출. LLM 이 아니라 이 규칙이 결정한다."""
+    kept = card.get("objections", [])
     n = {s: sum(1 for o in kept if o["severity"] == s) for s in SEV}
-    if n["치명"] >= rules["exclude_if_fatal"]:
-        verdict = "배제 권고"
-    elif n["중간"] >= rules["caution_if_medium"]:
-        verdict = "주의"
+    blockers = [o for o in kept if o["severity"] == "치명" and o.get("mitigable") is False]
+    need = sorted([o for o in kept if o["severity"] in rules["conditional_if"]], key=lambda o: -SEV.index(o["severity"]))
+    if len(blockers) >= rules["exclude_if_unmitigable_fatal"]:
+        verdict, conds = "배제", [o["claim"] for o in blockers]
+    elif need:
+        verdict = "조건부 진출"
+        conds = [o.get("condition") or f"(조건 미작성: agent decide 로 채움) {o['claim'][:40]}" for o in need]
     else:
-        verdict = "유지"
-    return {**{k: v for k, v in card.items() if k not in ("objections", "support")},
-            "objections": kept, "dropped": dropped, "support": support, "counts": n, "verdict": verdict,
-            "searched_urls": len(seen)}
+        verdict, conds = "진출", []
+    return dict(card, counts=n, verdict=verdict, conditions=conds[:rules["max_conditions"]],
+                more_conditions=max(0, len(conds) - rules["max_conditions"]))
 
 
 # ---------- 실행 ----------
@@ -265,6 +286,7 @@ def run(ranking=None, countries=None, top=None, budget_usd=1.0, refresh=False, c
     done, skipped = [], []
     for c in cands:
         if not refresh and (hit := _cached(c["iso3"], cfg["cache_days"], today)):
+            hit = decide(hit, cfg["rules"])  # 규칙이 바뀌었으면 캐시 카드도 새 규칙으로 다시 판정(무료)
             log(f"[critic:{c['iso3']}] {hit['checked']} 결과 재사용(무료): {hit['verdict']}")
             done.append(dict(hit, rank=c.get("rank")))
             continue
@@ -294,6 +316,65 @@ def run(ranking=None, countries=None, top=None, budget_usd=1.0, refresh=False, c
                "verdicts": {d["iso3"]: d["verdict"] for d in done}, "seeds": len(seeds)}
     (OUT / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1))
     return summary
+
+
+# ---------- 이미 받은 반론 카드에 진출 조건 채우기(검색 없음, 저비용) ----------
+
+COND_SCHEMA = {"type": "object", "properties": {
+    "items": {"type": "array", "items": {"type": "object", "properties": {
+        "index": {"type": "integer"}, "condition": {"type": "string"}, "mitigable": {"type": "boolean"}},
+        "required": ["index", "condition", "mitigable"], "additionalProperties": False}},
+    "go_line": {"type": "string"}},
+    "required": ["items", "go_line"], "additionalProperties": False}
+
+
+def fill_conditions(card: dict, cfg: dict, budget: Budget, client) -> dict:
+    """condition/mitigable 이 없는 옛 카드에 한 번의 호출(검색 없음)로 진출 조건을 채운다."""
+    objs = [{"index": i, "claim": o["claim"], "category": o["category"], "severity": o["severity"]}
+            for i, o in enumerate(card["objections"])]
+    prompt = (f"나라: {card['name_ko']} ({card['iso3']}), 품목: {cfg['product']}.\n"
+              f"레드팀이 기사로 확인한 반론:\n{json.dumps(objs, ensure_ascii=False)}\n"
+              f"반박 근거: {json.dumps([s['claim'] for s in card.get('support', [])], ensure_ascii=False)}\n\n"
+              "각 반론에 대해 '그래도 진출한다면 해야 할 일'(품목·채널·인증·가격·시점 등 구체적 실행 조건) 한 문장을 condition 에, "
+              "그 조건을 지켜도 감당이 안 되면 mitigable=false 로 적어라. go_line 은 '진출한다' 또는 '진출하지 않는다'로 시작하는 "
+              "실무자용 결론 한 문장. 한국어로.")
+    resp = client.messages.create(
+        model=MODEL, max_tokens=4000, messages=[{"role": "user", "content": prompt}],
+        output_config={"effort": "low", "format": {"type": "json_schema", "schema": COND_SCHEMA}},
+    )
+    budget.record(f"decide:{card['iso3']}", resp)
+    if resp.stop_reason == "refusal":
+        return card
+    js = json.loads(next(b.text for b in resp.content if b.type == "text"))
+    objs = [dict(o) for o in card["objections"]]
+    for it in js["items"]:
+        if 0 <= it["index"] < len(objs):
+            objs[it["index"]].update(condition=it["condition"], mitigable=it["mitigable"])
+    return dict(card, objections=objs, go_line=js["go_line"])
+
+
+def backfill(budget_usd: float = 0.3, client=None, cfg=None, log=print) -> dict:
+    """마지막 실행에서 본 나라 중 조건이 비어 있는 카드만 채우고, 새 규칙으로 다시 판정한다."""
+    cfg = cfg or load_cfg()
+    budget = Budget(budget_usd)
+    out = {}
+    for card in load_cards():
+        if any("condition" not in o for o in card["objections"]) and budget.left >= 0.05:
+            if client is None:
+                import anthropic  # pip install anthropic
+
+                client = anthropic.Anthropic()
+            card = fill_conditions(card, cfg, budget, client)
+        card = decide(card, cfg["rules"])
+        (OUT / f"{card['iso3']}.json").write_text(json.dumps(card, ensure_ascii=False, indent=1))
+        out[card["iso3"]] = card["verdict"]
+        log(f"[decide:{card['iso3']}] {card['verdict']}: " + " / ".join(card["conditions"]))
+    sp = OUT / "summary.json"
+    if sp.exists():
+        summ = json.loads(sp.read_text())
+        summ["verdicts"] = {**summ.get("verdicts", {}), **out}
+        sp.write_text(json.dumps(summ, ensure_ascii=False, indent=1))
+    return {"verdicts": out, "spent_usd": round(budget.spent, 3)}
 
 
 # ---------- 반론 → 가설 씨앗 ----------

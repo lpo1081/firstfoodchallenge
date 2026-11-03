@@ -49,11 +49,23 @@ def build(category: str = "dry_confectionery") -> str:
     ai = sum(1 for h, r in hyps.items() if _who(h, r.get("proposed_by", "")) != "사람")
     md = [f"# 가설 장부 ({category})", "",
           "AI 가 가설을 내고, 통계 엔진이 과거 데이터(표본 밖)로 시험하고, 레드팀 AI 가 기사로 결론을 공격한 기록입니다.", "",
-          "## 요약", "",
+          ]
+    if cards:
+        md += ["## 결론: 어디에 진출하나", "",
+               "| 순위 | 나라 | 결정 | 진출 조건 |", "|---|---|---|---|"]
+        for c in cards:
+            conds = " ".join(f"{'①②③④⑤'[i]} {_cut(x, 60)}" for i, x in enumerate(c.get("conditions", [])))
+            if c.get("more_conditions"):
+                conds += f" 외 {c['more_conditions']}개"
+            md.append(f"| {c.get('rank', '')} | {c['name_ko']} | **{c['verdict']}** | {conds or '-'} |")
+        md += ["", *[f"- {c['name_ko']}: {c['go_line']}" for c in cards if c.get("go_line")], "",
+               "결정 규칙(코드가 적용): 조건으로도 감당 못 하는 치명 반론 → 배제, 대응이 필요한 반론(치명·중간) → 조건부 진출(조건 = 그 대응책), "
+               "없으면 진출. 치명은 서로 다른 출처 2곳 이상일 때만 인정.", ""]
+    md += ["## 요약", "",
           f"- 가설 {len(hyps)}개 중 AI 제안 {ai}개. 판정: " + ", ".join(f"{k} {v}" for k, v in cnt.items()),
           ]
     if cards:
-        md.append("- 레드팀 판정: " + ", ".join(f"{c['name_ko']} {c['verdict']}" for c in cards))
+        md.append("- 레드팀 결정: " + ", ".join(f"{c['name_ko']} {c['verdict']}" for c in cards))
         dropped = sum(len(c.get("dropped", [])) for c in cards)
         total = dropped + sum(len(c["objections"]) for c in cards)
         md.append(f"- 레드팀 반론 {total}개 중 {dropped}개는 근거(검색된 기사)가 없거나 오래돼 버림")
@@ -69,19 +81,20 @@ def build(category: str = "dry_confectionery") -> str:
            "자세한 근거는 report.md.", ""]
     if cards:
         md += ["## 2. 레드팀: 후보국을 뽑으면 안 되는 이유", "",
-               "| 순위 | 나라 | 판정 | 치명 | 중간 | 낮음 | 가장 센 반론 |", "|---|---|---|---|---|---|---|"]
+               "| 순위 | 나라 | 결정 | 치명 | 중간 | 낮음 | 가장 센 반론 |", "|---|---|---|---|---|---|---|"]
         for c in cards:
             top = sorted(c["objections"], key=lambda o: -cr.SEV.index(o["severity"]))
             md.append(f"| {c.get('rank', '')} | {c['name_ko']} | **{c['verdict']}** | {c['counts']['치명']} | "
                       f"{c['counts']['중간']} | {c['counts']['낮음']} | {_cut(top[0]['claim']) if top else '-'} |")
-        md += ["", "판정 규칙(코드가 적용): 치명 반론 1개 이상 → 배제 권고, 중간 2개 이상 → 주의, 그 외 유지. "
-               "치명은 서로 다른 출처 2곳 이상일 때만 인정.", ""]
+        md.append("")
         for c in cards:
             md += [f"### {c['name_ko']} ({c['iso3']}) — {c['verdict']}", "", c.get("summary", ""), ""]
             for o in sorted(c["objections"], key=lambda o: -cr.SEV.index(o["severity"])):
                 links = ", ".join(f"[{_cut(e.get('publisher') or e['title'], 30)} {e['date']}]({e['url']})" for e in o["evidence"])
                 note = f" ({o['note']})" if o.get("note") else ""
                 md.append(f"- [{o['severity']}·{o['category']}] {o['claim']}{note} — {links}")
+                if o.get("condition"):
+                    md.append(f"  - 대응: {o['condition']}" + ("" if o.get("mitigable", True) else " (감당 불가)"))
             if c.get("support"):
                 md += ["", "반박(진출 지지 근거):"]
                 for s in c["support"]:
