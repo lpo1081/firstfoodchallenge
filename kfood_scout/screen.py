@@ -4,6 +4,7 @@
   outputs/three_criteria/result.json      엔진 결과(순위, 기준 점수, 지표별 값·비중)
   outputs/agent/critic/<ISO3>.json        레드팀 카드(판정·진출 조건·반론·기사). 없으면 아래 대체
   outputs/agent/<category>/board.md       레드팀 장부(카드가 없을 때 반론·기사만 읽음)
+  outputs/three_criteria/business_impact.json  롯데 기회 규모(원)·진입 방식(있을 때만)
   config/screen/screen.yaml               품목 선정 이유, 못 넣은 지표, 외부 교차 확인, 판정 대체값, 한글 국가명
 쓰는 것: outputs/three_criteria/screen.html
 
@@ -89,24 +90,24 @@ def _kind(status: list[str]) -> str:
     return "바닥"
 
 
-def build_data(res: dict, cfg: dict, cards: dict, board_red: dict) -> dict:
+def build_data(res: dict, cfg: dict, cards: dict, board_red: dict, impact: list | None = None) -> dict:
     ko = cfg.get("names_ko", {})
-    names = {i["id"]: i["name"] for i in res["indicators"]}
     B = res.get("B") or 0
     cands, out, detail = [], [], {}
     for b in res["board"]:
         iso = b["iso3"]
         row = {"iso": iso, "ko": ko.get(iso, b["name"]), "kor": round(b["kor_exports_2024_usd"] / 1e6, 1),
-               "g": b.get("groups_pct_in_pool"), "warn": b.get("warn", []), "why": b.get("reasons", [])}
+               "rank_all": b.get("rank"), "score": b.get("score"), "g": b.get("criteria"),
+               "gpool": b.get("criteria_rank_in_pool_pct"), "warn": b.get("warn", []), "why": b.get("reasons", [])}
         if b.get("detail"):
-            detail[iso] = {"gs": b.get("group_score"), "rows": [dict(r, name=names.get(r["id"], r["id"])) for r in b["detail"]]}
+            detail[iso] = b["detail"]
         if b["status"]:
             out.append(dict(row, status=b["status"], kind=_kind(b["status"])))
         else:
-            p = b.get("top3_prob")
-            cands.append(dict(row, mr=b.get("boot_mean_rank"), p=p,
-                              hits=(round(p * B / 100) if p is not None and B else None)))
-    cands.sort(key=lambda r: (r["mr"] if r["mr"] is not None else 99))
+            p = b.get("top3_stability_pct")
+            cands.append(dict(row, p=p, hits=(round(p * B / 100) if p is not None and B else None)))
+    order = {c: i for i, c in enumerate(res.get("order_iso3") or [])}
+    cands.sort(key=lambda r: (order.get(r["iso"], 999), -(r["score"] or 0)))
     cnt = {}
     for r in out:
         cnt[r["kind"]] = cnt.get(r["kind"], 0) + 1
@@ -137,13 +138,12 @@ def build_data(res: dict, cfg: dict, cards: dict, board_red: dict) -> dict:
                  "protocol": res.get("protocol"), "filter": res.get("filter"), "n_ind": len(res["indicators"]),
                  "generated": dt.date.today().isoformat(), "sources": cfg.get("data_sources", [])},
         "total": len(res["board"]), "cnt": cnt, "cands": cands, "out": out, "detail": detail,
-        "big5": [ko.get(x, x) for x in [b["iso3"] for b in res["board"] if "상위 5" in " ".join(b["status"])]],
-        "dec": dec, "red": red, "gaps": cfg.get("gaps", []), "groups_ind": gi,
+        "big5": [ko.get(x, x) for x in (res.get("big5_iso3") or [])],
+        "dec": dec, "red": red, "impact": {x["iso3"]: x for x in (impact or [])}, "impact_note": cfg.get("impact_note", ""), "gaps": cfg.get("gaps", []), "groups_ind": gi,
         "xc": cfg.get("crosscheck", {}),
         "val": {"dev": {k: pick(dev, k) for k in (E, S, T)}, "sealed": {k: pick(sealed, k) for k in (E, S, T)},
-                "t34": res.get("third_over_fourth_pct"), "B": B, "gw": res.get("group_weights", {}),
-                "windows": len(res.get("windows", {})), "n_pool": res.get("n_pool"), "n_all": res.get("n_all"),
-                "inner": res.get("group_inner_weights", {})},
+                "B": B, "gw": res.get("group_weights", {}), "windows": len(res.get("windows", {})),
+                "n_all": res.get("n_scored") or len(res["board"])},
     }
 
 
@@ -157,7 +157,9 @@ def main(root: Path = ROOT) -> Path:
     cfg = yaml.safe_load((root / "config" / "screen" / "screen.yaml").read_text())
     bp = root / "outputs" / "agent" / CAT / "board.md"
     board_red = parse_board(bp.read_text()) if bp.exists() else {}
-    html = render(build_data(res, cfg, _cards(root), board_red))
+    ip = root / "outputs" / "three_criteria" / "business_impact.json"   # scripts/business_impact.py 결과(있을 때만)
+    impact = json.loads(ip.read_text()) if ip.exists() else []
+    html = render(build_data(res, cfg, _cards(root), board_red, impact))
     out = root / "outputs" / "three_criteria" / "screen.html"
     out.write_text(html)
     print(f"[screen] {out}")

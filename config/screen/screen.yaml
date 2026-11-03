@@ -50,9 +50,12 @@ crosscheck:
       barrier: {mark: 확인, text: "껌 외에는 과자 수입 금지 품목 없음, 영양등급 확대 대상에 과자 미포함", src: [{t: "Hexacrunch", u: "https://www.hexacrunch.com.sg/blogs/crunch-journal/nutri-grade-is-coming-to-sauces-and-instant-noodles-in-2027-what-actually-changes"}]}
 
 fallback_decisions:
-  PHL: {verdict: 진출, how: 주력 2~3개 품목으로 시작, conditions: ["FTA에서 과자류가 민감품목이라 관세 혜택이 없으니 현지 판매가를 관세 포함으로 다시 잡는다", "품목(SKU)마다 FDA 등록에 30~45일이 걸리니 첫해는 품목 수를 줄인다"]}
-  MYS: {verdict: 조건부 진출, how: 할랄 인증 받은 품목만, conditions: ["대형 유통 입점에 할랄 인증이 사실상 필수라 한국이슬람교중앙회 인증(현지 JAKIM 인정)부터 받는다", "한국 과자 수출이 최근 5년 연 3%대로 정체라 기존 수입상 대신 대형 유통 직거래로 들어간다"]}
-  SGP: {verdict: 조건부 진출, how: 비스킷·프리미엄 품목 한정, conditions: ["껌은 수입 금지라 빼고 시장 규모를 다시 계산한다", "소매 둔화와 조호르바루 원정 쇼핑이 있어 첫해 물량은 보수적으로 잡는다"]}
+  PHL: {verdict: 진출, how: 소용량·저가 위주, 주력 품목 몇 개로 시작, conditions: ["FTA에서 과자류가 민감품목이라 관세 혜택이 없으니 소용량·저가 포장으로 가격을 맞춘다", "품목(SKU)마다 FDA 등록이 필요하니 첫해는 품목 수를 줄인다"]}
+  MYS: {verdict: 진출, how: 할랄 인증 품목부터, conditions: ["대형 유통 입점에 할랄 인증이 사실상 필수라 한국이슬람교중앙회 인증(현지 JAKIM 인정) 품목부터 낸다", "과자류가 5% 판매세(SST) 대상인지 HS 코드별로 확인해 가격에 반영한다"]}
+  SGP: {verdict: 진출, how: 비스킷·저당·프리미엄 품목, 껌 제외, conditions: ["껌은 수입 금지라 빼고 비스킷·저당·프리미엄 품목으로 간다", "소매 둔화와 조호르바루 원정 쇼핑이 있어 첫해 물량은 보수적으로 잡는다"]}
+
+# 비즈니스 임팩트(business_impact.json) 가정. 화면 각주에 그대로 보인다.
+impact_note: "2027년 기준, 2024년 대비 연 매출 증가. 환율 1,400원/달러, 롯데 몫 29%(제과 3사 해외 매출 중 롯데 비중, 2023). 범위는 한국산 비중이 지금 그대로인 경우와 지난 5년 변화 속도로 계속 움직이는 경우."
 
 names_ko:
   PHL: 필리핀
