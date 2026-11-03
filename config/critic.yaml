@@ -9,6 +9,8 @@ candidates:
   - {iso3: USA, name_ko: 미국, name_en: United States}
   - {iso3: THA, name_ko: 태국, name_en: Thailand}
   - {iso3: VNM, name_ko: 베트남, name_en: Vietnam}
+  - {iso3: MYS, name_ko: 말레이시아, name_en: Malaysia}
+  - {iso3: NLD, name_ko: 네덜란드, name_en: Netherlands}
 
 product: 한국산 건식 과자류(비스킷·초콜릿·껌·캔디, 빙과 제외)
 lookback_years: 2        # 이보다 오래된 기사는 근거로 인정하지 않음

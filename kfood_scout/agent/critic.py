@@ -38,29 +38,35 @@ def load_cfg(path: Path | None = None) -> dict:
 def candidates(cfg: dict, ranking: str | None = None, countries: str | None = None, top: int | None = None) -> list[dict]:
     """우선순위: --countries(ISO3 쉼표) > --ranking(json/csv, 순서대로, iso3 열) > config 의 candidates."""
     known = {c["iso3"]: c for c in cfg["candidates"]}
+    names = {}
     if countries:
         isos = [x.strip().upper() for x in countries.split(",") if x.strip()]
     elif ranking:
-        isos = _ranking_isos(Path(ranking))
+        isos, names = _ranking_isos(Path(ranking))
     else:
         isos = [c["iso3"] for c in cfg["candidates"]]
-    out = [dict(known.get(i, {"iso3": i, "name_ko": i, "name_en": i}), rank=n + 1) for n, i in enumerate(isos)]
+    # 설정에 없는 나라는 순위 파일의 이름(name)을 검색어로 쓴다. 그것도 없으면 ISO3.
+    out = [dict(known.get(i, {"iso3": i, "name_ko": names.get(i, i), "name_en": names.get(i, i)}), rank=n + 1)
+           for n, i in enumerate(isos)]
     return out[:top] if top else out
 
 
-def _ranking_isos(p: Path) -> list[str]:
-    """순위 파일에서 ISO3 순서를 읽는다. 다른 스레드가 내놓는 형식이 달라도 iso3 열/키만 있으면 된다."""
+def _ranking_isos(p: Path) -> tuple[list[str], dict[str, str]]:
+    """순위 파일에서 ISO3 순서와 (있으면) 나라 이름을 읽는다. iso3 열/키만 있으면 형식이 달라도 된다."""
     if p.suffix == ".csv" or p.suffix == ".psv":
         with p.open(encoding="utf-8") as f:
-            rows = list(csv.DictReader(f, delimiter="|" if p.suffix == ".psv" else ","))
-        return [r["iso3"].strip().upper() for r in rows if r.get("iso3")]
-    js = json.loads(p.read_text())
-    if isinstance(js, dict):
-        for k in ("ranking", "top", "candidates", "countries"):
-            if isinstance(js.get(k), list):
-                js = js[k]
-                break
-    return [(x if isinstance(x, str) else x["iso3"]).upper() for x in js]
+            rows = [r for r in csv.DictReader(f, delimiter="|" if p.suffix == ".psv" else ",") if r.get("iso3")]
+    else:
+        js = json.loads(p.read_text())
+        if isinstance(js, dict):
+            for k in ("ranking", "top", "candidates", "countries"):
+                if isinstance(js.get(k), list):
+                    js = js[k]
+                    break
+        rows = [{"iso3": x} if isinstance(x, str) else x for x in js]
+    isos = [r["iso3"].strip().upper() for r in rows]
+    names = {r["iso3"].strip().upper(): r["name"] for r in rows if r.get("name")}
+    return isos, names
 
 
 # ---------- Claude 에게 주는 지시와 제출 양식 ----------
