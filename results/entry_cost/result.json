@@ -1,0 +1,584 @@
+{
+ "ranking": [
+  {
+   "iso3": "PHL",
+   "name": "필리핀",
+   "revenue_target": 151.14335662214427,
+   "revenue_fob": 146.2187104540518,
+   "freight_rate": 0.03368,
+   "tariff_rate": 0.0,
+   "one_time": 0.4,
+   "discount_rate": 0.1054,
+   "npv5": 98.81747472710987,
+   "bc_ratio": 7.041895138872783,
+   "payback_years": 0.058947277833248275,
+   "years": [
+    {
+     "year": 1,
+     "revenue": 40.21014537486425,
+     "gross_profit": 11.25884070496199,
+     "tariff": 0.0,
+     "other_variable": 0.4021014537486425,
+     "promo": 4.021014537486425,
+     "fixed": 0.05,
+     "profit": 6.785724713726923
+    },
+    {
+     "year": 2,
+     "revenue": 97.96653600421472,
+     "gross_profit": 27.430630081180123,
+     "tariff": 0.0,
+     "other_variable": 0.9796653600421472,
+     "promo": 9.796653600421472,
+     "fixed": 0.05,
+     "profit": 16.604311120716503
+    },
+    {
+     "year": 3,
+     "revenue": 146.2187104540518,
+     "gross_profit": 40.941238927134506,
+     "tariff": 0.0,
+     "other_variable": 1.4621871045405181,
+     "promo": 0.0,
+     "fixed": 0.05,
+     "profit": 39.42905182259399
+    },
+    {
+     "year": 4,
+     "revenue": 146.2187104540518,
+     "gross_profit": 40.941238927134506,
+     "tariff": 0.0,
+     "other_variable": 1.4621871045405181,
+     "promo": 0.0,
+     "fixed": 0.05,
+     "profit": 39.42905182259399
+    },
+    {
+     "year": 5,
+     "revenue": 146.2187104540518,
+     "gross_profit": 40.941238927134506,
+     "tariff": 0.0,
+     "other_variable": 1.4621871045405181,
+     "promo": 0.0,
+     "fixed": 0.05,
+     "profit": 39.42905182259399
+    }
+   ],
+   "target_range": [
+    146.93037930228843,
+    155.35633394200013
+   ],
+   "import_market_2024": 8557.35795734704,
+   "value_of_1pp": 117.82244930659279
+  },
+  {
+   "iso3": "SGP",
+   "name": "싱가포르",
+   "revenue_target": 122.28728154484983,
+   "revenue_fob": 118.30284183194978,
+   "freight_rate": 0.03368,
+   "tariff_rate": 0.0,
+   "one_time": 0.3,
+   "discount_rate": 0.08,
+   "npv5": 87.33926146253508,
+   "bc_ratio": 7.170807967773266,
+   "payback_years": 0.04955627606749077,
+   "years": [
+    {
+     "year": 1,
+     "revenue": 35.786609654164806,
+     "gross_profit": 10.020250703166147,
+     "tariff": 0.0,
+     "other_variable": 0.3578660965416481,
+     "promo": 3.5786609654164807,
+     "fixed": 0.03,
+     "profit": 6.053723641208018
+    },
+    {
+     "year": 2,
+     "revenue": 79.26290402740635,
+     "gross_profit": 22.193613127673782,
+     "tariff": 0.0,
+     "other_variable": 0.7926290402740636,
+     "promo": 7.926290402740635,
+     "fixed": 0.03,
+     "profit": 13.444693684659084
+    },
+    {
+     "year": 3,
+     "revenue": 118.30284183194978,
+     "gross_profit": 33.12479571294594,
+     "tariff": 0.0,
+     "other_variable": 1.183028418319498,
+     "promo": 0.0,
+     "fixed": 0.03,
+     "profit": 31.91176729462644
+    },
+    {
+     "year": 4,
+     "revenue": 118.30284183194978,
+     "gross_profit": 33.12479571294594,
+     "tariff": 0.0,
+     "other_variable": 1.183028418319498,
+     "promo": 0.0,
+     "fixed": 0.03,
+     "profit": 31.91176729462644
+    },
+    {
+     "year": 5,
+     "revenue": 118.30284183194978,
+     "gross_profit": 33.12479571294594,
+     "tariff": 0.0,
+     "other_variable": 1.183028418319498,
+     "promo": 0.0,
+     "fixed": 0.03,
+     "profit": 31.91176729462644
+    }
+   ],
+   "target_range": [
+    118.37291135112986,
+    126.20165173856981
+   ],
+   "import_market_2024": 10012.071276676119,
+   "value_of_1pp": 113.33189130316359
+  },
+  {
+   "iso3": "MYS",
+   "name": "말레이시아",
+   "revenue_target": 99.8143029771679,
+   "revenue_fob": 96.56209172777639,
+   "freight_rate": 0.03368,
+   "tariff_rate": 0.0,
+   "one_time": 1.0,
+   "discount_rate": 0.096,
+   "npv5": 65.42638134423548,
+   "bc_ratio": 6.7126533310465515,
+   "payback_years": 0.28478489179689576,
+   "years": [
+    {
+     "year": 1,
+     "revenue": 21.24366018011081,
+     "gross_profit": 5.948224850431027,
+     "tariff": 0.0,
+     "other_variable": 0.2124366018011081,
+     "promo": 2.124366018011081,
+     "fixed": 0.1,
+     "profit": 3.511422230618838
+    },
+    {
+     "year": 2,
+     "revenue": 64.69660145761019,
+     "gross_profit": 18.115048408130853,
+     "tariff": 0.0,
+     "other_variable": 0.6469660145761019,
+     "promo": 6.4696601457610186,
+     "fixed": 0.1,
+     "profit": 10.898422247793732
+    },
+    {
+     "year": 3,
+     "revenue": 96.56209172777639,
+     "gross_profit": 27.03738568377739,
+     "tariff": 0.0,
+     "other_variable": 0.9656209172777639,
+     "promo": 0.0,
+     "fixed": 0.1,
+     "profit": 25.971764766499625
+    },
+    {
+     "year": 4,
+     "revenue": 96.56209172777639,
+     "gross_profit": 27.03738568377739,
+     "tariff": 0.0,
+     "other_variable": 0.9656209172777639,
+     "promo": 0.0,
+     "fixed": 0.1,
+     "profit": 25.971764766499625
+    },
+    {
+     "year": 5,
+     "revenue": 96.56209172777639,
+     "gross_profit": 27.03738568377739,
+     "tariff": 0.0,
+     "other_variable": 0.9656209172777639,
+     "promo": 0.0,
+     "fixed": 0.1,
+     "profit": 25.971764766499625
+    }
+   ],
+   "target_range": [
+    94.07119244940397,
+    105.55741350493182
+   ],
+   "import_market_2024": 6985.185104672671,
+   "value_of_1pp": 92.06801211567861
+  }
+ ],
+ "reference": [
+  {
+   "iso3": "GBR",
+   "name": "영국",
+   "revenue_target": 1438.7109425397216,
+   "revenue_fob": 1344.388635848585,
+   "freight_rate": 0.07016,
+   "tariff_rate": 0.08,
+   "one_time": 0.3,
+   "discount_rate": 0.088,
+   "npv5": 649.7958449325253,
+   "bc_ratio": 2.365838733047699,
+   "payback_years": 0.00820771412928653,
+   "years": [
+    {
+     "year": 1,
+     "revenue": 406.67756234419693,
+     "gross_profit": 113.86971745637516,
+     "tariff": 32.53420498753575,
+     "other_variable": 4.066775623441969,
+     "promo": 40.6677562344197,
+     "fixed": 0.05,
+     "profit": 36.55098061097773
+    },
+    {
+     "year": 2,
+     "revenue": 900.7403860185519,
+     "gross_profit": 252.20730808519457,
+     "tariff": 72.05923088148415,
+     "other_variable": 9.00740386018552,
+     "promo": 90.0740386018552,
+     "fixed": 0.05,
+     "profit": 81.01663474166969
+    },
+    {
+     "year": 3,
+     "revenue": 1344.388635848585,
+     "gross_profit": 376.42881803760383,
+     "tariff": 107.5510908678868,
+     "other_variable": 13.44388635848585,
+     "promo": 0.0,
+     "fixed": 0.05,
+     "profit": 255.3838408112312
+    },
+    {
+     "year": 4,
+     "revenue": 1344.388635848585,
+     "gross_profit": 376.42881803760383,
+     "tariff": 107.5510908678868,
+     "other_variable": 13.44388635848585,
+     "promo": 0.0,
+     "fixed": 0.05,
+     "profit": 255.3838408112312
+    },
+    {
+     "year": 5,
+     "revenue": 1344.388635848585,
+     "gross_profit": 376.42881803760383,
+     "tariff": 107.5510908678868,
+     "other_variable": 13.44388635848585,
+     "promo": 0.0,
+     "fixed": 0.05,
+     "profit": 255.3838408112312
+    }
+   ],
+   "target_range": [
+    1438.58631342195,
+    1438.835571657493
+   ],
+   "import_market_2024": 110034.22928095596,
+   "value_of_1pp": 1432.5185950757302
+  },
+  {
+   "iso3": "ARE",
+   "name": "UAE",
+   "revenue_target": 208.70284747135187,
+   "revenue_fob": 177.20621484483152,
+   "freight_rate": 0.17774,
+   "tariff_rate": 0.05,
+   "one_time": 1.1,
+   "discount_rate": 0.0866,
+   "npv5": 99.50760725099806,
+   "bc_ratio": 3.1183898016238176,
+   "payback_years": 0.21305341138044,
+   "years": [
+    {
+     "year": 1,
+     "revenue": 43.8585381740958,
+     "gross_profit": 12.280390688746825,
+     "tariff": 2.19292690870479,
+     "other_variable": 0.438585381740958,
+     "promo": 4.38585381740958,
+     "fixed": 0.1,
+     "profit": 5.163024580891498
+    },
+    {
+     "year": 2,
+     "revenue": 118.72816394603713,
+     "gross_profit": 33.2438859048904,
+     "tariff": 5.936408197301857,
+     "other_variable": 1.1872816394603714,
+     "promo": 11.872816394603714,
+     "fixed": 0.1,
+     "profit": 14.147379673524455
+    },
+    {
+     "year": 3,
+     "revenue": 177.20621484483152,
+     "gross_profit": 49.617740156552834,
+     "tariff": 8.860310742241577,
+     "other_variable": 1.7720621484483152,
+     "promo": 0.0,
+     "fixed": 0.1,
+     "profit": 38.88536726586294
+    },
+    {
+     "year": 4,
+     "revenue": 177.20621484483152,
+     "gross_profit": 49.617740156552834,
+     "tariff": 8.860310742241577,
+     "other_variable": 1.7720621484483152,
+     "promo": 0.0,
+     "fixed": 0.1,
+     "profit": 38.88536726586294
+    },
+    {
+     "year": 5,
+     "revenue": 177.20621484483152,
+     "gross_profit": 49.617740156552834,
+     "tariff": 8.860310742241577,
+     "other_variable": 1.7720621484483152,
+     "promo": 0.0,
+     "fixed": 0.1,
+     "profit": 38.88536726586294
+    }
+   ],
+   "target_range": [
+    207.84137600043644,
+    209.5643189422673
+   ],
+   "import_market_2024": 19006.69893720927,
+   "value_of_1pp": 206.29106104296883
+  }
+ ],
+ "sensitivity": {
+  "base_first": "PHL",
+  "base_top3_order": [
+   "PHL",
+   "SGP",
+   "MYS"
+  ],
+  "cases": [
+   {
+    "change": "gross_margin=0.2",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "gross_margin=0.35",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "launch_promo_rate=0.0",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "launch_promo_rate=0.2",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "freight_mult=0.5",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "freight_mult=2.0",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "crp_mult=0.0",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "crp_mult=2.0",
+    "first": "SGP",
+    "top3_order": [
+     "SGP",
+     "PHL",
+     "MYS"
+    ],
+    "order": [
+     "SGP",
+     "PHL",
+     "MYS"
+    ]
+   },
+   {
+    "change": "benefit_point=low",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "benefit_point=high",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "tariff_case=fta_zero",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "tariff_case=mfn",
+    "first": "SGP",
+    "top3_order": [
+     "SGP",
+     "MYS",
+     "PHL"
+    ],
+    "order": [
+     "SGP",
+     "MYS",
+     "PHL"
+    ]
+   },
+   {
+    "change": "base_discount_rate=0.05",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "base_discount_rate=0.12",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   },
+   {
+    "change": "halal_skus_only=0.6",
+    "first": "PHL",
+    "top3_order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ],
+    "order": [
+     "PHL",
+     "SGP",
+     "MYS"
+    ]
+   }
+  ],
+  "first_kept": 13,
+  "top3_order_kept": 13,
+  "n": 15
+ }
+}
