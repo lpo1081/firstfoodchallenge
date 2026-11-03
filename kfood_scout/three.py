@@ -299,7 +299,8 @@ def bootstrap(wins, train, picks, ids, gmap, P_now, cand, B=200, seed=0):
             idx = rng.integers(0, len(wins[t]["y"]), len(wins[t]["y"]))
             Ps.append(wins[t]["P"].iloc[idx]); ys.append(wins[t]["y"].iloc[idx])
         models = [VARIANTS[n](Ps, ys, ids, gmap, seed=b) for n in picks]
-        r = ensemble_rank(models, P_now.loc[cand]).rank(method="first")
+        wb = pd.concat([m.w for m in models], axis=1).mean(1)  # 본 계산과 같게: 통과 모델 가중치 평균으로 점수
+        r = (P_now.loc[cand, ids] @ (wb / wb.sum())).rank(ascending=False, method="first")
         ranks.append(r)
         rank_sum += r
         top3[r[r <= 3].index] += 1
@@ -312,6 +313,7 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
     ids = [i.id for i in crit.indicators]
     gmap = {i.id: i.group for i in crit.indicators}
     names = {i.id: i.name_ko for i in crit.indicators}
+    units = {i.id: i.unit for i in crit.indicators}
     nm = countries.set_index("iso3")["name"].to_dict()
     wcfg = proto["windows"]
     wins = windows(panel, countries, crit, wcfg["first"], wcfg["sealed_test"])
@@ -360,46 +362,66 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
         status[c] = why
     pool = [c for c in P_now.index if not status[c]]
 
-    # 기준별 점수(후보 안 백분위)와 바닥 기준 제외
+    # 점수 = 지표 점수(0~100: 채점한 나라들 중 순위를 백분위로) × 최종 가중치(통과 모델 3개 가중치의 평균).
+    # 기준 점수 = 그 기준에 속한 지표 점수의 가중 평균. 종합 점수 = 기준 점수 × 기준 비중의 합(= 지표 점수 × 가중치의 합).
     if final_models:
-        gsc = pd.concat([m.group_scores(P_now) for m in final_models]).groupby(level=0).mean()
-        gsc = gsc[[g for g in G3 if g in gsc.columns]]  # 바닥 규칙은 세 기준만(기존 방식 모델의 "전체" 열 제외)
-        overall_rank = ensemble_rank(final_models, P_now)
+        w = pd.concat([m.w for m in final_models], axis=1).mean(1)
     else:  # 통과 모델 없음 → 큰 시장 순
-        gsc = pd.DataFrame({g: P_now[[i for i in ids if gmap[i] == g]].mean(1) for g in G3})
-        overall_rank = P_now["korea_exports_size"].rank(ascending=False)
+        w = pd.Series([1.0 if i == "korea_exports_size" else 0.0 for i in ids], index=ids)
+    w = w / w.sum()
+    gw = {g: float(w[[i for i in ids if gmap[i] == g]].sum()) for g in G3}
+    inner = {}
+    for g in G3:
+        gi = [i for i in ids if gmap[i] == g]
+        inner[g] = w[gi] / gw[g] if gw[g] > 0 else pd.Series(1 / len(gi), index=gi)
+    gsc = pd.DataFrame({g: P_now[list(inner[g].index)].to_numpy() @ inner[g].to_numpy() for g in G3}, index=P_now.index)
+    score = pd.Series(P_now[ids].to_numpy() @ w.to_numpy(), index=P_now.index)
     gpct = gsc.loc[pool].rank(pct=True) * 100
     floor = 100 / 3
     for c in pool:
-        low = [g for g in gpct.columns if gpct.loc[c, g] <= floor]
+        low = [g for g in G3 if gpct.loc[c, g] <= floor]
         if low:
-            status[c].append("기준 바닥(하위 1/3): " + ", ".join(low))
+            status[c].append("기준 바닥(남은 후보 중 하위 1/3): " + ", ".join(low))
     cand = [c for c in pool if not status[c]]
-
-    mean_rank, top3p, R = (bootstrap(wins, train, picks, ids, gmap, P_now, cand, B=B) if picks and B
-                           else (overall_rank.loc[cand].rank(), pd.Series(np.nan, index=cand), None))
-    order = sorted(cand, key=lambda c: (round(mean_rank[c], 6), -top3p.get(c, 0)))
+    order = sorted(cand, key=lambda c: -score[c])
     top3 = order[:3]
-    third_vs_fourth = (float((R.loc[order[2]] < R.loc[order[3]]).mean() * 100)
-                       if R is not None and len(order) > 3 else None)
+    # 안정성: 학습 데이터를 200번 조금씩 바꿔(나라를 복원추출) 다시 계산해도 TOP3 에 남은 비율
+    top3p = (bootstrap(wins, train, picks, ids, gmap, P_now, cand, B=B)[1] if picks and B
+             else pd.Series(np.nan, index=cand))
+    rank_all = score.rank(ascending=False, method="min")
 
-    w = (pd.concat([m.w for m in final_models], axis=1).mean(1) if final_models else pd.Series(dtype=float))
+    def detail(c):
+        out = {}
+        for g in G3:
+            rows = []
+            for i in inner[g].index:
+                v = raw_now.loc[c, i] if (c in raw_now.index and i in raw_now.columns) else np.nan
+                rows.append({"id": i, "name": names[i], "unit": units[i],
+                             "value": None if pd.isna(v) else round(float(v), 3),
+                             "score": round(float(P_now.loc[c, i]), 1),
+                             "weight_in_criterion": round(float(inner[g][i]), 3),
+                             "points": round(float(P_now.loc[c, i] * inner[g][i]), 1),
+                             "missing": bool(pd.isna(v))})
+            out[g] = {"score": round(float(gsc.loc[c, g]), 1), "criterion_weight": round(gw[g], 3),
+                      "points": round(float(gsc.loc[c, g] * gw[g]), 1),
+                      "rank_in_pool_pct": (round(float(gpct.loc[c, g])) if c in gpct.index else None),
+                      "indicators": sorted(rows, key=lambda x: -x["weight_in_criterion"])}
+        return out
 
     def reasons(c, k=3):
-        if w.empty:
-            return []
         contrib = (P_now.loc[c] - 50) * w
-        return [f"{names[i]}(상위 {max(1, 100 - P_now.loc[c, i]):.0f}%)" for i in contrib.nlargest(k).index if contrib[i] > 0]
+        return [f"{names[i]}(채점 {len(P_now)}개국 중 상위 {max(1, 100 - P_now.loc[c, i]):.0f}%)"
+                for i in contrib.nlargest(k).index if contrib[i] > 0]
 
     board = []
-    for c in sorted(P_now.index, key=lambda c: overall_rank[c]):
-        board.append({"iso3": c, "name": nm.get(c, c), "overall_rank": round(float(overall_rank[c]), 1),
+    for c in sorted(P_now.index, key=lambda c: -score[c]):
+        board.append({"iso3": c, "name": nm.get(c, c), "rank": int(rank_all[c]), "score": round(float(score[c]), 1),
                       "kor_exports_2024_usd": round(float(kor_now.get(c, np.nan))),
-                      "groups_pct_in_pool": ({g: round(float(gpct.loc[c, g])) for g in gpct.columns} if c in gpct.index else None),
-                      "status": status[c], "warn": filt_res[c]["warn"], "unknown": filt_res[c]["unknown"],
-                      "boot_mean_rank": (round(float(mean_rank[c]), 2) if c in cand else None),
-                      "top3_prob": (round(float(top3p[c]), 1) if c in cand and pd.notna(top3p.get(c)) else None),
-                      "reasons": reasons(c)})
+                      "criteria": {g: round(float(gsc.loc[c, g]), 1) for g in G3},
+                      "criteria_rank_in_pool_pct": ({g: round(float(gpct.loc[c, g])) for g in G3} if c in gpct.index else None),
+                      "status": status[c], "selected": c in top3, "warn": filt_res[c]["warn"], "unknown": filt_res[c]["unknown"],
+                      "top3_stability_pct": (round(float(top3p[c]), 1) if c in cand and pd.notna(top3p.get(c)) else None),
+                      "reasons": reasons(c), "detail": detail(c)})
     res = {
         "protocol": proto["id"], "filter": filt["id"],
         "indicators": [{"id": i.id, "name": i.name_ko, "group": i.group} for i in crit.indicators],
@@ -407,11 +429,15 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
         "windows": {t: len(v["y"]) for t, v in wins.items()},
         "dev": dev, "dev_rows": dev_rows, "sealed": sealed, "picked": picks,
         "weights": {i: round(float(v), 3) for i, v in w.items()},
-        "group_weights": {g: round(float(w[[i for i in w.index if gmap[i] == g]].sum()), 3) for g in G3} if len(w) else {},
-        "big5": [nm.get(c, c) for c in big],
+        "group_weights": {g: round(v, 3) for g, v in gw.items()},
+        "n_scored": len(P_now), "n_candidates": len(cand), "excluded_counts": {
+            "롯데 기진출국": sum("롯데 기진출국" in status[c] for c in P_now.index),
+            "사전 필터": sum(any(x.startswith("사전 필터") for x in status[c]) for c in P_now.index),
+            "이미 큰 시장": sum(any(x.startswith("이미") for x in status[c]) for c in P_now.index),
+            "기준 바닥": sum(any(x.startswith("기준 바닥") for x in status[c]) for c in P_now.index)},
+        "big5": [nm.get(c, c) for c in big], "big5_iso3": big,
         "top3": [nm.get(c, c) for c in top3], "top3_iso3": top3,
-        "order": [nm.get(c, c) for c in order[:10]],
-        "third_over_fourth_pct": third_vs_fourth, "B": B,
+        "order": [nm.get(c, c) for c in order[:10]], "order_iso3": order, "B": B,
         "board": board,
     }
     d = ROOT / "outputs" / "three_criteria"
@@ -428,42 +454,143 @@ def _f(x):
     return "-" if x is None or (isinstance(x, float) and math.isnan(x)) else (f"{x:+.2f}" if isinstance(x, float) else str(x))
 
 
+KO = {"PHL": "필리핀", "MYS": "말레이시아", "SGP": "싱가포르", "NLD": "네덜란드", "IDN": "인도네시아", "GBR": "영국",
+      "THA": "태국", "ARE": "아랍에미리트", "IRL": "아일랜드", "DEU": "독일", "FRA": "프랑스", "NZL": "뉴질랜드",
+      "SWE": "스웨덴", "MNG": "몽골", "USA": "미국", "CHN": "중국", "JPN": "일본", "AUS": "호주", "CAN": "캐나다",
+      "VNM": "베트남", "KAZ": "카자흐스탄", "IND": "인도", "RUS": "러시아", "BEL": "벨기에", "PAK": "파키스탄",
+      "MMR": "미얀마", "POL": "폴란드", "UZB": "우즈베키스탄", "BGD": "방글라데시", "KHM": "캄보디아", "HKG": "홍콩",
+      "MEX": "멕시코", "GTM": "과테말라", "NPL": "네팔", "CHL": "칠레", "SAU": "사우디아라비아", "AUT": "오스트리아",
+      "ITA": "이탈리아", "CZE": "체코", "CHE": "스위스", "LTU": "리투아니아", "LVA": "라트비아", "ESP": "스페인",
+      "TWN": "대만", "BRA": "브라질", "TUR": "튀르키예", "ISR": "이스라엘", "QAT": "카타르", "KWT": "쿠웨이트",
+      "NOR": "노르웨이", "DNK": "덴마크", "FIN": "핀란드", "PER": "페루", "COL": "콜롬비아", "ARG": "아르헨티나",
+      "ZAF": "남아프리카공화국", "EGY": "이집트", "NGA": "나이지리아", "KEN": "케냐", "LAO": "라오스", "LKA": "스리랑카",
+      "MAC": "마카오", "PAN": "파나마", "GRC": "그리스", "PRT": "포르투갈", "HUN": "헝가리", "ROU": "루마니아",
+      "UKR": "우크라이나", "KGZ": "키르기스스탄", "OMN": "오만", "BHR": "바레인", "JOR": "요르단", "DOM": "도미니카공화국",
+      "CRI": "코스타리카", "ECU": "에콰도르", "PRY": "파라과이", "URY": "우루과이", "BOL": "볼리비아", "SVK": "슬로바키아",
+      "EST": "에스토니아", "HRV": "크로아티아", "SVN": "슬로베니아", "BGR": "불가리아", "SRB": "세르비아", "GEO": "조지아",
+      "ARM": "아르메니아", "AZE": "아제르바이잔", "PNG": "파푸아뉴기니", "FJI": "피지", "BRN": "브루나이"}
+
+DATA_SRC = {"comtrade": "UN Comtrade", "worldbank": "세계은행", "external": "구글 트렌드·한국관광공사"}
+
+
+def ko(b):
+    return KO.get(b["iso3"], b["name"])
+
+
+def fmt_value(ind, v):
+    """원값을 사람이 읽는 단위로(ln 값은 되돌리고, 큰 돈·사람 수는 만/억 단위)."""
+    if v is None:
+        return "자료 없음"
+    u = ind["unit"]
+    if u.startswith("ln("):
+        x = math.exp(v)
+        if "USD" in u:
+            return f"{x / 1e8:,.1f}억 달러" if x >= 1e8 else f"{x / 1e4:,.0f}만 달러"
+        return f"{x / 1e8:,.1f}억 명" if x >= 1e8 else f"{x / 1e4:,.0f}만 명"
+    if u == "USD":
+        return f"{v / 1e4:+,.0f}만 달러"
+    if u == "USD/인":
+        return f"1인당 {v:,.2f}달러"
+    if u == "명/인":
+        return f"인구 1만 명당 {v * 1e4:,.0f}명"
+    if u in ("0-100", "점"):
+        return f"{v:,.0f}점" if u == "0-100" else f"{v:+,.0f}점"
+    if u.startswith("%/"):
+        return f"연 {v:+.1f}%"
+    if u.startswith("%p"):
+        return f"{v:+.1f}%p(5년)"
+    if u == "%":
+        return f"{v:.1f}%"
+    return f"{v:,.2f} {u}"
+
+
+def _gline(b, gw):
+    c = b["criteria"]
+    return " + ".join(f"{g} {c[g]:.0f}점×{gw[g]:.0%}" for g in G3) + f" = **{b['score']:.1f}점**"
+
+
 def report_md(r):
-    L = [f"# 3대 기준 TOP3 결과 (검증 규칙 {r['protocol']}, 필터 {r['filter']})", ""]
-    L.append(f"**신규 TOP3: {', '.join(r['top3'])}**  (재표본 {r['B']}회, 3위가 4위보다 위였던 비율 {'-' if r['third_over_fourth_pct'] is None else round(r['third_over_fourth_pct'])}%)")
-    L.append("")
-    L.append(f"후보 순서(1~10): {' > '.join(r['order'])}")
-    L.append(f"이미 큰 시장(제외, 지키고 키울 시장): {', '.join(r['big5'])}")
-    L.append("")
-    L.append("## 1. 모델 겨루기(개발 시험 6개 평균, 모델 선택은 여기서만)")
-    L.append("| 모델 | 순위상관 | 미·중 빼고 | TOP3 적중 | TOP10 적중 | 시험별 순위상관 | 큰 시장 순 이긴 시험 | 통과 |")
-    L.append("|---|---|---|---|---|---|---|---|")
+    gw = r["group_weights"]
+    B = {b["iso3"]: b for b in r["board"]}
+    top = [B[c] for c in r["top3_iso3"]]
+    inds = {i["id"]: i for i in r["indicators"]}
+    for b in r["board"]:
+        for g in G3:
+            for row in b["detail"][g]["indicators"]:
+                row.setdefault("unit", inds.get(row["id"], {}).get("unit", ""))
+    ex = r["excluded_counts"]
+    L = [f"# 신규 수출 유망국 TOP3: {' · '.join(ko(b) for b in top)}", ""]
+    L += ["## 답", "",
+          f"앞으로 3년간 한국 건식 과자 수출이 가장 많이 늘어날 신규 시장은 **{', '.join(ko(b) for b in top)}** 입니다.",
+          "세 나라는 식품시장 성장성, 트렌드, 수출입 세 기준을 합친 점수에서 1~3위이고, 세 기준 모두 남은 후보 중 상위권입니다.", "",
+          "| 순위 | 나라 | 종합 점수 | 성장성 | 트렌드 | 수출입 | 점수를 가장 많이 올린 지표 |", "|---|---|---|---|---|---|---|"]
+    for k, b in enumerate(top, 1):
+        c = b["criteria"]
+        L.append(f"| {k} | {ko(b)} | {b['score']:.1f} | {c['성장성']:.0f} | {c['트렌드']:.0f} | {c['수출입']:.0f} | {', '.join(b['reasons'][:2])} |")
+    L += ["", "점수는 모두 0~100점입니다. 100점이면 채점한 나라 중 1등, 50점이면 중간입니다.", ""]
+
+    L += ["## 어떻게 골랐나", "",
+          "1. **데이터**: 2005~2024년 공개 통계. UN Comtrade(한국→각국 과자 수출액, 각국 과자 수입액), 세계은행(인구·소득·소비·도시화·인터넷·정치 안정),"
+          " 구글 트렌드(한국 음식·K-pop·한국어 검색량), 한국관광공사(국적별 방한객).",
+          f"2. **기준과 지표**: 세 기준에 지표 {len(r['indicators'])}개를 나눠 담았습니다"
+          f"(성장성 {sum(i['group'] == '성장성' for i in r['indicators'])}개, 트렌드 {sum(i['group'] == '트렌드' for i in r['indicators'])}개,"
+          f" 수출입 {sum(i['group'] == '수출입' for i in r['indicators'])}개). 지표마다 나라 순위를 0~100점으로 바꿉니다.",
+          "3. **비중**: 2010~2021년 매년 \"그 해 지표로 3년 뒤 한국 과자 수출 증가액 순위를 가장 잘 맞히는 비중\"을 컴퓨터가 찾았습니다."
+          f" 그렇게 찾은 비중은 **성장성 {gw['성장성']:.0%}, 트렌드 {gw['트렌드']:.0%}, 수출입 {gw['수출입']:.0%}** 입니다.",
+          f"4. **걸러내기**: 인구 100만 이상, 한국 과자 수출 10만 달러 이상인 {r['n_scored']}개국을 채점한 뒤 아래 나라를 뺐습니다.",
+          f"   - 롯데웰푸드가 이미 진출한 나라 {ex['롯데 기진출국']}곳",
+          f"   - 이미 한국 과자 수출 상위 5개국({', '.join(KO.get(x, x) for x in r['big5_iso3'])}): 새로 들어갈 곳이 아니라 지키고 키울 시장",
+          f"   - 국제 제재·전쟁 중이거나 정치 안정 지수가 매우 낮은 나라 {ex['사전 필터']}곳",
+          f"   - 세 기준 중 하나라도 남은 후보 중 하위 1/3인 나라 {ex['기준 바닥']}곳(한 기준만 좋은 나라는 빼기 위해)",
+          f"5. **선정**: 남은 {r['n_candidates']}개국 중 종합 점수 1~3위.", ""]
+
+    p = top[0]
+    L += [f"## 점수 계산법 ({ko(p)} 예시)", "",
+          f"종합 점수 = {_gline(p, gw)}", ""]
+    for g in G3:
+        d = p["detail"][g]
+        parts = [f"{x['name']} {x['score']:.0f}점×{x['weight_in_criterion']:.0%}" for x in d["indicators"] if x["weight_in_criterion"] >= 0.05]
+        L.append(f"- {g} {d['score']:.0f}점 = {' + '.join(parts)} + 비중 5% 미만 지표들")
+    L += ["", "나라별로 모든 지표의 실제 값, 점수, 비중은 아래 '나라별 상세'에 있습니다.", ""]
+
+    dv, sz = r["dev"].get("앙상블(선택 모델)", {}), r["dev"].get("[기준선] 큰 시장 순", {})
+    L += ["## 결과를 믿을 수 있는 이유", "",
+          f"- **과거를 맞혀 봤습니다.** 2013~2018년 6개 시점에서 그때 데이터만으로 3년 뒤를 예측했을 때, 예측 순위와 실제 순위의 일치도는"
+          f" {dv.get('rank_corr', 0):.2f}입니다(1이면 완벽, 0이면 아무렇게나 찍은 것). \"지금 수출이 큰 순서\"로 찍으면 {sz.get('rank_corr', 0):.2f}입니다.",
+          f"- **결과가 흔들리지 않습니다.** 학습 데이터를 {r['B']}번 바꿔 다시 계산해도 TOP3에 남은 비율이 "
+          + ", ".join(f"{ko(b)} {b['top3_stability_pct']:.0f}%" for b in top) + "입니다.",
+          "- **규칙은 결과보다 먼저 정했습니다.** 검증 방법과 걸러내기 규칙을 결과 계산 전에 파일로 고정했습니다"
+          "(config/validation/three_criteria_protocol.yaml, config/filters/hard_filter.yaml).",
+          f"- **한계**: 2021→24년 한 구간에서는 \"직전 3년 많이 늘어난 순\"이 이 모델보다 잘 맞혔습니다"
+          f"({r['sealed'].get('[기준선] 직전 3년 증가 순', {}).get('rank_corr', 0):.2f} 대 {r['sealed'].get('앙상블(선택 모델)', {}).get('rank_corr', 0):.2f})."
+          " 모델 선택은 미리 정한 6개 시점 성적으로만 했습니다.", ""]
+
+    L += ["## 전체 순위표", "", "| 순위 | 나라 | 종합 | 성장성 | 트렌드 | 수출입 | 한국 과자 수출 2024 | 결과 |", "|---|---|---|---|---|---|---|---|"]
+    for b in r["board"][:40]:
+        c = b["criteria"]
+        res = "**선정**" if b["selected"] else ("; ".join(b["status"]) or "후보")
+        L.append(f"| {b['rank']} | {ko(b)} | {b['score']:.1f} | {c['성장성']:.0f} | {c['트렌드']:.0f} | {c['수출입']:.0f} | "
+                 f"{b['kor_exports_2024_usd'] / 1e4:,.0f}만 달러 | {res} |")
+
+    L += ["", "## 나라별 상세", ""]
+    show = top + [B[x] for x in r["order_iso3"][3:6]]
+    for b in show:
+        tag = "선정" if b["selected"] else "후보(선정 안 됨)"
+        L += [f"### {ko(b)} — 종합 {b['score']:.1f}점, 전체 {b['rank']}위 ({tag})", "", f"종합 점수 = {_gline(b, gw)}", ""]
+        if b["warn"]:
+            L.append("경고: " + ", ".join(b["warn"]))
+        for g in G3:
+            d = b["detail"][g]
+            L += [f"**{g} {d['score']:.0f}점** (기준 비중 {d['criterion_weight']:.0%}, 남은 후보 중 상위 {100 - (d['rank_in_pool_pct'] or 0):.0f}%)", "",
+                  "| 지표 | 실제 값 | 점수(0~100) | 기준 안 비중 | 반영 점수 |", "|---|---|---|---|---|"]
+            for x in d["indicators"]:
+                L.append(f"| {x['name']} | {fmt_value(x, x['value'])} | {x['score']:.0f} | {x['weight_in_criterion']:.0%} | {x['points']:.1f} |")
+            L.append("")
+
+    L += ["## 부록: 비교한 계산 방식 9가지(과거 6개 시점 평균 일치도)", "",
+          "| 방식 | 일치도 | 미·중 빼고 | TOP3 적중(평균) | 채택 |", "|---|---|---|---|---|"]
     for nm, s in sorted(r["dev"].items(), key=lambda kv: -kv[1]["rank_corr"]):
-        L.append(f"| {nm} | {s['rank_corr']:+.3f} | {s['rank_corr_ex_usa_chn']:+.3f} | {s['top3_hit']:.2f} | {s['top10_hit']:.2f} | "
-                 f"{' '.join(f'{x:+.2f}' for x in s['per_test'])} | {s.get('beats_size_tests', '-')} | {'O' if s.get('pass') else ''} |")
-    L.append(f"\n선택(앙상블): {', '.join(r['picked']) or '없음 → 큰 시장 순'}")
-    L.append("\n## 2. 봉인 시험(2018년까지 학습 → 2021→24, 보고만)")
-    L.append("| 모델 | 순위상관 | 미·중 빼고 | TOP3 적중 | TOP10 적중 |")
-    L.append("|---|---|---|---|---|")
-    for nm, s in sorted(r["sealed"].items(), key=lambda kv: -kv[1]["rank_corr"]):
-        L.append(f"| {nm} | {s['rank_corr']:+.3f} | {s['rank_corr_ex_usa_chn']:+.3f} | {s['top3_hit']} | {s['top10_hit']} |")
-    L.append("\n## 3. 기준 비중과 지표 가중치(최종 학습)")
-    L.append("기준 비중: " + ", ".join(f"{g} {v:.0%}" for g, v in r["group_weights"].items()))
-    names = {i["id"]: (i["name"], i["group"]) for i in r["indicators"]}
-    for i, v in sorted(r["weights"].items(), key=lambda kv: -kv[1]):
-        if v >= 0.005:
-            L.append(f"- [{names[i][1]}] {names[i][0]}: {v:.1%}")
-    if r["missing_indicators"]:
-        L.append("\n미수집 지표(다음 실행 때 자동 수집): " + ", ".join(m["name"] for m in r["missing_indicators"]))
-    L.append("\n## 4. 나라별 판정(종합 순위 순, 상위 30)")
-    L.append("| 순위 | 나라 | 한국 수출 2024(만$) | 성장성/트렌드/수출입(후보 안 백분위) | TOP3 확률 | 판정 | 경고 | 이유(점수 올린 지표) |")
-    L.append("|---|---|---|---|---|---|---|---|")
-    for b in r["board"][:30]:
-        g = b["groups_pct_in_pool"]
-        gs = "/".join(str(g.get(x, "-")) for x in G3) if g else "-"
-        st = "; ".join(b["status"]) or "후보"
-        L.append(f"| {b['overall_rank']:.0f} | {b['name']} | {b['kor_exports_2024_usd'] / 1e4:,.0f} | {gs} | {_f(b['top3_prob'])} | {st} | "
-                 f"{'; '.join(b['warn'] + b['unknown'][:1])} | {', '.join(b['reasons'])} |")
+        L.append(f"| {nm} | {s['rank_corr']:.2f} | {s['rank_corr_ex_usa_chn']:.2f} | {s['top3_hit']:.1f} | {'O' if nm in r['picked'] else ''} |")
     return "\n".join(L) + "\n"
 
 

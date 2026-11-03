@@ -17,24 +17,24 @@
    "name": "Netherlands"
   },
   {
-   "iso3": "IDN",
-   "name": "Indonesia"
-  },
-  {
    "iso3": "GBR",
    "name": "United Kingdom"
+  },
+  {
+   "iso3": "IDN",
+   "name": "Indonesia"
   },
   {
    "iso3": "THA",
    "name": "Thailand"
   },
   {
-   "iso3": "ARE",
-   "name": "United Arab Emirates"
+   "iso3": "UZB",
+   "name": "Uzbekistan"
   },
   {
-   "iso3": "IRL",
-   "name": "Ireland"
+   "iso3": "ARE",
+   "name": "United Arab Emirates"
   },
   {
    "iso3": "DEU",
@@ -43,10 +43,6 @@
   {
    "iso3": "NZL",
    "name": "New Zealand"
-  },
-  {
-   "iso3": "FRA",
-   "name": "France"
   },
   {
    "iso3": "SWE",
@@ -63,6 +59,10 @@
   {
    "iso3": "CHL",
    "name": "Chile"
+  },
+  {
+   "iso3": "OMN",
+   "name": "Oman"
   }
  ]
 }
