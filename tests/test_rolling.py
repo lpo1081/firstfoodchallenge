@@ -50,3 +50,12 @@ def test_combine_options_and_top_probability():
     assert all(0 <= p <= 100 for p in probs)
     assert {c["tier"] for c in out["forecast_XX"]} == {"큰 시장", "중간 시장", "작은 시장"}
     assert min(c["tier_rank"] for c in out["forecast_XX"] if c["tier"] == "작은 시장") == 1
+
+
+def test_local_market_axis_uses_total_imports_as_target():
+    panel, countries = synthetic()
+    crit = load_criterion("local_market")
+    out = rolling.run(panel, countries, crit, "dry_confectionery", starts=(2010, 2013, 2016, 2019), forecast_year=2022, top_prob_B=0)
+    c = out["forecast_XX"][0]
+    assert c["target_base_usd"] != c["kor_exports_usd"]  # 정답·체급 기준이 한국 수출이 아니라 전체 수입
+    assert "korea_exports_size" not in out["XX"]

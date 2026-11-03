@@ -41,6 +41,11 @@ def target(panel, category, crit, t):
     return y, start
 
 
+def _min_base(u):
+    """정답 시리즈의 기준연도 값 하한. 옛 이름(min_korea_exports_usd)도 그대로 받는다."""
+    return u.get("min_target_base_usd", u.get("min_korea_exports_usd", 0))
+
+
 def window_matrix(panel, countries, crit, category, t):
     raw = compute_all(panel, crit.indicators, category, t)
     y, base = target(panel, category, crit, t)
@@ -49,7 +54,7 @@ def window_matrix(panel, countries, crit, category, t):
     popt = pop[t] if t in pop.columns else pop.iloc[:, -1]
     ok = raw.index.intersection(countries.iso3).difference(u.get("exclude_iso3", []))
     ok = [c for c in ok if popt.get(c, 0) >= u.get("min_population", 0)
-          and base.get(c, 0) >= u.get("min_korea_exports_usd", 0) and pd.notna(y.get(c))]
+          and base.get(c, 0) >= _min_base(u) and pd.notna(y.get(c))]
     raw = raw.loc[ok]
     raw = raw[raw.notna().sum(axis=1) >= u.get("min_indicator_coverage", 1)]
     pct = pd.DataFrame({i.id: (raw[i.id] * i.direction).rank(pct=True) * 100 for i in crit.indicators},
@@ -173,10 +178,13 @@ def run(panel, countries, crit, category, starts=(2012, 2015, 2018, 2021), forec
     u = crit.universe
     pop = _wide(panel, "WB:SP.POP.TOTL")
     popn = pop.ffill(axis=1).iloc[:, -1]
-    kor = _wide(panel, f"CT:{category}:KOR_X")
-    korn = _avg(kor[[c for c in kor.columns if c <= forecast_year]], forecast_year, 2)
+    def latest(series):
+        w = _wide(panel, f"CT:{category}:{series}")
+        return _avg(w[[c for c in w.columns if c <= forecast_year]], forecast_year, 2) if len(w.columns) else pd.Series(dtype=float)
+    korn = latest("KOR_X")                                   # 표시용: 한국 수출
+    tbase = latest(crit.target.get("series", "KOR_X"))      # 거르기·체급용: 정답 시리즈(예: M = 전체 수입)
     ok = raw_now.index.intersection(countries.iso3).difference(u.get("exclude_iso3", []))
-    ok = [c for c in ok if popn.get(c, 0) >= u.get("min_population", 0) and korn.get(c, 0) >= u.get("min_korea_exports_usd", 0)]
+    ok = [c for c in ok if popn.get(c, 0) >= u.get("min_population", 0) and tbase.get(c, 0) >= _min_base(u)]
     raw_now = raw_now.loc[ok]
     raw_now = raw_now[raw_now.notna().sum(axis=1) >= u.get("min_indicator_coverage", 1)]
     pct_now = pd.DataFrame({i.id: (raw_now[i.id] * i.direction).rank(pct=True) * 100 for i in crit.indicators},
@@ -187,12 +195,12 @@ def run(panel, countries, crit, category, starts=(2012, 2015, 2018, 2021), forec
     prob = top_probability(wins[-1]["pct"], wins[-1]["y"], pct_now, B=B) if B else {}
 
     ntier = crit.extra.get("tiers", 0)
-    tier = tiers_of(korn.reindex(pct_now.index).fillna(0), ntier) if ntier else pd.Series(dtype=object)
+    tier = tiers_of(tbase.reindex(pct_now.index).fillna(0), ntier) if ntier else pd.Series(dtype=object)
 
     def board(w):
         s = (pct_now @ w).sort_values(ascending=False)
         out = [{"iso3": c, "name": nm.get(c, c), "score": round(float(v), 1), "existing": c in existing,
-                "kor_exports_usd": float(korn.get(c, np.nan)), **({"prob": prob[c]} if c in prob else {}),
+                "kor_exports_usd": float(korn.get(c, np.nan)), "target_base_usd": float(tbase.get(c, np.nan)), **({"prob": prob[c]} if c in prob else {}),
                 **({"tier": tier[c]} if c in tier else {})} for c, v in s.items()]
         seen = {}
         for r in out:  # 체급 안 순위

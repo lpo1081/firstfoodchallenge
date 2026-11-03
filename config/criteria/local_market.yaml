@@ -1,0 +1,126 @@
+# 축 2: 현지 시장 성장성 (2026-11-03, 형님: 현지생산·인수 진출도 판단해야 함)
+# 정답 = 3년 뒤 그 나라 과자 '전체 수입'(원산지 무관) 증가액. 축 1(k_export, 한국 수출 증가)과 같은 롤링 역산.
+# 한국 특화 지표(한국 수출 규모·성장률·비중)는 빼고, 시장 자체 지표 + 한류 관심(현지 K-브랜드 수요)만 둔다.
+# 한계: 현지 생산량 데이터가 없어 '수입 증가'를 시장 성장의 대리값으로 쓴다(수입 비중 낮은 인도 등은 과소평가 가능).
+# min_target_base_usd: 기준연도 과자 수입 100만 달러 미만 국가는 증가액이 노이즈라 제외.
+id: local_market
+name_ko: 현지 시장 성장성 (원산지 무관, 현지생산·인수 판단용)
+universe:
+  min_population: 1000000
+  exclude_iso3:
+  - KOR
+  min_indicator_coverage: 7
+  min_target_base_usd: 1000000
+benchmarks:
+  momentum: import_market_cagr
+  size_only: import_market_size
+tiers: 3
+min_window_n: 15
+target:
+  series: M
+  horizon: 3
+  kind: abs
+indicators:
+- id: import_market_size
+  group: 성장성
+  name_ko: 수입시장 규모
+  source: comtrade
+  flow: M
+  transform: level_log
+  window: 3
+  direction: 1
+  weight: 0.1
+  unit: ln(USD)
+- id: import_market_cagr
+  group: 성장성
+  name_ko: 수입시장 성장률
+  source: comtrade
+  flow: M
+  transform: cagr
+  window: 5
+  smooth: 3
+  direction: 1
+  weight: 0.1
+  unit: '%/년'
+- id: hh_consumption_pc_cagr
+  group: 성장성
+  name_ko: 1인당 실질 가계소비 성장률
+  source: worldbank
+  series: NE.CON.PRVT.PC.KD
+  transform: cagr
+  window: 5
+  smooth: 3
+  direction: 1
+  weight: 0.1
+  unit: '%/년'
+- id: population_size
+  group: 성장성
+  name_ko: 인구 규모
+  source: worldbank
+  series: SP.POP.TOTL
+  transform: level_log
+  window: 1
+  direction: 1
+  weight: 0.1
+  unit: ln(명)
+- id: youth_share
+  group: 소비트렌드
+  name_ko: 유소년(0-14세) 비중
+  source: worldbank
+  series: SP.POP.0014.TO.ZS
+  transform: level
+  window: 1
+  direction: 1
+  weight: 0.1
+  unit: '%'
+- id: urbanization_change
+  group: 소비트렌드
+  name_ko: 도시화 진행 속도
+  source: worldbank
+  series: SP.URB.TOTL.IN.ZS
+  transform: diff
+  window: 5
+  direction: 1
+  weight: 0.1
+  unit: '%p/5년'
+- id: gdp_pc_ppp
+  group: 소비트렌드
+  name_ko: 1인당 GDP(PPP)
+  source: worldbank
+  series: NY.GDP.PCAP.PP.KD
+  transform: level_log
+  window: 1
+  direction: 1
+  weight: 0.1
+  unit: ln(USD)
+- id: import_pc_cagr
+  group: 소비트렌드
+  name_ko: 1인당 수입 증가율
+  source: comtrade
+  flow: M
+  transform: per_capita_cagr
+  window: 5
+  smooth: 3
+  direction: 1
+  weight: 0.1
+  unit: '%/년'
+- id: kpop_interest
+  name_ko: K-pop 검색 관심도
+  group: 소비트렌드
+  source: external
+  series: gtrends_kpop
+  transform: level
+  window: 3
+  direction: 1
+  unit: 0-100
+  weight: 0.1
+- id: kfood_interest
+  name_ko: 한국 음식 검색 관심도
+  group: 소비트렌드
+  source: external
+  series: gtrends_kfood
+  transform: level
+  window: 3
+  direction: 1
+  unit: 0-100
+  weight: 0.1

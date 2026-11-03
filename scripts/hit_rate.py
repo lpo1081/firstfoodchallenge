@@ -39,6 +39,10 @@ INDEP_FITS = (SEAL_FIT - 2 * H, SEAL_FIT - H, SEAL_FIT)   # 2012, 2015, 2018
 WHO = ("model", "trend", "size", "random")
 
 
+def SIZE_COL(P):
+    return "korea_exports_size" if "korea_exports_size" in P else "import_market_size"
+
+
 def windows(crit_id, kind, countries):
     raw = load_criterion_raw(crit_id)
     raw["target"] = dict(raw.get("target", {}), kind=kind)
@@ -56,14 +60,14 @@ def pairs(wins, name, only=None, exclude=(), tier=None):
         if s not in wins:
             continue
         P, y = wins[s]["pct"], wins[s]["y"]
-        tr = rolling.tiers_of(P["korea_exports_size"], 3) if tier else None
+        tr = rolling.tiers_of(P[SIZE_COL(P)], 3) if tier else None
         keep = [c for c in P.index if c not in exclude and (not only or c in only) and (not tier or tr[c] == tier)]
         P, y = P.loc[keep], y.loc[keep]  # 지표 백분위는 전체 국가 기준 그대로, 순위 비교만 부분집합
         n = len(y)
         preds = {
             "model": pd.Series(P.to_numpy() @ wins[t]["w"], index=P.index),
             "trend": wins[t]["y"].reindex(P.index),            # 직전 3년(t→s) 정답 = 단순 추세
-            "size": P["korea_exports_size"] if "korea_exports_size" in P else None,  # 큰 시장 순으로 찍기
+            "size": P[SIZE_COL(P)],  # 큰 시장 순으로 찍기(한국 수출 규모, 없으면 수입시장 규모)
         }
         rec = {"fit": t, "test": f"{s}->{s + H}", "n": n, "sealed": t == SEAL_FIT}
         rec["rank_corr"] = round(float(preds["model"].rank().corr(y.rank())), 3)
@@ -125,7 +129,7 @@ def main():
     print(f"봉인 구간: {SEAL_FIT}년 가중치 → {SEAL_FIT + H}->{SEAL_FIT + 2 * H}, 독립 구간: {list(INDEP_FITS)}")
     for c in crits:
         sel = load_criterion_raw(c).get("selection", {})
-        sealed_ok = c == "k_export" or sel.get("last_start", 9999) <= SEAL_FIT
+        sealed_ok = not c.endswith("_agent") or sel.get("last_start", 9999) <= SEAL_FIT  # 사람이 정한 지표 세트는 선택 누수 없음
         res["criteria"][c] = {"sealed_valid": sealed_ok, "scenarios": {}}
         if not sealed_ok:
             print(f"\n!! {c}: 지표 선택이 봉인 구간을 본 상태(selection.last_start={sel.get('last_start')}). "
@@ -155,7 +159,8 @@ def main():
                     print(f"   {r['fit']}→{r['test']}{tag}: 모델 TOP3 {r['model_top3']} (실제 {r['model_top3_actual_rank']}등) | 실제 {r['actual_top3']}")
     d = ROOT / "outputs" / "hit_rate"
     d.mkdir(parents=True, exist_ok=True)
-    (d / ("hit_rate_existing.json" if only else "hit_rate.json")).write_text(json.dumps(res, ensure_ascii=False, indent=1))
+    stem = ("hit_rate_existing" if only else "hit_rate") + ("" if crits == ["k_export", "k_export_agent"] else "__" + "_".join(crits))
+    (d / f"{stem}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":
