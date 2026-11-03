@@ -140,8 +140,10 @@ def build_data(res: dict, cfg: dict, cards: dict, board_red: dict, impact: list 
         "total": len(res["board"]), "cnt": cnt, "cands": cands, "out": out, "detail": detail,
         "big5": [ko.get(x, x) for x in (res.get("big5_iso3") or [])],
         "dec": dec, "red": red, "impact": {x["iso3"]: x for x in (impact or [])}, "impact_note": cfg.get("impact_note", ""), "gaps": cfg.get("gaps", []), "groups_ind": gi,
-        "xc": cfg.get("crosscheck", {}),
-        "val": {"dev": {k: pick(dev, k) for k in (E, S, T)}, "sealed": {k: pick(sealed, k) for k in (E, S, T)},
+        "xc": cfg.get("crosscheck", {}), "evidence": cfg.get("evidence", {}),
+        "crit_text": cfg.get("criteria_text", {}), "notes": cfg.get("indicator_notes", {}),
+        "indicators": res["indicators"], "weights": res.get("weights", {}),
+        "val": {"dev": {k: pick(dev, k) for k in (E, S, T)}, "n_dev": len(res.get("dev_rows", [])), "sealed": {k: pick(sealed, k) for k in (E, S, T)},
                 "B": B, "gw": res.get("group_weights", {}), "windows": len(res.get("windows", {})),
                 "n_all": res.get("n_scored") or len(res["board"])},
     }
