@@ -1,0 +1,22 @@
+# costs.yaml(진출 비용 모듈)에 없는 나라의 확인된 비용 항목. 규칙값(protocol.yaml stage4.fallback_costs)을 덮어쓴다.
+# 비용 '규칙'이 아니라 '사실' 교체라 결과를 본 뒤 채워도 규칙 변경이 아님(2026-11-03, 깔때기 4단계 진입국 중 상위권부터).
+# 확인 못 한 항목은 적지 않는다(규칙값 유지). 단위는 costs.yaml 과 같음(억원, 비율).
+countries:
+  AUS:
+    tariff_mfn: 0.05        # 확인: HS 1905.31 일반세율 5% (treayo.com/en/hs/australia/19053100)
+    tariff_korea: 0.0       # 확인(세율): 한-호주 FTA(2014-12-12 발효), 호주는 발효 시 또는 최장 8년에 걸쳐 한국산 관세 철폐
+                            #   (호주 의회 조약위원회 NIA 24항, https://www.aph.gov.au/-/media/Committees/Joint/Treaties/13May2014/Korea-NIA.pdf)
+                            #   원산지 미확인: 1905 품목별 원산지 기준(수입 밀가루 사용 시 FTA 세율 적용 여부)은 사람 확인
+    kcci_route: 4916        # 확인: KCCI 오세아니아 항로 2026-10-26 주간(costs.yaml 과 같은 기사, https://fnnews.com/news/202610271639139084)
+    extra_language: false   # 영어 라벨
+    registration_per_sku: 0.0    # 일반 식품 사전 제품등록 없음(FSANZ 기준 준수, 수입식품검사제도로 위험 기반 검사)
+    halal_required: false
+    halal_one_time: 0.0
+    annual_fixed: 0.03
+    prep_months: 1
+    crp: 0.0                # 확인: Damodaran 2026-01 Aaa, 국가위험 프리미엄 0%
+  NLD: {crp: 0.0}           # 확인: Damodaran 2026-01 Aaa
+  DEU: {crp: 0.0}           # 확인: Damodaran 2026-01 Aaa
+  IRL: {crp: 0.0078}        # 확인: Damodaran 2026-01 Aa3
+  THA: {crp: 0.0207}        # 확인: Damodaran 2026-01 Baa1
+  IDN: {crp: 0.0246}        # 확인: Damodaran 2026-01 Baa2

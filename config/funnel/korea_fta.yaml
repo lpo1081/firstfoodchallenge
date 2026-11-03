@@ -1,0 +1,24 @@
+# 3대 기준 v2(PR #16)와 같은 표의 사본. 이 패키지가 그 PR 머지 여부와 상관없이 돌도록 따로 둔다.
+# 한국 FTA 발효 연도(상품 관세 인하 시작). 나라별로 가장 이른 발효 연도. 2026-11-03 확인.
+# 출처: 산업통상자원부 FTA 강국 KOREA(fta.go.kr), Wikipedia "Free trade agreements of South Korea"(발효일 표).
+# 지표 korea_fta_years = t년 기준 발효 후 경과 연수(발효 전 0, 최대 10: 관세 인하가 대개 10년 안에 끝나므로).
+source: https://en.wikipedia.org/wiki/Free_trade_agreements_of_South_Korea
+groups:
+  chile: {year: 2004, iso3: [CHL]}
+  singapore: {year: 2006, iso3: [SGP]}
+  efta: {year: 2006, iso3: [CHE, NOR, ISL, LIE]}
+  asean_goods: {year: 2007, iso3: [BRN, KHM, IDN, LAO, MYS, MMR, PHL, VNM]}   # 한-아세안 상품협정 2007.6
+  asean_thailand: {year: 2010, iso3: [THA]}                                    # 태국은 2009년 서명, 2010년 발효
+  india: {year: 2010, iso3: [IND]}
+  eu: {year: 2011, iso3: [AUT, BEL, BGR, CYP, CZE, DEU, DNK, ESP, EST, FIN, FRA, GBR, GRC, HUN, IRL, ITA, LTU, LUX, LVA, MLT, NLD, POL, PRT, ROU, SVK, SVN, SWE]}
+  eu_croatia: {year: 2013, iso3: [HRV]}
+  peru: {year: 2011, iso3: [PER]}
+  usa: {year: 2012, iso3: [USA]}
+  turkey: {year: 2013, iso3: [TUR]}
+  australia: {year: 2014, iso3: [AUS]}
+  canada: {year: 2015, iso3: [CAN]}
+  china_nz_vietnam: {year: 2015, iso3: [CHN, NZL]}
+  colombia: {year: 2016, iso3: [COL]}
+  central_america: {year: 2021, iso3: [PAN, CRI, HND, SLV, NIC]}
+  rcep_japan: {year: 2022, iso3: [JPN]}
+  israel: {year: 2023, iso3: [ISR]}

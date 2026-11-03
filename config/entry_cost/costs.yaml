@@ -1,0 +1,77 @@
+# 나라별 진출 비용 항목. 숫자마다 출처와 확인 등급을 단다.
+#   확인: 공개 자료에서 숫자를 직접 확인 / 규칙: 확인 못해서 정한 규칙으로 채움 / 추정: 공개 근거로 범위를 잡은 추정
+# 금액 단위: 억원. 환율: 1달러=1,400원, 1링깃=310원, 1페소=24원, 1디르함=380원.
+
+common:
+  skus: 10                 # 처음 들어가는 품목 수 (모든 나라 같게)
+  label_per_sku: 0.03      # 품목당 현지 라벨 재디자인·인쇄판 (추정: 300만원)
+  label_extra_language: 0.02   # 영어 외 의무 언어가 있으면 품목당 추가 (추정)
+  insurance_customs_rate: 0.01 # 적하보험·통관·서류 (매출의 1%, 추정)
+  feu_cargo_value_usd: 50000   # 과자 40피트 컨테이너 1개 화물가치 (추정: 약 10톤 x 5달러/kg)
+  # 운임: 한국해양진흥공사 KCCI(부산발 항로별), 2026-10-26 주간. 포인트를 FEU당 달러로 읽음(가정).
+  # 출처: https://fnnews.com/news/202610271639139084
+
+# 관세 확인 못한 경우의 규칙: min(MFN, 5%)  (한-아세안 FTA 민감품목도 5% 이하로 내리는 구조)
+countries:
+  PHL:
+    name: 필리핀
+    tariff_mfn: 0.15        # 확인: HS 1905.31 MFN 15% (treayo.com/en/compare/190531)
+    tariff_korea: 0.0       # 확인: 한-아세안 FTA 필리핀 양허표, 1905.31·1905.32 일반품목(NT) 2010년부터 0%
+                            #   (asean.org/wp-content/uploads/2021/09/AKFTA-Philippines-HS-2007.pdf)
+    kcci_route: 1684        # 동남아 항로
+    extra_language: false   # 영어 라벨 가능
+    registration_per_sku: 0.01   # 추정: FDA 제품등록(CPR) 대행 포함 품목당 약 100만원 (FDA 처리 20영업일)
+    halal_required: false   # 무슬림 약 6%, 주류 시장에선 불필요
+    halal_one_time: 0.0
+    annual_fixed: 0.05      # 등록 갱신·현지 대리인 (추정)
+    prep_months: 2          # 확인: CPR 처리 20영업일 + 선적
+    crp: 0.0254             # 확인: Damodaran 국가위험 프리미엄(Baa2)
+  MYS:
+    name: 말레이시아
+    tariff_mfn: 0.06        # 확인: HS 1905.31 MFN 6% (treayo)
+    tariff_korea: 0.0       # 확인: 한-아세안 FTA(AKFTA)·RCEP 0% (treayo.com/en/hs/malaysia/19053120, 원산지증명 필요)
+    kcci_route: 1684
+    extra_language: true    # 확인: 말레이어 표시 의무 (Food Regulations 1985)
+    registration_per_sku: 0.0    # 사전 제품등록 없음(표시 기준 준수만)
+    halal_required: true    # 무슬림 약 63%: 주류 유통 입점에 사실상 필요
+    halal_one_time: 0.5     # 추정: JAKIM 인정 한국 인증기관 인증 + 컨설팅(링깃 5천~2.5만) + 공정 점검
+    annual_fixed: 0.1       # 할랄 갱신(JAKIM 연 최대 1,000링깃) + 감사
+    prep_months: 4          # 추정: 할랄 인증 기간
+    crp: 0.0160             # 확인: Damodaran(A3)
+  SGP:
+    name: 싱가포르
+    tariff_mfn: 0.0         # 확인: 싱가포르는 식품 관세 없음
+    tariff_korea: 0.0
+    kcci_route: 1684
+    extra_language: false
+    registration_per_sku: 0.0    # 제품등록 없음(수입업자 SFA 허가만)
+    halal_required: false
+    halal_one_time: 0.0
+    annual_fixed: 0.03
+    prep_months: 1
+    crp: 0.0                # 확인: Damodaran(Aaa)
+  ARE:
+    name: UAE
+    tariff_mfn: 0.05        # 확인: 걸프협력회의 공동관세 5%
+    tariff_korea: null      # 규칙: 한-UAE CEPA(2026-05-01 발효) 과자 단계 확인 못함 → 5%
+    kcci_route: 8887        # 중동 항로
+    extra_language: true    # 아랍어 표시 의무
+    registration_per_sku: 0.01   # 추정: 두바이 시청 제품등록(Montaji)
+    halal_required: true    # 수입 식품 할랄 증명 요구
+    halal_one_time: 0.5
+    annual_fixed: 0.1
+    prep_months: 3
+    crp: 0.0066             # 확인: Damodaran(Aa2)
+  GBR:
+    name: 영국
+    tariff_mfn: 0.08        # 확인: HS 1905.31 제3국 세율 8% (treayo)
+    tariff_korea: 0.08      # 확인(규칙 아님): 한-영 FTA 원산지 기준상 수입 밀가루 사용 가공식품은 무관세 불가,
+                            #   완화는 2025-12 개선협상 타결로 아직 발효 전 (헤럴드경제 2025-12-15)
+    kcci_route: 3508        # 북유럽 항로
+    extra_language: false
+    registration_per_sku: 0.0
+    halal_required: false
+    halal_one_time: 0.0
+    annual_fixed: 0.05      # 영국 내 책임 사업자 주소(표시 의무) 대행
+    prep_months: 1
+    crp: 0.0080             # 확인: Damodaran(Aa3)
