@@ -11,6 +11,7 @@ python -m kfood_scout.agent cost                              # API 비용 기�
 python -m kfood_scout.agent list                              # 가설 목록과 외부 데이터 준비 상태
 python -m kfood_scout.agent critic --budget 1.0               # 레드팀: 후보국별 기사 검색 → 반론 카드(본 나라는 30일 무료 재사용)
 python -m kfood_scout.agent critic --ranking 순위.csv --top 6  # 다른 순위 파일(iso3 열)의 상위 6개국을 공격
+python -m kfood_scout.agent decide --budget 0.3              # 옛 반론 카드에 진출 조건 채우고 진출/조건부 진출/배제 재판정(검색 없음)
 python -m kfood_scout.agent board                             # 가설 장부: 가설·검증·반론·판정 한 장(비용 0)
 """
 import argparse
@@ -23,7 +24,7 @@ from . import scout as sc
 
 def main():
     ap = argparse.ArgumentParser(prog="kfood_scout.agent")
-    ap.add_argument("cmd", choices=["test", "loop", "auto", "scout", "adopt", "sealed", "report", "cost", "list", "critic", "board"])
+    ap.add_argument("cmd", choices=["test", "loop", "auto", "scout", "adopt", "sealed", "report", "cost", "list", "critic", "decide", "board"])
     ap.add_argument("--hyp")
     ap.add_argument("--category", default="dry_confectionery")
     ap.add_argument("--criterion", default="k_export")
@@ -63,6 +64,10 @@ def main():
     elif a.cmd == "critic":
         s = critic.run(a.ranking, a.countries, a.top, a.budget, a.refresh)
         print(json.dumps(s, ensure_ascii=False))
+        board.build(a.category)
+        print(f"장부: outputs/agent/{a.category}/board.md")
+    elif a.cmd == "decide":
+        print(json.dumps(critic.backfill(a.budget), ensure_ascii=False))
         board.build(a.category)
         print(f"장부: outputs/agent/{a.category}/board.md")
     elif a.cmd == "board":

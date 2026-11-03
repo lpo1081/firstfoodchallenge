@@ -76,7 +76,7 @@ python -m kfood_scout.agent report                               # outputs/agent
 
 ### 레드팀(비판 에이전트)과 가설 장부 (2026-11-03)
 - `python -m kfood_scout.agent critic --budget 1.0` : 후보국마다 Claude 가 최근 2년 기사·규제·정치 뉴스를 검색(국가당 4회 상한)해 "이 나라를 뽑으면 안 되는 이유"를 반론 카드로 낸다. 후보는 `config/critic.yaml`, 또는 3대 기준 순위 `--ranking outputs/three_criteria/ranking.json --top 5`, `--ranking 순위파일(csv/json, iso3)` `--countries PHL,IDN` `--top 6`.
-- 판정은 고정 코드(`agent/critic.py` `judge`)가 한다: 실제 검색 결과에 나온 주소만 근거로 인정(지어낸 출처 차단), 2년보다 오래된 기사 제외, '치명'은 서로 다른 출처 2곳 이상일 때만, 치명 1개면 **배제 권고**·중간 2개면 **주의**·그 외 **유지**. 규칙은 `config/critic.yaml` `rules`.
+- 판정은 고정 코드(`agent/critic.py` `judge`)가 한다: 실제 검색 결과에 나온 주소만 근거로 인정(지어낸 출처 차단), 2년보다 오래된 기사 제외, '치명'은 서로 다른 출처 2곳 이상일 때만, 결과는 **진출 / 조건부 진출 / 배제** 중 하나: 반론마다 Claude가 '그래도 진출한다면 할 일'(condition)과 감당 가능 여부를 쓰고, 감당 못 할 치명 반론이 있으면 배제, 대응이 필요한 반론이 있으면 조건부 진출(조건 = 대응책 상위 3개), 없으면 진출. 규칙은 `config/critic.yaml` `rules`. 옛 카드는 `agent decide`(검색 없이 국가당 1회 호출)로 조건을 채운다.
 - 숫자로 측정 가능한 반론은 `outputs/agent/critic/seeds.json`(가설 씨앗)에 쌓이고, 다음 `agent auto/loop` 때 가설 담당 AI 프롬프트에 들어가 지표 가설(critic_)로 바뀌어 통계 검증을 받는다. 기사(비정형) → 가설 → 숫자(정형) 판정.
 - 본 나라는 30일 동안 캐시 재사용(무료). 예산이 모자라 못 본 나라는 같은 명령을 다시 치면 이어서 본다.
 - `python -m kfood_scout.agent board` : 가설 장부 `outputs/agent/<category>/board.md` — 가설(누가 냈나)·표본 밖 검증·레드팀 판정·근거 링크·버린 반론·다음 가설 후보를 한 장에(비용 0).
