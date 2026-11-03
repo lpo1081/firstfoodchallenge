@@ -1,0 +1,57 @@
+# 3대 기준 TOP3 검증 규칙 — 결과를 보기 전에 고정(2026-11-03).
+# 이 파일을 바꾸면 결과도 다시 계산해야 하고, 바꾼 이유와 날짜를 changes 에 남긴다.
+# 코드: kfood_scout/three.py  실행: python -m kfood_scout three
+id: three_criteria_v1
+frozen: 2026-11-03
+
+question: 앞으로 3년간 한국 건식 과자 수출이 가장 많이 늘어날 '신규' 나라 3곳은?
+
+target:                     # 정답(무엇을 맞혀야 하나)
+  series: KOR_X             # 한국→상대국 건식 과자 수출(UN Comtrade, 8개 HS 코드 합)
+  horizon: 3                # t년(2년 평균) → t+3년(2년 평균)
+  kind: abs                 # 증가액. 증가율은 보조 지표로만 보고 판정에 쓰지 않는다(기존 실험에서 예측 불가)
+
+universe:                   # 평가 대상(창마다 그 해 기준으로 다시 적용)
+  min_population: 1000000
+  min_korea_exports_usd: 100000
+  min_indicator_share: 0.6  # 지표의 60% 이상이 있는 나라만
+
+windows:
+  first: 2010               # 학습에 쓸 수 있는 가장 이른 창 시작 연도
+  dev_tests: [2013, 2014, 2015, 2016, 2017, 2018]   # 개발 시험: s→s+3 을 맞히되, 정답이 s년까지 끝난 창(t ≤ s-3)만으로 학습
+  sealed_test: 2021         # 봉인 시험: 2018년까지 끝난 정답으로 학습해 2021→24 를 맞힘. 모델 선택에 쓰지 않음
+  forecast_year: 2024       # 최종 전망: 2021년 창까지 전부 학습 → 2024년 지표로 2024→27 전망
+  note: >
+    2021→24 구간은 이전 라운드에서 이미 결과를 본 적이 있어 '완전한 봉인'은 아니다.
+    그래서 모델 선택은 개발 시험 6개로만 하고, 봉인 시험은 보고만 한다.
+
+metrics:                    # 시험마다 계산, 시험 평균으로 비교
+  primary: rank_corr        # 스피어만 순위상관(예측 순위 vs 실제 증가액 순위)
+  secondary: [top3_hit, top10_hit, rank_corr_ex_usa_chn]
+
+baselines:                  # 모델이 이겨야 하는 단순 규칙
+  size: 지금 한국 수출이 큰 순서(korea_exports_size)
+  trend: 직전 3년 증가액 순서
+  random: 무작위(기댓값)
+
+model_selection:            # 여러 모델(시뮬레이션) 중 하나를 고르는 규칙
+  candidates: kfood_scout/three.py VARIANTS
+  pass_if:
+    - 개발 시험 평균 rank_corr 가 size 기준선보다 높다
+    - 개발 시험 6개 중 4개 이상에서 size 기준선 이상이다
+  pick: 통과한 모델 중 개발 시험 평균 rank_corr 최고
+  ensemble: 통과한 모델 중 상위 3개의 순위 평균을 최종 점수로 쓴다(한 모델 운에 기대지 않도록)
+  if_none_pass: size 기준선으로 순위를 내고, '모델이 큰 시장 순보다 못함'을 그대로 보고한다
+
+hard_filter: config/filters/hard_filter.yaml   # 학습과 무관하게 최종 후보에서 아예 뺀다
+
+top3_rule:                  # 최종 3개국을 뽑는 규칙(항상 정확히 3개)
+  exclude:
+    - 롯데웰푸드 기진출국(config/entries/lotte_wellfood.yaml)
+    - hard_filter 탈락국
+    - 이미 한국 과자 수출 상위 5개국(2024년, 이미 열린 시장 → '지키고 키울 시장'으로 따로 표시)
+  require: 세 기준(성장성·트렌드·수출입) 점수가 모두 후보 중 하위 1/3 밖일 것(한 기준이라도 바닥이면 제외하고 사유 표시)
+  rank_by: 앙상블 점수 순위(재표본 200회 평균 순위). 동률이면 TOP3 확률이 높은 나라
+  confidence: 재표본에서 각 나라가 TOP3 에 든 비율, 3위가 4위보다 위에 있었던 비율을 함께 보고한다
+
+changes: []
