@@ -4,3 +4,5 @@
 # 결과: outputs/three_criteria/report.md (사람용), result.json, ranking.json(레드팀 critic 입력)
 cd "$(dirname "$0")/.." || exit 1
 .venv/bin/python -m kfood_scout.three "$@"
+# 결과 화면(HTML 한 장): outputs/three_criteria/screen.html
+.venv/bin/python -m kfood_scout.screen

@@ -391,6 +391,27 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
         contrib = (P_now.loc[c] - 50) * w
         return [f"{names[i]}(상위 {max(1, 100 - P_now.loc[c, i]):.0f}%)" for i in contrib.nlargest(k).index if contrib[i] > 0]
 
+    # 화면(국가 상세)용: 지표별 실제 값·62개국 중 순위·기준 안 비중. 기준 점수 = Σ(기준 안 비중 × 지표 백분위)
+    units = {i.id: i.unit for i in crit.indicators}
+    inner = {}
+    for g in G3:
+        ds = [m.inner.get(g) for m in final_models if getattr(m, "inner", {}).get(g)]
+        if ds:
+            inner[g] = {i: float(np.mean([d.get(i, 0.0) for d in ds])) for i in ids if gmap[i] == g}
+    n_all = len(P_now)
+
+    def detail(c):
+        rows = []
+        for i in ids:
+            v = raw_now.at[c, i] if (c in raw_now.index and i in raw_now.columns) else np.nan
+            p = float(P_now.at[c, i])
+            rows.append({"id": i, "group": gmap[i], "value": (None if pd.isna(v) else round(float(v), 4)),
+                         "unit": units.get(i, ""), "pct_all": round(p, 1),
+                         "rank_all": int((P_now[i] > p).sum()) + 1, "missing": bool(pd.isna(v)),
+                         "w_in_group": round(inner.get(gmap[i], {}).get(i, 0.0), 4),
+                         "w_total": round(float(w.get(i, 0.0)), 4) if len(w) else 0.0})
+        return rows
+
     board = []
     for c in sorted(P_now.index, key=lambda c: overall_rank[c]):
         board.append({"iso3": c, "name": nm.get(c, c), "overall_rank": round(float(overall_rank[c]), 1),
@@ -399,6 +420,8 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
                       "status": status[c], "warn": filt_res[c]["warn"], "unknown": filt_res[c]["unknown"],
                       "boot_mean_rank": (round(float(mean_rank[c]), 2) if c in cand else None),
                       "top3_prob": (round(float(top3p[c]), 1) if c in cand and pd.notna(top3p.get(c)) else None),
+                      "group_score": ({g: round(float(gsc.loc[c, g]), 1) for g in gsc.columns if g in G3} if c in gsc.index else None),
+                      "detail": detail(c),
                       "reasons": reasons(c)})
     res = {
         "protocol": proto["id"], "filter": filt["id"],
@@ -412,6 +435,9 @@ def run(fetch=True, B=200, log=print, fetch_all=False):
         "top3": [nm.get(c, c) for c in top3], "top3_iso3": top3,
         "order": [nm.get(c, c) for c in order[:10]],
         "third_over_fourth_pct": third_vs_fourth, "B": B,
+        "n_all": n_all, "n_pool": len(pool), "n_cand": len(cand), "floor_pct": round(floor, 1),
+        "group_inner_weights": {g: {i: round(v, 4) for i, v in d.items()} for g, d in inner.items()},
+        "units": units,
         "board": board,
     }
     d = ROOT / "outputs" / "three_criteria"
