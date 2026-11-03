@@ -48,3 +48,5 @@ def test_combine_options_and_top_probability():
     probs = [c["prob"]["top3"] for c in out["forecast_XX"]]
     assert abs(sum(probs) - 300) < 1e-6  # 재표본마다 정확히 3개국
     assert all(0 <= p <= 100 for p in probs)
+    assert {c["tier"] for c in out["forecast_XX"]} == {"큰 시장", "중간 시장", "작은 시장"}
+    assert min(c["tier_rank"] for c in out["forecast_XX"] if c["tier"] == "작은 시장") == 1

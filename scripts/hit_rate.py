@@ -2,7 +2,8 @@
 
 2026-11-03 외부 검토 반영(과대평가 방지):
 - 정답 2종: abs(증가액, 큰 시장 유리) / log(증가율, 중간·신흥 시장도 맞혀야 함)
-- 국가 범위 2종: all(전체) / ex_big(미국·중국 제외 — 미국이 매 구간 1위라 적중 수를 부풀리던 문제)
+- 국가 범위: all(전체) / ex_big(미국·중국 제외 — 미국이 매 구간 1위라 적중 수를 부풀리던 문제)
+  / tier:큰 시장·중간 시장·작은 시장(그 시점 한국 수출 규모 3분위, 체급 안에서만 순위 비교)
 - 대조군 4종: 모델 / 단순 추세(직전 3년 증가 순) / 큰 시장 순(그 시점 한국 수출 규모 순) / 무작위
 - 요약 3종:
   all    = 1년 간격 7구간 평균(구간끼리 겹쳐서 실제 독립 시험은 2~3번뿐 — 참고용)
@@ -25,7 +26,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # 저장소 루트
 
 import pandas as pd
 
-from kfood_scout import store
+from kfood_scout import rolling, store
 from kfood_scout.agent import evaluate as ev
 from kfood_scout.agent import loop
 from kfood_scout.config import ROOT, criterion_from_dict, load_criterion_raw, load_entries
@@ -48,14 +49,15 @@ def windows(crit_id, kind, countries):
     return wins, raw
 
 
-def pairs(wins, name, only=None, exclude=()):
+def pairs(wins, name, only=None, exclude=(), tier=None):
     rows = []
     for t in sorted(wins):
         s = t + H
         if s not in wins:
             continue
         P, y = wins[s]["pct"], wins[s]["y"]
-        keep = [c for c in P.index if c not in exclude and (not only or c in only)]
+        tr = rolling.tiers_of(P["korea_exports_size"], 3) if tier else None
+        keep = [c for c in P.index if c not in exclude and (not only or c in only) and (not tier or tr[c] == tier)]
         P, y = P.loc[keep], y.loc[keep]  # 지표 백분위는 전체 국가 기준 그대로, 순위 비교만 부분집합
         n = len(y)
         preds = {
@@ -130,13 +132,15 @@ def main():
                   f"sealed 결과는 무효 — agent test(2018까지) → adopt 를 다시 돌린 뒤 실행하세요.")
         for kind in ("abs", "log"):
             wins, _ = windows(c, kind, countries)
-            for univ, exc in (("all", ()), ("ex_big", exclude)):
-                rows = pairs(wins, name, only, exc)
+            scen = [("all", (), None), ("ex_big", exclude, None)] + \
+                   [(f"tier:{t}", (), t) for t in rolling.TIER_NAMES[3]] * (not only)
+            for univ, exc, tier in scen:
+                rows = pairs(wins, name, only, exc, tier)
                 sm = {"all": summary(rows),
                       "indep": summary([r for r in rows if r["fit"] in INDEP_FITS]),
                       "sealed": summary([r for r in rows if r["sealed"]])}
                 res["criteria"][c]["scenarios"][f"{kind}/{univ}"] = {"summary": sm, "pairs": rows}
-                print(f"\n== {c} | 정답 {kind} | {'전체' if univ == 'all' else '제외 ' + ','.join(exc)}"
+                print(f"\n== {c} | 정답 {kind} | {tier or ('전체' if univ == 'all' else '제외 ' + ','.join(exc))}"
                       f"{' | 기진출국만' if only else ''}")
                 print("   요약     구간  국가  순위상관(모델/큰시장)  TOP3 적중 모델/추세/큰시장/무작위   TOP10 적중 모델/추세/큰시장   판정(TOP3)")
                 for lab, s in sm.items():
@@ -146,7 +150,7 @@ def main():
                           f"            {s.get('model_hit3')}/{s.get('trend_hit3')}/{s.get('size_hit3')}/{s.get('random_hit3')}"
                           f"            {s.get('model_hit10', '-')}/{s.get('trend_hit10', '-')}/{s.get('size_hit10', '-')}"
                           f"     {verdict(s)}")
-                for r in rows:
+                for r in rows * (tier is None):
                     tag = " [봉인]" if r["sealed"] else ""
                     print(f"   {r['fit']}→{r['test']}{tag}: 모델 TOP3 {r['model_top3']} (실제 {r['model_top3_actual_rank']}등) | 실제 {r['actual_top3']}")
     d = ROOT / "outputs" / "hit_rate"
