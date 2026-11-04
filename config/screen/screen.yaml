@@ -10,11 +10,38 @@ category_reason: >-
   롯데웰푸드 매출 1위 카테고리(건과 27.3%)입니다. 또 롯데 상위 5개 카테고리(건과·빙과·유지·HMR·육가공)를 같은 방식으로
   비교했을 때 한류 같은 소비 트렌드를 따라 한국 수출이 움직인 건 과자뿐이었습니다(2026-11-02 비교). 다른 품목은 HS 코드만 바꿔 같은 방식으로 돌립니다.
 
-# 3대 기준 중 데이터로 못 넣은 것. 화면에 그대로 보여 준다(숨기지 않는다).
-gaps:
-  - {name: 과자 소비 시장 규모, why: "유로모니터(유료)만 있고, 무료인 UNIDO는 필리핀·인도네시아 등이 비어 있음", instead: "과자 수입시장 규모·1인당 수입액으로 대신"}
-  - {name: 관세·FTA·환율, why: "가설은 세웠으나 나라×연도 무료 데이터를 확보하지 못함", instead: "레드팀이 기사로 나라별 관세·환율을 확인해 진출 조건에 반영"}
-  - {name: 기사 기반 트렌드, why: "과거 15년치를 같은 기준으로 모을 수 없어 점수 검증이 불가", instead: "검색 관심도(구글 트렌드)로 점수에 넣고, 기사는 레드팀 반론에 사용"}
+# 기준마다 "무엇을 묻는가"와 지표별 설명(화면의 '어떻게 골랐나' 토글). 지표 id 는 config/criteria/three_criteria.yaml 과 같다.
+criteria_text:
+  성장성: 시장이 크고, 커지고 있나
+  트렌드: 소비가 과자·한국 쪽으로 움직이나
+  수출입: 한국 과자가 이미 통하고 있나
+indicator_notes:
+  import_market_size: {q: 1년에 수입하는 과자 규모, src: UN Comtrade}
+  import_market_cagr: {q: 수입 과자 시장이 5년간 커진 속도, src: UN Comtrade}
+  population_size: {q: 사 먹을 사람이 얼마나 많나, src: 세계은행}
+  population_cagr: {q: 인구가 늘고 있나, src: 세계은행}
+  hh_consumption_pc_cagr: {q: 1인당 실제 소비가 늘고 있나, src: 세계은행}
+  gdp_pc_ppp_cagr: {q: 1인당 소득이 늘고 있나, src: 세계은행}
+  kfood_interest: {q: 한국 음식을 얼마나 찾아보나, src: 구글 트렌드}
+  kfood_interest_change: {q: 한국 음식 관심이 3년간 늘었나, src: 구글 트렌드}
+  kpop_interest: {q: K-pop 관심, src: 구글 트렌드}
+  learn_korean_interest: {q: 한국어를 배우려는 관심, src: 구글 트렌드}
+  korea_visitors_pc: {q: 인구 대비 한국 여행객, src: 한국관광공사}
+  youth_share: {q: 과자 주 소비층(0~14세) 비중, src: 세계은행}
+  urbanization_change: {q: 편의점·마트가 늘어나는 도시화 속도, src: 세계은행}
+  internet_change: {q: 온라인 유통·SNS가 퍼지는 속도, src: 세계은행}
+  import_pc: {q: 1인당 수입 과자 구매액(수입 과자에 익숙한가), src: UN Comtrade}
+  import_pc_cagr: {q: 1인당 수입 과자 구매가 늘고 있나, src: UN Comtrade}
+  korea_exports_size: {q: 한국 과자가 이미 얼마나 팔리나, src: UN Comtrade}
+  korea_exports_cagr: {q: 한국 과자 수출이 5년간 늘어난 속도, src: UN Comtrade}
+  korea_exports_change: {q: 최근 3년 한국 과자 수출 증가액, src: UN Comtrade}
+  korea_share: {q: 수입 과자 중 한국산 비중, src: UN Comtrade}
+  korea_share_change: {q: 한국산 비중이 늘고 있나, src: UN Comtrade}
+  net_import_share: {q: 들여와서 실제로 먹는 나라인가(재수출 거점 걸러냄), src: UN Comtrade}
+  food_import_dependence: {q: 식품을 수입에 기대는 나라인가, src: 세계은행}
+  hh_consumption_total: {q: 사람들이 쓰는 돈의 총량이 얼마나 큰가, src: 세계은행}
+  korea_fta_years: {q: 한국 과자 관세가 낮아졌는가, src: 산업통상자원부 FTA 발효일}
+  krw_rer_change: {q: 환율 때문에 한국 과자가 싸졌는가, src: 세계은행 환율·물가}
 
 data_sources:
   - {name: UN Comtrade, what: "한국→각국 과자 수출, 각국 과자 수입 (2005–2024)"}
@@ -22,40 +49,45 @@ data_sources:
   - {name: 구글 트렌드, what: "나라별 한국 음식·K-pop·한국어 학습 검색 관심도"}
   - {name: 한국관광공사, what: "국적별 방한 관광객"}
 
-crosscheck:
-  rows:
-    - {id: recent, name: 2025년 이후 실제 수출, sub: 모델 데이터(2024년까지) 밖 실적}
-    - {id: report, name: 현지 시장 보고서, sub: 제3자 시장 분석}
-    - {id: peers, name: 한국 경쟁사 유통망, sub: 다른 K-식품이 실제로 깔렸나}
-    - {id: lotte, name: 롯데 그룹 현지 기반, sub: 함께 쓸 수 있는 거점}
-    - {id: barrier, name: 진입 장벽 해결 경로, sub: 레드팀 조건을 풀 방법이 있나}
-  cells:
-    PHL:
-      recent: {mark: 확인, text: "2026년 상반기 과자류 수출 $12.2M, 전년보다 6.5% 증가", src: [{t: "aT 발표 · 뉴스핌 2026-08-04", u: "https://www.newspim.com/news/view/20260804001094"}]}
-      report: {mark: 일부, text: "스낵 시장 약 $2.6B, 수입품이 매대의 약 15%. 무관세 역내 경쟁품이 강함", src: [{t: "USDA FAS RP2024-0015", u: "https://www.fas.usda.gov/data/philippines-snack-foods-market-brief"}]}
-      peers: {mark: 확인, text: "농심 독점 유통사 선정(2026.4), 오뚜기 퓨어골드 10개 점포 매대, 삼양 현지 유통사 운영. 라면 수출 1~8월 34% 증가", src: [{t: "뉴데일리 2026-09-30", u: "https://biz.newdaily.co.kr/site/data/html/2026/09/30/2026093000107.html"}]}
-      lotte: {mark: 일부, text: "롯데GRS가 롯데리아 5년 30개점 계획, 필리핀 통상산업부와 협의", src: [{t: "Manila Bulletin 2025-05-21", u: "https://mb.com.ph/2025/05/21/dti-lotte-group-south-korean-firms-eye-expansion-into-philippines"}]}
-      barrier: {mark: 확인, text: "식품 등록(CPR)은 온라인 30~45일, 수수료 인상은 유예", src: [{t: "USDA FAS GAIN 2025", u: "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Philippine+Food+and+Drug+Administration%27s+New+Fees+and+Charges+Temporarily+Suspended_Manila_Philippines_RP2025-0026"}]}
-    MYS:
-      recent: {mark: 반대, text: "한국 과자 수출 최근 5년 연 3.2% 증가로 후보 중 낮은 편. 순위는 한류 지표가 끌어올림", src: [{t: "UN Comtrade (엔진 데이터)", u: ""}]}
-      report: {mark: 미확인, text: "무료로 볼 수 있는 과자 시장 보고서를 찾지 못함 (유로모니터 유료)"}
-      peers: {mark: 미확인, text: "최근 과자·식품 유통망 기사를 찾지 못함"}
-      lotte: {mark: 미확인, text: "-"}
-      barrier: {mark: 확인, text: "한국이슬람교중앙회 할랄 인증을 현지 JAKIM이 인정", src: [{t: "Korea Muslim Federation", u: "https://en.wikipedia.org/wiki/Korea_Muslim_Federation"}]}
-    SGP:
-      recent: {mark: 일부, text: "2026년 상반기 농식품 수출 $110.8M, 18.2% 증가. 과자만 따로 나온 수치는 찾지 못함", src: [{t: "메트로신문 2026-08-09", u: "https://www.metroseoul.co.kr/article/20260809500065"}]}
-      report: {mark: 미확인, text: "무료로 볼 수 있는 과자 시장 보고서를 찾지 못함"}
-      peers: {mark: 일부, text: "FHA 2026 한국관 수출 상담 $59.2M. 바이어가 K-푸드를 프리미엄으로 평가", src: [{t: "강원일보 2026-04-27", u: "https://www.kwnews.co.kr/article/20260427500452"}]}
-      lotte: {mark: 미확인, text: "-"}
-      barrier: {mark: 확인, text: "껌 외에는 과자 수입 금지 품목 없음, 영양등급 확대 대상에 과자 미포함", src: [{t: "Hexacrunch", u: "https://www.hexacrunch.com.sg/blogs/crunch-journal/nutri-grade-is-coming-to-sauces-and-instant-noodles-in-2027-what-actually-changes"}]}
+# 숫자 밖 근거: 모델이 쓰지 않은 최근 기사·보고서에서 확인한 사실(출처 링크 필수). 나라별로 줄 단위 추가/삭제.
+evidence:
+  PHL:
+    - {k: 최근 실적, t: "2026년 상반기 한국 과자 수출 $12.2M, 전년보다 6.5% 증가", src: [{t: "aT 발표 · 뉴스핌 2026-08-04", u: "https://www.newspim.com/news/view/20260804001094"}]}
+    - {k: 유통망, t: "농심 독점 유통사 선정(2026.4), 오뚜기 퓨어골드 10개 점포 전용 매대, 삼양 현지 유통사 운영. 한국 라면 수출 1~8월 34% 증가", src: [{t: "뉴데일리 2026-09-30", u: "https://biz.newdaily.co.kr/site/data/html/2026/09/30/2026093000107.html"}]}
+    - {k: 시장, t: "스낵 시장 약 $2.6B, 수입품이 매대의 약 15%", src: [{t: "USDA FAS RP2024-0015", u: "https://www.fas.usda.gov/data/philippines-snack-foods-market-brief"}]}
+    - {k: 롯데 거점, t: "롯데GRS가 롯데리아 5년 30개점 계획을 필리핀 통상산업부와 협의", src: [{t: "Manila Bulletin 2025-05-21", u: "https://mb.com.ph/2025/05/21/dti-lotte-group-south-korean-firms-eye-expansion-into-philippines"}]}
+    - {k: 진입 절차, t: "식품 등록(CPR)은 온라인 30~45일, 수수료 인상은 유예", src: [{t: "USDA FAS GAIN 2025", u: "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Philippine+Food+and+Drug+Administration%27s+New+Fees+and+Charges+Temporarily+Suspended_Manila_Philippines_RP2025-0026"}]}
+  MYS:
+    - {k: 유통망, t: "CJ 비비고가 할랄(JAKIM) 인증 만두·호빵을 쿠알라룸푸르 CU 편의점에서 판매", src: [{t: "CJ 보도자료 2024-02-13", u: "https://www.cj.co.kr/en/newsroom/pressreleases/news-detail/1574"}]}
+    - {k: 판로, t: "aT가 2026년 5월 쿠알라룸푸르에서 '아세안 K-할랄푸드 페어' 바이어 상담회 개최", src: [{t: "메트로신문 2026-07-05", u: "https://www.metroseoul.co.kr/article/20260705500220"}]}
+    - {k: 진입 절차, t: "한국이슬람교중앙회 할랄 인증을 현지 인증기관 JAKIM이 인정 → 한국에서 인증받아 수출 가능", src: [{t: "Korea Muslim Federation", u: "https://en.wikipedia.org/wiki/Korea_Muslim_Federation"}]}
+    - {k: 정부 협력, t: "한-말레이시아 FTA(2025.10 타결)에 할랄 산업 협력 조항. 말레이시아가 비무슬림 국가와 맺은 첫 사례", src: [{t: "MLex 2025-10-27", u: "https://www.mlex.com/mlex/articles/2403829/south-korea-malaysia-conclude-fta-talks"}]}
+  SGP:
+    - {k: 최근 실적, t: "2026년 상반기 한국 농식품 수출 $110.8M, 전년보다 18.2% 증가", src: [{t: "메트로신문 2026-08-09", u: "https://www.metroseoul.co.kr/article/20260809500065"}]}
+    - {k: 판로, t: "FHA 2026 한국관 수출 상담 $59.2M. 현지 바이어가 K-푸드를 프리미엄·건강 이미지로 평가", src: [{t: "강원일보 2026-04-27", u: "https://www.kwnews.co.kr/article/20260427500452"}]}
+    - {k: 진입 절차, t: "껌 외에는 과자 수입 금지 품목 없음. 영양등급 표시 확대 대상(소스·라면 등)에 과자는 미포함", src: [{t: "Hexacrunch", u: "https://www.hexacrunch.com.sg/blogs/crunch-journal/nutri-grade-is-coming-to-sauces-and-instant-noodles-in-2027-what-actually-changes"}]}
+    - {k: 정부 협력, t: "2026년 11월 한·싱가포르 정부가 스마트팜 MOU를 맺고 K-푸드 수출 확대 논의", src: [{t: "아주경제 2026-11-02", u: "https://www.ajunews.com/view/20261102110529043"}]}
 
 fallback_decisions:
-  PHL: {verdict: 진출, how: 소용량·저가 위주, 주력 품목 몇 개로 시작, conditions: ["FTA에서 과자류가 민감품목이라 관세 혜택이 없으니 소용량·저가 포장으로 가격을 맞춘다", "품목(SKU)마다 FDA 등록이 필요하니 첫해는 품목 수를 줄인다"]}
+  PHL: {verdict: 진출, how: 소용량·저가 위주, 주력 품목 몇 개로 시작, conditions: ["일반 관세는 15%지만 한-아세안 FTA 원산지증명을 갖추면 0%이므로, 원산지증명부터 갖춰 가격을 맞춘다", "품목(SKU)마다 FDA 등록이 필요하니 첫해는 품목 수를 줄인다"]}
   MYS: {verdict: 진출, how: 할랄 인증 품목부터, conditions: ["대형 유통 입점에 할랄 인증이 사실상 필수라 한국이슬람교중앙회 인증(현지 JAKIM 인정) 품목부터 낸다", "과자류가 5% 판매세(SST) 대상인지 HS 코드별로 확인해 가격에 반영한다"]}
   SGP: {verdict: 진출, how: 비스킷·저당·프리미엄 품목, 껌 제외, conditions: ["껌은 수입 금지라 빼고 비스킷·저당·프리미엄 품목으로 간다", "소매 둔화와 조호르바루 원정 쇼핑이 있어 첫해 물량은 보수적으로 잡는다"]}
 
 # 비즈니스 임팩트(business_impact.json) 가정. 화면 각주에 그대로 보인다.
-impact_note: "2027년 기준, 2024년 대비 연 매출 증가. 환율 1,400원/달러, 롯데 몫 29%(제과 3사 해외 매출 중 롯데 비중, 2023). 범위는 한국산 비중이 지금 그대로인 경우와 지난 5년 변화 속도로 계속 움직이는 경우."
+# 'AI 에이전트가 한 일' 칸 중 엔진 결과 파일에 없는 실행 기록(에이전트 가설 루프 결과, 비용). 1·4번 칸은 결과 파일에서 자동.
+agent_flow:
+  - who: 2 · AI 가설
+    big: AI 가설 9개 → 2개 채택
+    p: AI가 "무엇이 한국 과자 수출을 늘리나" 가설 9개를 내고, 필요한 데이터와 계산식까지 설계했습니다.
+    items:
+      - "채택: 한국과 FTA 발효 기간, 원화 대비 실질환율"
+      - "기각 5개: 이주민 비중·재수출 허브·인터넷 보급 등은 과거에 효과가 없었음"
+  - who: 3 · 과거로 시험
+    big: 7개 구간 중 7번 개선
+    p: 가설은 AI 것이든 사람 것이든 같은 시험을 거칩니다. 학습에 쓰지 않은 과거 구간에서 3년 뒤 수출 증가를 더 잘 맞혀야 채택됩니다. 한류 지표는 2015~2021년 7개 구간 모두에서 예측을 개선해 들어갔습니다.
+agent_note: "AI 호출 비용은 실행 1회 $0.77(상한 $1)입니다. 품목은 HS 코드 설정 한 줄이라, 같은 에이전트로 빙과·HMR 등 다른 카테고리도 그대로 돌립니다."
+
+impact_note: "2027년, 현지 공장 없이 수출로. 진출해서 3년 안에 과자 수입시장 점유율을 1%p 올리는 목표 매출에, 진출하지 않아도 시장이 커져서 느는 몫을 더한 값. 환율 1,400원/달러, 롯데 몫 29%(제과 3사 해외 매출 중 롯데 비중, 2023)."
 
 names_ko:
   PHL: 필리핀

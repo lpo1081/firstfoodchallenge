@@ -1,0 +1,78 @@
+# 최종 화면(통합 깔때기 결과용) 설정. 숫자는 전부 results|outputs/funnel/<품목>/result.json 에서 읽고,
+# 여기에는 결과 파일에 없는 사람용 문구만 둔다. 2026-11-03.
+# 공통 항목(evidence, agent_flow, agent_note, data_sources, names_ko, category_reason)은 config/screen/screen.yaml 을 같이 읽는다.
+
+title: 롯데웰푸드 K-과자 신규 수출국 발굴 에이전트
+subtitle: 138개국을 대기업 진출국 선정 5단계에 같은 규칙으로 통과시키고, AI가 가설을 시험하고 결론을 반박해 정한 진출 3개국입니다.
+
+# 나라별 진출 방식과 조건(신청서 v7 문구와 같게). 없으면 화면에 조건 칸이 비어 나온다.
+decisions:
+  MYS:
+    why: 수입 과자 시장이 연 13.4% 크고, 한국 친숙도가 96점으로 높음. 관세 0%, 초기 비용 5개월 안에 회수
+    how: 할랄 인증 품목부터
+    conditions:
+      - 무슬림 다수 시장이라 할랄 인증을 받은 품목부터 낸다
+      - 가장 아픈 충격은 FTA 혜택 상실(순이익 42억→31억)이라, 한-아세안 FTA 원산지증명을 먼저 갖춘다
+  AUS:
+    why: 수입 과자 시장 10억 달러로 셋 중 가장 크고, 한국산 비스킷이 이미 연 $17.9M 팔림. 5년 순이익 132억 원으로 가장 큼
+    how: 기존 한국 비스킷 판로를 넓히는 방식
+    conditions:
+      - 운임이 매출의 9.8%로 동남아의 3배라 컨테이너 단위로 묶어 보낸다
+      - 수입 밀가루를 쓴 제품도 한-호주 FTA 원산지 기준을 맞춰 0% 관세를 받는지 먼저 확인한다
+  PHL:
+    why: 승산 87점으로 셋 중 가장 높음. 수입 과자 중 한국산 5.4%, 수입 시장 연 11.7% 성장
+    how: 소용량·저가, 주력 품목 몇 개로 시작
+    conditions:
+      - 일반 관세는 15%지만 한-아세안 FTA 원산지증명을 갖추면 0%이므로, 원산지증명부터 갖춘다
+      - 안전도가 51점으로 가장 낮아 첫해 물량은 정치·환율 충격에 대비해 보수적으로 잡는다
+
+# 지표 표시 이름과 단위(국가 상세). kind: usd, pct, pctyr, pp, km, yr, idx, per1k, ppp, num
+indicators:
+  import_usd: {name: 비스킷 수입시장(3년 평균), kind: usd}
+  import_market_size: {name: 비스킷 수입시장 규모, kind: usd, show: import_usd}
+  hh_consumption_total: {name: 가계 소비 총액, kind: lnusd}
+  import_cagr: {name: 수입시장 5년 성장률, kind: pctyr}
+  hh_consumption_pc_cagr: {name: 1인당 소비 5년 성장률, kind: pctyr}
+  population_cagr: {name: 인구 5년 증가율, kind: pctyr}
+  gdp_growth: {name: 실질 GDP 성장률(5년 평균), kind: pctyr}
+  youth_share: {name: 0~14세 비중, kind: pct}
+  import_pc: {name: 1인당 수입 비스킷, kind: usd1}
+  urbanization_change: {name: 도시화율 5년 변화, kind: pp}
+  kfood_interest: {name: 한국 음식 검색 관심도, kind: idx}
+  kpop_interest: {name: K-pop 검색 관심도, kind: idx}
+  learn_korean_interest: {name: 한국어 학습 검색 관심도, kind: idx}
+  korea_visitors_pc: {name: 방한 관광객(인구 1천 명당), kind: per1k}
+  korea_exports_size: {name: 한국산 비스킷 수출(3년 평균), kind: usd, show: korea_exports_usd}
+  korea_share: {name: 수입 중 한국산 비중, kind: pct}
+  korea_exports_change: {name: 한국산 수출 직전 3년 증가액, kind: usd}
+  distance_km: {name: 서울에서 거리, kind: km}
+  fta_years: {name: 한국과 FTA 발효 경과, kind: yr}
+  japan_share: {name: 수입 중 일본산 비중(경쟁), kind: pct}
+  inflation: {name: 물가 상승률(5년 평균), kind: pctyr}
+  fx_volatility: {name: 환율 변동성(10년), kind: pct}
+  governance: {name: 법치·부패 통제(WGI), kind: num}
+  logistics: {name: "물류성과지수(LPI, 5점 만점)", kind: num}
+
+# 깔때기 요소를 뽑은 틀(짧은 이름, 화면 설명용). 상세는 config/funnel/checklist.yaml sources.
+frameworks: 교과서 3단계 선정, PESTEL, CAGE 거리, ITC 수출잠재력, KOTRA 빅데이터, 식품 컨설팅, 롯데·오리온 사례
+
+# '믿을 수 있는 이유' 중 결과 파일 밖의 교차 확인(다른 모델 결과). 숫자가 바뀌면 여기만 고친다.
+cross_check:
+  big: 다른 방법 3가지
+  t: 다른 방법으로도 말레이시아·필리핀
+  p: 따로 만든 3대 기준 모델(62개국, 과거 실제 수출 증가로 비중 학습)과 추가 방법 2개(과거 급성장국과 닮은 나라, 일본 과자 추적)에서도 말레이시아·필리핀이 상위입니다. 호주는 3대 기준 모델에서 '이미 큰 시장'으로 따로 뒀던 나라로, 비스킷만 보면 한국 수출 6위라 신규 후보에 들었습니다.
+
+# 단계 설명(토글 머리글). 규칙·비중은 config/funnel/protocol.yaml 에서 읽는다.
+stages:
+  - {n: 1, name: 자격 심사, q: 들어갈 수 있는 나라인가}
+  - {n: 2, name: 시장 매력도, q: 어디서 싸울 만한가}
+  - {n: 3, name: 승산, q: 롯데가 이길 수 있나}
+  - {n: 4, name: 진입 비용, q: 들어가면 남나}
+  - {n: 5, name: 위험·충격, q: 나빠져도 남나}
+
+# 현장 근거 추가분(모델 밖 사실, 출처 필수). screen.yaml evidence 와 합쳐 쓴다.
+evidence:
+  AUS:
+    - {k: 관세, t: "한-호주 FTA(2014-12 발효)로 한국산 비스킷 관세 0%(일반 세율 5%)", src: [{t: "호주 의회 조약위원회 NIA", u: "https://www.aph.gov.au/-/media/Committees/Joint/Treaties/13May2014/Korea-NIA.pdf"}]}
+    - {k: 진입 절차, t: "일반 식품은 사전 제품 등록 없이 FSANZ 기준을 맞추면 수입 가능(위험 기반 검사). 영어 라벨", src: [{t: "깔때기 비용 확인 · config/funnel/costs_extra.yaml", u: ""}]}
+    - {k: 물류, t: "부산발 오세아니아 항로 운임 지수 4,916(2026-10-26 주간), 동남아 항로의 약 3배", src: [{t: "파이낸셜뉴스 2026-10-27", u: "https://fnnews.com/news/202610271639139084"}]}
